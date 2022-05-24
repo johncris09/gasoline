@@ -45,36 +45,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="card-body"> 
-                  <form class="mb-15">
-											 
-											<div class="form-group row">
-												<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-													<label>Barangay </label>
-													<select required="" class="form-control datatable-input" data-col-index="2">
-														<option value="">Select</option>
-													</select>
-												</div>   
-											</div>  
-											<div class="row mt-8">
-												<div class="col-lg-12">
-													<button class="btn btn-primary btn-primary--icon" id="kt_search">
-														<span>
-															<i class="la la-search"></i>
-															<span>Search</span>
-														</span>
-													</button>&#160;&#160; 
-													<button class="btn btn-secondary btn-secondary--icon" id="kt_reset">
-														<span>
-															<i class="la la-close"></i>
-															<span>Reset</span>
-														</span>
-													</button>
-												</div>
-											</div>
-										</form>
-
-                    <hr>  
+                  <div class="card-body">  
                     <table id="vehicle-type-table" class="table table-striped " width="100%"> 
                       <thead> 
                         <tr>
@@ -157,31 +128,7 @@
         }).container().appendTo($('#buttons'));
         $('.dt-button').removeClass("dt-button");
         $('.dt-buttons>   button').addClass("btn btn-primary");
-        $('#kt_search').on('click', function(e) {
-          e.preventDefault();
-          var params = {};
-          $('.datatable-input').each(function() {
-            var i = $(this).data('col-index');
-            if(params[i]) {
-              params[i] += '|' + $(this).val();
-            } else {
-              params[i] = $(this).val();
-            }
-          });
-          $.each(params, function(i, val) {
-            // apply search params to datatable
-            table.column(i).search(val ? val : '', true, true);
-          });
-          table.table().draw();
-        });
-        $('#kt_reset').on('click', function(e) {
-          e.preventDefault();
-          $('.datatable-input').each(function() {
-            $(this).val('');
-            table.column($(this).data('col-index')).search('', false, false);
-          });
-          table.table().draw();
-        });
+         
       }); 
     </script>
   </body>
