@@ -69,7 +69,7 @@
                                   <label for="password">Password <span class="text-danger">*</span> </label> 
                                   <div class="input-group input-group-alt">
                                     <div class="input-group">
-                                      <input type="password" class="form-control" id="password" placeholder="Password">
+                                      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                                       <button class="btn btn-secondary" type="button" id="toggle-password"> <i class="fa fa-eye"></i> Show</button>
                                     </div> 
                                   </div> 
@@ -186,6 +186,17 @@
         }).container().appendTo($('#buttons'));
         $('.dt-button').removeClass("dt-button");
         $('.dt-buttons>   button').addClass("btn btn-primary");
+        
+        $('#toggle-password').on('click', function(){
+          var input = $('input[name="password"]');
+          if (input.attr("type") === "password") {
+            input.attr("type", "text");
+            $('button#toggle-password').html(' <i class="fa fa-eye-slash"></i> Hide')
+          } else {
+            input.attr("type", "password");
+            $('button#toggle-password').html(' <i class="fa fa-eye"></i> Show')
+          }
+        })
          
       }); 
     </script>
