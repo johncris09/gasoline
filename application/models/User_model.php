@@ -27,6 +27,18 @@ class User_model extends CI_Model
 			->result_array();
     }
 
+    
+    public function insert($data)
+    {
+        
+        $insert = $this->db->insert($this->table, $data);
+        if(!$insert && $this->db->error()['code'] == 1062){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 
 
 
@@ -42,19 +54,7 @@ class User_model extends CI_Model
         return $this->db->where('admin_id', $data['admin_id'])
             ->update('admin', $data);
     }
-
-	
-    public function insert_booking($data)
-    { 
-        $insert = $this->db->insert('user', $data);
-        if(!$insert && $this->db->error()['code'] == 1062){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
-
+ 
 	public function delete($id)
     { 
 		return $this->db->delete('user', array('user_id' => $id)); 

@@ -34,6 +34,37 @@ class User extends CI_Controller {
 		echo json_encode($data); 
 	
 	}
+
+    
+    public function insert()
+    {
+        $data = array(
+			'name' => trim($this->input->post('name')),
+			'email' => trim($this->input->post('email')),
+			'username' => trim($this->input->post('username')),
+			'password' => md5(trim($this->input->post('password'))), 
+			'role_type' => $this->input->post('role_type'), 
+		);  
+        
+		$insert = $this->user_model->insert($data);
+		if($insert){
+
+			$data = array(
+				'response' => true,
+				'message'  => 'Data inserted successfully!',
+			);
+  
+		}else{ 
+			$data = array(
+				'response' => false,
+				'message'  => 'This value is already in the list.',
+			);
+		} 
+ 
+		
+        echo json_encode($data);
+    }
+ 
  
         
 }

@@ -49,7 +49,7 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <form action="">
+                          <form id="create-new-user-form">
                             <div class="modal-body">  
                               <small class=" text-danger">Note: * is requered</small>
                               <fieldset> 
@@ -69,14 +69,14 @@
                                   <label for="password">Password <span class="text-danger">*</span> </label> 
                                   <div class="input-group input-group-alt">
                                     <div class="input-group">
-                                      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                                      <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                                       <button class="btn btn-secondary" type="button" id="toggle-password"> <i class="fa fa-eye"></i> Show</button>
                                     </div> 
                                   </div> 
                                 </div>
                                 <div class="form-group"> 
                                   <label for="role_type">Role Type <span class="text-danger">*</span></label> 
-                                  <select class="custom-select d-block w-100" id="role_type"  name="role_type" required="">
+                                  <select class="custom-select d-block w-100" id="role_type"  name="role_type" required>
                                     <option value=""> Choose... </option> 
                                     <?php 
                                       foreach($this->config->item('role_type') as $key => $val){
@@ -128,6 +128,7 @@
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
       $(document).ready(function() {
         
@@ -196,6 +197,45 @@
             input.attr("type", "password");
             $('button#toggle-password').html(' <i class="fa fa-eye"></i> Show')
           }
+        })
+
+
+        
+
+        $('#create-new-user-form').on('submit', function(e){
+          e.preventDefault();
+
+          $.ajax({
+            url: "<?php echo base_url() ?>user/insert",
+            method: "POST",
+            data: $("#create-new-user-form").serialize(),
+            dataType: "json",
+            success: function (data) {
+
+                if(!data.response){ 
+                    Swal.fire({
+                        title: data.message,
+                        icon: "error",
+                        showCancelButton: true, 
+                    })
+                }else{ 
+                    Swal.fire({
+                        title: data.message,
+                        icon: "success",
+                        showCancelButton: true, 
+                    }).then(function(result) {
+                        $("#create-new-user-form")[0].reset()
+                        $('input[name="request_date"]').focus()
+
+                        table.ajax.reload();
+                        
+                    });
+                }  
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
         })
          
       }); 
