@@ -84,20 +84,20 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <form action="">
+                          <form action="" id="create-new-request-form">
                             <div class="modal-body">  
                               <small class=" text-danger">Note: * is requered</small>
                               <fieldset> 
                                 <div class="form-group">
-                                  <label for="tf1">Request Date <span class="text-danger">*</span></label> 
-                                  <input type="date" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Request Date">
+                                  <label for="request-date">Request Date <span class="text-danger">*</span></label> 
+                                  <input type="date" class="form-control" id="request-date" name="request_date"  required  placeholder="Request Date">
                                 </div>
                                 <div class="form-group">
                                   <label for="plate-number">Plate Number <span class="text-danger">*</span> </label> 
                                   <div class="input-group input-group-alt">
                                     <div class="input-group">
                                       <input type="hidden" name="plate_number">
-                                      <input type="text" class="form-control" id="plate-number" placeholder="Plate Number" readonly>
+                                      <input type="text" class="form-control readonly" id="plate-number" placeholder="Plate Number" autocomplete="off" required>
                                       <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#vehicle-type-modal" > <i class="oi oi-magnifying-glass"></i> Search Plate Number</button>
                                     </div> 
                                   </div> 
@@ -106,8 +106,8 @@
                                   <label for="driver">Driver's Name <span class="text-danger">*</span></label> 
                                   <div class="input-group input-group-alt">
                                     <div class="input-group"> 
-                                      <input type="hidden" name="driver">
-                                      <input type="text" class="form-control" id="driver" placeholder="Driver's Name">
+                                      <input type="hidden" name="driver">  
+                                      <input type="text" class="form-control readonly" id="driver" placeholder="Driver's Name" autocomplete="off" required>
                                       <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#driver-modal"  > <i class="oi oi-magnifying-glass"></i> Search Driver's Name</button>
                                     </div> 
                                   </div> 
@@ -220,7 +220,16 @@
       var alert_class = "";
       $(document).ready(function() { 
 
-        // $('#create-request-modal').modal('show')
+
+            
+        $(".readonly").on('keydown paste focus mousedown', function(e){
+            if(e.keyCode != 9) // ignore tab
+                e.preventDefault();
+        });
+
+
+        
+        $('#create-request-modal').modal('show')
 
 
         var table = $('#request-table').DataTable({
@@ -353,7 +362,6 @@
             $('#driver-modal').modal('toggle');
 
         } );
-
 
         
 
