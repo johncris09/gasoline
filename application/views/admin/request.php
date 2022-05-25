@@ -39,34 +39,79 @@
                    
                   <div class="card-header">
                     <div class="d-flex align-items-center">
-                      <h3 class="mr-auto p-3"><?php echo $page_title; ?> <button class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#create-request-modal"> <i class="fa fa-plus-circle"></i> Add New</button> </h3>
+                      <h3 class="mr-auto p-3"><?php echo $page_title; ?> <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#create-request-modal"> <i class="fa fa-plus-circle"></i> Add New</button> </h3>
                       <div class="btn-group" role="group">
                         <div id="buttons"></div>   
                       </div>
                     </div>
                   </div>
                   <div class="card-body">   
-                      <div class="modal fade" id="create-request-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg  ">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title">Create new Request</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <p>Modal body text goes here.</p>
+
+                    <div class="modal fade" id="create-request-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-lg  ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Create new Request</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form action="">
+                            <div class="modal-body">  
+                              <small class=" text-danger">Note: * is requered</small>
+                              <fieldset> 
+                                <div class="form-group">
+                                  <label for="tf1">Request Date <span class="text-danger">*</span></label> 
+                                  <input type="date" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Request Date">
+                                </div>
+                                <div class="form-group">
+                                  <label for="tf2">Plate Number <span class="text-danger">*</span> </label> 
+                                  <div class="input-group input-group-alt">
+                                    <div class="input-group">
+                                      <input type="text" class="form-control" id="pi8" placeholder="Plate Number">
+                                      <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#vehicle-type-modal" > <i class="oi oi-magnifying-glass"></i> Search Plate Number</button>
+                                    </div> 
+                                  </div> 
+                                </div>
+                                <div class="form-group">
+                                  <label for="tf2">Driver's Name <span class="text-danger">*</span></label> 
+                                  <div class="input-group input-group-alt">
+                                    <div class="input-group">
+                                      <input type="text" class="form-control" id="pi8" placeholder="Driver's name">
+                                      <button class="btn btn-secondary" type="button" > <i class="oi oi-magnifying-glass"></i> Search Driver's Name</button>
+                                    </div> 
+                                  </div> 
+                                </div>
+                                <div class="form-group"> 
+                                  <label for="">Gasoline Type <span class="text-danger">*</span></label> 
+                                  <select class="custom-select d-block w-100" name="gasoline_type" required="">
+                                    <option value=""> Choose... </option> 
+                                    <?php 
+                                      foreach($this->config->item('gasoline_type') as $row){
+                                        echo '
+                                          <option value="'.$row.'">'.$row.'</option>
+                                        '; 
+                                      }
+                                    ?>
+                                  </select>
+                                </div>
+                                <div class="form-group">
+                                  <label for="liter" name="liter">Liter <span class="text-danger">*</span></label> 
+                                  <input type="number" class="form-control" id="liter" name="liter"  placeholder="Liter">
+                                </div>
+                              </fieldset> 
                             </div>
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-primary">Save changes</button>
+                              <button type="submit" class="btn btn-primary">Save changes</button>
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
-                          </div> 
-                        </div>
+                          </form>
+                        </div> 
                       </div>
+                    </div>
 
-                    
+
+
                     <table id="request-table" class="table table-striped " width="100%"> 
                       <thead> 
                         <tr>
@@ -79,17 +124,17 @@
                            <th>Status</th> 
                            <th>Action</th> 
                         </tr>
-                      </thead><!-- /thead -->
-                    </table><!-- /.table -->
-                  </div><!-- /.card-body -->
-                </div><!-- /.card -->
-              </div><!-- /.page-section -->
-            </div><!-- /.page-inner -->
-          </div><!-- /.page -->
-        </div><!-- /.wrapper -->
-      </main><!-- /.app-main -->
-    </div><!-- /.app -->
-    <!-- BEGIN BASE JS -->
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    
     
 	<?php $this->view('layout/js') ?> 
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -128,8 +173,6 @@
             { data: 'gasoline_type' },  
             { data: 'liters' }, 
             { data: 'status'}, 
-            
-            
             {
               data: 'id',
               render: function(data, type, row, meta) {
@@ -147,11 +190,6 @@
                 '
               }
             }, 
-
-            
-
-            
-
 
           ],
            
@@ -172,6 +210,7 @@
         }).container().appendTo($('#buttons'));
         $('.dt-button').removeClass("dt-button");
         $('.dt-buttons>   button').addClass("btn btn-primary");
+ 
          
       }); 
     </script>
