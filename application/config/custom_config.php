@@ -7,3 +7,8 @@ $config['gasoline_type'] = [
     'Diesel',
     'Kerosine',
 ];
+ 
+$config['role_type'] = array(
+    '1' => 'Admin',
+    '2' => 'User',
+);
