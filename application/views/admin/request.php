@@ -9,6 +9,16 @@
     <link  href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.bootstrap5.min.css">
+    <style>
+            
+      #vehicle-type-table tbody{
+          cursor: pointer;
+      }
+
+      #driver-table tbody{
+          cursor: pointer; 
+      }
+    </style>
   </head>
   <body>
     <!-- .app -->
@@ -152,10 +162,6 @@
                               </thead>
                             </table> 
                           </div>
-                          <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          </div> 
                         </div> 
                       </div>
                     </div>
@@ -184,10 +190,6 @@
                               </thead>
                             </table>
                           </div>
-                          <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          </div> 
                         </div> 
                       </div>
                     </div>
@@ -346,7 +348,7 @@
             console.info(row)
             
             $('input[name="driver"]').val(row.id)
-            $('#driver').val( (row.lastname + ", " + row.firstname + " " + row.middlename + " " + row.suffix).toUpperCase() )
+            $('#driver').val( (row.lastname + ", " + row.firstname + " " + row.middlename + " " +  row.suffix).toUpperCase() )
             
             $('#driver-modal').modal('toggle');
 
