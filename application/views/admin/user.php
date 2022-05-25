@@ -44,7 +44,7 @@
                       <div class="modal-dialog modal-dialog-centered modal-md  ">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title">Create new User</h5>
+                            <h5 class="modal-title">Create New User</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
@@ -70,12 +70,12 @@
                                   <div class="input-group input-group-alt">
                                     <div class="input-group">
                                       <input type="password" class="form-control" id="password" placeholder="Password">
-                                      <button class="btn btn-secondary" type="button" id="toggle-password"   > <i class="oi oi-eye"></i> Show</button>
+                                      <button class="btn btn-secondary" type="button" id="toggle-password"> <i class="fa fa-eye"></i> Show</button>
                                     </div> 
                                   </div> 
                                 </div>
                                 <div class="form-group"> 
-                                  <label for="role_type">Role Type<span class="text-danger">*</span></label> 
+                                  <label for="role_type">Role Type <span class="text-danger">*</span></label> 
                                   <select class="custom-select d-block w-100" id="role_type"  name="role_type" required="">
                                     <option value=""> Choose... </option> 
                                     <?php 
