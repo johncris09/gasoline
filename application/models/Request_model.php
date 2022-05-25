@@ -17,4 +17,19 @@ class Request_model extends CI_Model
 			->get('request`, driver, vehicle_type')
 			->result_array();
     }
+    
+    
+    public function insert($data)
+    {
+        
+        $insert = $this->db->insert($this->table, $data);
+        if(!$insert && $this->db->error()['code'] == 1062){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+
 }
