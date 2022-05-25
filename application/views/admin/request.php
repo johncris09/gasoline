@@ -8,6 +8,7 @@
     <!-- <link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
     <link  href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.bootstrap5.min.css">
   </head>
   <body>
     <!-- .app -->
@@ -46,7 +47,8 @@
                     </div>
                   </div>
                   <div class="card-body">   
-
+                    
+                    <!-- Create Request Modal -->
                     <div class="modal fade" id="create-request-modal" tabindex="-1" role="dialog" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered modal-lg  ">
                         <div class="modal-content">
@@ -110,7 +112,36 @@
                       </div>
                     </div>
 
-
+                    <!-- Vehicle Type Modal -->
+                    <div class="modal fade" id="vehicle-type-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-lg  ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Vehicle Type</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div> 
+                          <div class="modal-body">
+                            <table id="vehicle-type-table" class="table table-striped " width="100%"> 
+                              <thead> 
+                                <tr>
+                                  <th>#</th>
+                                  <th>Office</th>
+                                  <th>Vehicle Type</th>
+                                  <th>Plate Number</th>
+                                </tr>
+                              </thead>
+                            </table> 
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          </div> 
+                        </div> 
+                      </div>
+                    </div>
+                    
 
                     <table id="request-table" class="table table-striped " width="100%"> 
                       <thead> 
@@ -144,6 +175,7 @@
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+  <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
   <script>
 
 
@@ -210,8 +242,43 @@
         }).container().appendTo($('#buttons'));
         $('.dt-button').removeClass("dt-button");
         $('.dt-buttons>   button').addClass("btn btn-primary");
- 
-         
+        
+
+        
+        var vehicle_type_table = $('#vehicle-type-table').DataTable({
+          "scrollY": 450,
+          "scrollX": true,
+          deferRender: true,
+          ajax: {
+            url: '<?php echo base_url(); ?>vehicle_type/get_all_vehicle_type',
+            type: 'POST',
+          },
+          columns: [{
+            data: 'id',
+              render: function(data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+              }
+            }, 
+            { data: 'office'  }, 
+            { data: 'vehicle_type' }, 
+            { data: 'plate_number' }, 
+          ],  
+          
+          select: true,
+        });
+
+        $('#vehicle-type-table tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+            var pos = vehicle_type_table.row(this).index();
+            var row = vehicle_type_table.row(pos).data();
+            console.log(row);
+            
+            $('#vehicle-type-modal').modal('toggle');
+
+        } );
+
+
+        
       }); 
     </script>
   </body>
