@@ -48,6 +48,22 @@
                   </div>
                   <div class="card-body">   
                     
+                  
+                   <table id="request-table" class="table table-striped " width="100%"> 
+                      <thead> 
+                        <tr>
+                          <th>#</th>
+                          <th>Request Date</th> 
+                          <th>Plate #</th> 
+                          <th>Driver</th> 
+                           <th>Gasoline Type</th>
+                           <th>Liters</th> 
+                           <th>Status</th> 
+                           <th>Action</th> 
+                        </tr>
+                      </thead>
+                    </table>
+
                     <!-- Create Request Modal -->
                     <div class="modal fade" id="create-request-modal" tabindex="-1" role="dialog" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered modal-lg  ">
@@ -77,11 +93,12 @@
                                   </div> 
                                 </div>
                                 <div class="form-group">
-                                  <label for="driver-name">Driver's Name <span class="text-danger">*</span></label> 
+                                  <label for="driver">Driver's Name <span class="text-danger">*</span></label> 
                                   <div class="input-group input-group-alt">
                                     <div class="input-group"> 
-                                      <input type="text" class="form-control" id="driver-name" placeholder="Driver's Name">
-                                      <button class="btn btn-secondary" type="button" > <i class="oi oi-magnifying-glass"></i> Search Driver's Name</button>
+                                      <input type="hidden" name="driver">
+                                      <input type="text" class="form-control" id="driver" placeholder="Driver's Name">
+                                      <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#driver-modal"  > <i class="oi oi-magnifying-glass"></i> Search Driver's Name</button>
                                     </div> 
                                   </div> 
                                 </div>
@@ -142,22 +159,39 @@
                         </div> 
                       </div>
                     </div>
+
+                    
+                    <!-- Driver Modal -->
+                    <div class="modal fade" id="driver-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-lg  ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Driver</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div> 
+                          <div class="modal-body">
+                            <table id="driver-table" class="table table-striped " width="100%"> 
+                              <thead> 
+                                <tr>
+                                  <th>#</th>
+                                  <th>Last Name</th> 
+                                  <th>First Name</th>
+                                  <th>Middle Name</th>
+                                  <th>Suffix</th>
+                                </tr>
+                              </thead>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          </div> 
+                        </div> 
+                      </div>
+                    </div>
                     
 
-                    <table id="request-table" class="table table-striped " width="100%"> 
-                      <thead> 
-                        <tr>
-                          <th>#</th>
-                          <th>Request Date</th> 
-                          <th>Plate #</th> 
-                          <th>Driver</th> 
-                           <th>Gasoline Type</th>
-                           <th>Liters</th> 
-                           <th>Status</th> 
-                           <th>Action</th> 
-                        </tr>
-                      </thead>
-                    </table>
                   </div>
                 </div>
               </div>
@@ -183,7 +217,7 @@
       var alert_class = "";
       $(document).ready(function() { 
 
-        $('#create-request-modal').modal('show')
+        // $('#create-request-modal').modal('show')
 
 
         var table = $('#request-table').DataTable({
@@ -279,6 +313,48 @@
             $('#vehicle-type-modal').modal('toggle');
 
         } );
+
+        var driver_table = $('#driver-table').DataTable({
+          "scrollY": 450,
+          "scrollX": true,
+          deferRender: true,
+          ajax: {
+            url: '<?php echo base_url(); ?>driver/get_all_driver', 
+            type: 'POST',
+          },
+          columns: [{
+            data: 'id',
+              render: function(data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+              }
+            }, 
+            { data: 'lastname'  }, 
+            { data: 'firstname' }, 
+            { data: 'middlename' }, 
+            { data: 'suffix' },  
+          ],
+          select: true,
+        });
+
+        
+        $('#driver-table tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+            var pos = driver_table.row(this).index();
+            var row = driver_table.row(pos).data();
+
+            console.info(row)
+            
+            $('input[name="driver"]').val(row.id)
+            $('#driver').val( (row.lastname + ", " + row.firstname + " " + row.middlename + " " + row.suffix).toUpperCase() )
+            
+            $('#driver-modal').modal('toggle');
+
+        } );
+
+
+        
+
+
 
 
         
