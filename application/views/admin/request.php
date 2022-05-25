@@ -53,7 +53,7 @@
                       <div class="modal-dialog modal-dialog-centered modal-lg  ">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title">Create new Request</h5>
+                            <h5 class="modal-title">Create New Request</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
@@ -67,19 +67,20 @@
                                   <input type="date" class="form-control" id="tf1" aria-describedby="tf1Help" placeholder="Request Date">
                                 </div>
                                 <div class="form-group">
-                                  <label for="tf2">Plate Number <span class="text-danger">*</span> </label> 
+                                  <label for="plate-number">Plate Number <span class="text-danger">*</span> </label> 
                                   <div class="input-group input-group-alt">
                                     <div class="input-group">
-                                      <input type="text" class="form-control" id="pi8" placeholder="Plate Number">
+                                      <input type="hidden" name="plate_number">
+                                      <input type="text" class="form-control" id="plate-number" placeholder="Plate Number" readonly>
                                       <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#vehicle-type-modal" > <i class="oi oi-magnifying-glass"></i> Search Plate Number</button>
                                     </div> 
                                   </div> 
                                 </div>
                                 <div class="form-group">
-                                  <label for="tf2">Driver's Name <span class="text-danger">*</span></label> 
+                                  <label for="driver-name">Driver's Name <span class="text-danger">*</span></label> 
                                   <div class="input-group input-group-alt">
-                                    <div class="input-group">
-                                      <input type="text" class="form-control" id="pi8" placeholder="Driver's name">
+                                    <div class="input-group"> 
+                                      <input type="text" class="form-control" id="driver-name" placeholder="Driver's Name">
                                       <button class="btn btn-secondary" type="button" > <i class="oi oi-magnifying-glass"></i> Search Driver's Name</button>
                                     </div> 
                                   </div> 
@@ -271,7 +272,9 @@
             $(this).toggleClass('selected');
             var pos = vehicle_type_table.row(this).index();
             var row = vehicle_type_table.row(pos).data();
-            console.log(row);
+            
+            $('input[name="plate_number"]').val(row.id)
+            $('#plate-number').val( row.vehicle_type + " (" + row.plate_number + ")" )
             
             $('#vehicle-type-modal').modal('toggle');
 
