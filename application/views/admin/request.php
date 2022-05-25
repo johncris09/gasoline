@@ -67,7 +67,7 @@
                           <th>Plate #</th> 
                           <th>Driver</th> 
                            <th>Gasoline Type</th>
-                           <th>Liters</th> 
+                           <th>Liter</th> 
                            <th>Status</th> 
                            <th>Action</th> 
                         </tr>
@@ -84,7 +84,7 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <form action="" id="create-new-request-form">
+                          <form  id="create-new-request-form">
                             <div class="modal-body">  
                               <small class=" text-danger">Note: * is requered</small>
                               <fieldset> 
@@ -214,25 +214,22 @@
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
   <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
 
 
       var alert_class = "";
-      $(document).ready(function() { 
-
-
+      $(document).ready(function() {
             
         $(".readonly").on('keydown paste focus mousedown', function(e){
             if(e.keyCode != 9) // ignore tab
                 e.preventDefault();
-        });
+        }); 
 
-
-        
         $('#create-request-modal').modal('show')
 
 
-        var table = $('#request-table').DataTable({
+        var request_table = $('#request-table').DataTable({
           "scrollY": 450,
           "scrollX": true,
           deferRender: true,
@@ -250,7 +247,7 @@
             { data: 'plate_number'  },
             { data: 'name' }, 
             { data: 'gasoline_type' },  
-            { data: 'liters' }, 
+            { data: 'liter' }, 
             { data: 'status'}, 
             {
               data: 'id',
@@ -273,7 +270,7 @@
           ],
            
         });
-        var buttons = new $.fn.dataTable.Buttons(table, {
+        var buttons = new $.fn.dataTable.Buttons(request_table, {
           buttons: [{
             extend: 'excel',
             text: '<i class="fas fa-file-excel"></i>',
@@ -362,11 +359,44 @@
             $('#driver-modal').modal('toggle');
 
         } );
-
+        
         
 
+        $('#create-new-request-form').on('submit', function(e){
+          e.preventDefault();
 
+          $.ajax({
+            url: "<?php echo base_url() ?>request/insert",
+            method: "POST",
+            data: $("#create-new-request-form").serialize(),
+            dataType: "json",
+            success: function (data) { 
+              
+                if(!data.response){ 
+                    Swal.fire({
+                        title: data.message,
+                        icon: "error",
+                        showCancelButton: true, 
+                    })
+                }else{ 
+                    Swal.fire({
+                        title: data.message,
+                        icon: "success",
+                        showCancelButton: true, 
+                    }).then(function(result) {
+                        $("#create-new-request-form")[0].reset()
+                        $('input[name="request_date"]').focus()
 
+                        request_table.ajax.reload();
+                        
+                    });
+                }  
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
 
         
       }); 
