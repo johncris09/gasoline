@@ -32,6 +32,35 @@ class Request extends CI_Controller {
 		echo json_encode($data); 
 	
 	}
+
+    public function insert()
+    {
+        $data = array(
+			'driver' => $this->input->post('driver'),
+			'gasoline_type' => $this->input->post('gasoline_type'),
+			'liter' => $this->input->post('liter'),
+			'plate_number' => $this->input->post('plate_number'),
+			'request_date' => $this->input->post('request_date'), 
+			'status' => "Pending", 
+		);  
+
+		$insert = $this->request_model->insert($data);
+		if($insert){
+
+			$data = array(
+				'response' => true,
+				'message'  => 'Data inserted successfully!',
+			);
+  
+		}else{ 
+			$data = array(
+				'response' => false,
+				'message'  => 'This value is already in the list.',
+			);
+		} 
+		
+        echo json_encode($data);
+    }
  
  
         
