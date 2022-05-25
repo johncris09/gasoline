@@ -215,19 +215,18 @@
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
   <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
   <script>
 
 
       var alert_class = "";
+      var icon = "";
       $(document).ready(function() {
             
         $(".readonly").on('keydown paste focus mousedown', function(e){
             if(e.keyCode != 9) // ignore tab
                 e.preventDefault();
-        }); 
-
-        $('#create-request-modal').modal('show')
-
+        });
 
         var request_table = $('#request-table').DataTable({
           "scrollY": 450,
@@ -268,7 +267,24 @@
             }, 
 
           ],
-           
+          columnDefs: [{
+            targets: 6,
+            render: function ( data, type, row ) {
+              
+              var status = "";
+              if(data.toLowerCase() == "pending" ){
+                icon = "exclamation-circle"
+                alert_class = "danger"
+              }else if( data.toLowerCase() == "approved"  ){
+                icon = "check"
+                alert_class = "primary"
+              }
+ 
+              return '<span class="badge badge-'+alert_class+'"><i class="fa fa-'+icon+'"></i> '+data+'</span></h1>'
+              
+
+            }
+          }]
         });
         var buttons = new $.fn.dataTable.Buttons(request_table, {
           buttons: [{
