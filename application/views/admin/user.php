@@ -38,9 +38,9 @@
                     </div>
                   </div>
                   <div class="card-body">  
-
-                  
-                   <div class="modal fade" id="create-new-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    
+                    <!-- Create New User Modal -->
+                    <div class="modal fade" id="create-new-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered modal-md  ">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -97,6 +97,59 @@
                         </div> 
                       </div>
                     </div> 
+
+                    
+                    <!-- Edit User Modal -->
+                    <div class="modal fade" id="edit-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-md  ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit User</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form id="update-user-form">
+                            <div class="modal-body">  
+                              <small class=" text-danger">Note: * is requered</small>
+                              <fieldset> 
+                                <input type="hidden" name="id">
+                                <div class="form-group">
+                                  <label for="name">Name <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="email">Email <span class="text-danger">*</span></label> 
+                                  <input type="email" class="form-control" id="email" name="email" placeholder="e.g. johndoe@looper.com" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="username">Username <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                                </div>
+                                <div class="form-group"> 
+                                  <label for="role_type">Role Type <span class="text-danger">*</span></label> 
+                                  <select class="custom-select d-block w-100" id="role_type"  name="role_type" required>
+                                    <option value=""> Choose... </option> 
+                                    <?php 
+                                      foreach($this->config->item('role_type') as $key => $val){
+                                        echo '
+                                          <option value="'.$key.'">'.$val.'</option>
+                                        '; 
+                                      }
+                                    ?>
+                                  </select>
+                                </div> 
+                              </fieldset> 
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                          </form>
+                        </div> 
+                      </div>
+                    </div> 
+
                     
                     <table id="user-table" class="table table-striped " width="100%"> 
                       <thead> 
@@ -132,7 +185,8 @@
   <script>
       $(document).ready(function() {
         
-        $('#create-new-user-modal').modal('show')
+
+        
         var table = $('#user-table').DataTable({
           "scrollY": 450,
           "scrollX": true,
@@ -160,7 +214,7 @@
                     <button class="btn btn-icon btn-secondary" data-toggle="dropdown"><i class="fa fa-fw fa-ellipsis-h"></i></button>\
                     <div class="dropdown-menu dropdown-menu-right">\
                       <div class="dropdown-arrow"></div>\
-                        <button type="button" class="dropdown-item" ><i class="fa fa-pencil-alt"></i> Edit</button>\
+                        <button type="button" class="dropdown-item" data-user-id="'+row.id+'" id="edit-user-btn"  ><i class="fa fa-pencil-alt"></i> Edit</button>\
                         <button type="button" class="dropdown-item"><i class="fa fa-trash-alt"></i> Delete</button>\
                       </div>\
                   </div>\
@@ -212,31 +266,95 @@
             dataType: "json",
             success: function (data) {
 
-                if(!data.response){ 
-                    Swal.fire({
-                        title: data.message,
-                        icon: "error",
-                        showCancelButton: true, 
-                    })
-                }else{ 
-                    Swal.fire({
-                        title: data.message,
-                        icon: "success",
-                        showCancelButton: true, 
-                    }).then(function(result) {
-                        $("#create-new-user-form")[0].reset()
-                        $('input[name="request_date"]').focus()
+              if(!data.response){ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "error",
+                      showCancelButton: true, 
+                  })
+              }else{ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "success",
+                      showCancelButton: true, 
+                  }).then(function(result) {
+                      $("#create-new-user-form")[0].reset()
+                      $('input[name="request_date"]').focus()
 
-                        table.ajax.reload();
-                        
-                    });
-                }  
+                      table.ajax.reload();
+                      
+                  });
+              }  
             },
             error: function (xhr, status, error) {
                 console.info(xhr.responseText);
             }
           });
         })
+        
+        $(document).on('click','#edit-user-btn', function(){ 
+          
+          // show modal
+          $('#edit-user-modal').modal('show')
+
+          var user_id = $(this).data('userId')
+
+          $.ajax({
+            url: "<?php echo base_url() ?>user/get_user/" + user_id,
+            method: "POST",
+            dataType: "json",
+            success: function (data) { 
+
+              $('#edit-user-modal input[name="id"]').val(data.id) 
+              $('#edit-user-modal input[name="name"]').val(data.name) 
+              $('#edit-user-modal input[name="email"]').val(data.email) 
+              $('#edit-user-modal input[name="username"]').val(data.username) 
+              $('#edit-user-modal select[name="role_type"]').val(data.role_type)  
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
+
+
+        
+        $('#update-user-form').on('submit', function(e){
+          e.preventDefault();
+
+          
+          var user_id = $('input[name="id"]').val(); 
+
+          $.ajax({
+            url: "<?php echo base_url() ?>user/update/" + user_id,
+            method: "POST",
+            data: $("#update-user-form").serialize(),
+            dataType: "json",
+            success: function (data) {  
+              if(!data.response){ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "error",
+                      showCancelButton: true, 
+                  })
+              }else{ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "success",
+                      showCancelButton: true, 
+                  }).then(function(result) {
+                      table.ajax.reload(); 
+            
+                      $('#edit-user-modal').modal('toggle');
+                  });
+              }  
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
+
          
       }); 
     </script>

@@ -57,7 +57,7 @@ class User extends CI_Controller {
 		}else{ 
 			$data = array(
 				'response' => false,
-				'message'  => 'This value is already in the list.',
+				'message'  => 'Something went wrong.',
 			);
 		} 
  
@@ -65,6 +65,50 @@ class User extends CI_Controller {
         echo json_encode($data);
     }
  
+	public function get_user($id)
+	{ 
+
+		$data = array(
+			"id" => $id,
+		);
+
+		$data = $this->user_model->get_user($data);
+		unset($data['password']); //remove password from array 
+
+		echo json_encode($data);
+	}
+	
+	public function update($id)
+	{ 
+ 
+		
+		$data = array(
+			'id' => $id,
+			'name' => trim($this->input->post('name')),
+			'email' => trim($this->input->post('email')),
+			'username' => trim($this->input->post('username')),
+			'role_type' => $this->input->post('role_type'), 
+		);  
+        
+		$update = $this->user_model->update($data);
+		if($update){
+
+			$data = array(
+				'response' => true,
+				'message'  => 'Data updated successfully!',
+			);
+  
+		}else{ 
+			$data = array(
+				'response' => false,
+				'message'  => 'Something went wrong.',
+			);
+		} 
+
+
+
+		echo json_encode($data);
+	}
  
         
 }

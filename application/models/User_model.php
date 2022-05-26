@@ -38,26 +38,18 @@ class User_model extends CI_Model
             return true;
         }
     }
-
-
-
-
+    
     public function get_user($data)
     {  
         $this->db->where($data);
-        return $this->db->get('user')->result_array()[0];
+        return $this->db->get($this->table)->result_array()[0];
     } 
  
  
     public function update($data)
     { 
-        return $this->db->where('admin_id', $data['admin_id'])
-            ->update('admin', $data);
-    }
- 
-	public function delete($id)
-    { 
-		return $this->db->delete('user', array('user_id' => $id)); 
+        return $this->db->where('id', $data['id'])
+            ->update($this->table, $data);
     }
  
 }
