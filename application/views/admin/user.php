@@ -186,7 +186,7 @@
       $(document).ready(function() {
         
 
-        
+        var alert_class = "";
         var table = $('#user-table').DataTable({
           "scrollY": 450,
           "scrollX": true,
@@ -215,7 +215,7 @@
                     <div class="dropdown-menu dropdown-menu-right">\
                       <div class="dropdown-arrow"></div>\
                         <button type="button" class="dropdown-item" data-user-id="'+row.id+'" id="edit-user-btn"  ><i class="fa fa-pencil-alt"></i> Edit</button>\
-                        <button type="button" class="dropdown-item"><i class="fa fa-trash-alt"></i> Delete</button>\
+                        <button type="button" class="dropdown-item" data-user-id="'+row.id+'" id="delete-user-btn"><i class="fa fa-trash-alt"></i> Delete</button>\
                       </div>\
                   </div>\
                 '
@@ -223,6 +223,22 @@
             }, 
 
           ],
+          columnDefs: [{
+            targets: 4,
+            render: function ( data, type, row ) {
+
+              var status = "";
+              if(data.toLowerCase() == "admin" ){ 
+                alert_class = "primary"
+              }else if( data.toLowerCase() == "user"  ){ 
+                alert_class = "warning"
+              }
+ 
+              return '<span class="badge badge-'+alert_class+'">'+data+'</span></h1>'
+              
+
+            }
+          }]
            
         });
         var buttons = new $.fn.dataTable.Buttons(table, {
@@ -354,6 +370,54 @@
             }
           });
         })
+        
+
+        // Delete User
+        $(document).on('click','#delete-user-btn', function(e){
+          e.preventDefault();
+          var user_id = $(this).data('user-id')
+ 
+          Swal.fire({
+              title: "Are you sure?",
+              text: "You won\"t be able to revert this!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Yes, delete it!"
+          }).then(function(result) {
+              if (result.value) { 
+                $.ajax({
+                  url: "<?php echo base_url() ?>user/delete/" + user_id,
+                  method: "post",
+                  dataType: "json",
+                  success: function (data) {  
+                    if(!data.response){ 
+                      Swal.fire({
+                        title: data.message,
+                        icon: "error",
+                        showCancelButton: true, 
+                      })
+                    }else{ 
+                      Swal.fire({
+                        title: 'Deleted!',
+                        text: "Your file has been deleted.",
+                        icon: "success",
+                        showCancelButton: true, 
+                        confirmButtonText: "Ok"
+                      })
+                      table.ajax.reload()
+                    }  
+                  },
+                  error: function (xhr, status, error) { 
+                      console.info(xhr.responseText);
+                  }
+              });
+
+                  
+              }
+          }); 
+        })
+
+
 
          
       }); 

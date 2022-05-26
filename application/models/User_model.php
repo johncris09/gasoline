@@ -38,7 +38,7 @@ class User_model extends CI_Model
             return true;
         }
     }
-    
+
     public function get_user($data)
     {  
         $this->db->where($data);
@@ -48,8 +48,17 @@ class User_model extends CI_Model
  
     public function update($data)
     { 
-        return $this->db->where('id', $data['id'])
+        return $this->db
+            ->where('id', $data['id'])
             ->update($this->table, $data);
     }
+
+    public function delete($id)
+    {
+        return $this->db
+            ->where('id', $id)
+            ->delete($this->table);
+    }
+
  
 }
