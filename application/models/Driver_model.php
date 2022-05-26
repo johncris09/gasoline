@@ -15,4 +15,37 @@ class Driver_model extends CI_Model
 			->get($this->table)
 			->result_array();
     }
+
+    
+    public function insert($data)
+    {
+        
+        $insert = $this->db->insert($this->table, $data);
+        if(!$insert && $this->db->error()['code'] == 1062){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function get_driver($data)
+    {  
+        $this->db->where($data);
+        return $this->db->get($this->table)->result_array()[0];
+    } 
+ 
+ 
+    public function update($data)
+    { 
+        return $this->db
+            ->where('id', $data['id'])
+            ->update($this->table, $data);
+    }
+
+    public function delete($id)
+    {
+        return $this->db
+            ->where('id', $id)
+            ->delete($this->table);
+    }
 }
