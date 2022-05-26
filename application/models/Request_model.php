@@ -31,6 +31,24 @@ class Request_model extends CI_Model
         }
     }
 
+    public function num_of_pending()
+    {
+        return $this->db 
+            ->where('status', 'pending')
+			->get($this->table)
+			->num_rows();
+    }
+
+    
+    public function num_of_approved()
+    {
+        return $this->db 
+            ->where('status', 'approved')
+			->get($this->table)
+			->num_rows();
+    }
+
+
 
 
 }
