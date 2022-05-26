@@ -110,6 +110,38 @@ class User extends CI_Controller {
 		echo json_encode($data);
 	}
 	
+	
+	public function update_password($id)
+	{ 
+ 
+		
+		$data = array(
+			'id' => $id,
+			'password' => trim($this->input->post('password')), 
+		);  
+        
+		$update = $this->user_model->update($data);
+		if($update){
+
+			$data = array(
+				'response' => true,
+				'message'  => 'Password has been changed successfully!',
+			);
+  
+		}else{ 
+			$data = array(
+				'response' => false,
+				'message'  => 'Something went wrong.',
+			);
+		} 
+
+
+
+		echo json_encode($data);
+	}
+	
+
+
 
 	public function delete($id)
 	{  

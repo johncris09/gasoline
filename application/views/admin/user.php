@@ -70,7 +70,7 @@
                                   <div class="input-group input-group-alt">
                                     <div class="input-group">
                                       <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
-                                      <button class="btn btn-secondary" type="button" id="toggle-password"> <i class="fa fa-eye"></i> Show</button>
+                                      <button class="btn btn-secondary toggle-password" type="button"> <i class="fa fa-eye"></i> Show</button>
                                     </div> 
                                   </div> 
                                 </div>
@@ -150,6 +150,44 @@
                       </div>
                     </div> 
 
+
+                    
+                    
+                    <!-- Change Password -->
+                    <div class="modal fade" id="change-password-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-md  ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Change Password</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form id="change-password-form">
+                            <div class="modal-body">  
+                              <small class=" text-danger">Note: * is requered</small>
+                              <fieldset>  
+                                <div class="form-group">
+                                  <label for="password">Password <span class="text-danger">*</span> </label> 
+                                  <div class="input-group input-group-alt">
+                                    <div class="input-group">
+                                      <input type="hidden" name="id">
+                                      <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                                      <button class="btn btn-secondary toggle-password" type="button"> <i class="fa fa-eye"></i> Show</button>
+                                    </div> 
+                                  </div> 
+                                </div>
+                              </fieldset> 
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                          </form>
+                        </div> 
+                      </div>
+                    </div> 
+
                     
                     <table id="user-table" class="table table-striped " width="100%"> 
                       <thead> 
@@ -184,6 +222,8 @@
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
       $(document).ready(function() {
+
+        $('#change-password-modal').modal('show')
         
 
         var alert_class = "";
@@ -216,6 +256,8 @@
                       <div class="dropdown-arrow"></div>\
                         <button type="button" class="dropdown-item" data-user-id="'+row.id+'" id="edit-user-btn"  ><i class="fa fa-pencil-alt"></i> Edit</button>\
                         <button type="button" class="dropdown-item" data-user-id="'+row.id+'" id="delete-user-btn"><i class="fa fa-trash-alt"></i> Delete</button>\
+                      <div class="dropdown-divider"></div>\
+                      <button type="button" class="dropdown-item" data-user-id="'+row.id+'" id="change-password-btn" ><i class="fa fa-key"></i> Change Password</button>\
                       </div>\
                   </div>\
                 '
@@ -258,14 +300,14 @@
         $('.dt-button').removeClass("dt-button");
         $('.dt-buttons>   button').addClass("btn btn-primary");
         
-        $('#toggle-password').on('click', function(){
+        $('.toggle-password').on('click', function(){
           var input = $('input[name="password"]');
           if (input.attr("type") === "password") {
             input.attr("type", "text");
-            $('button#toggle-password').html(' <i class="fa fa-eye-slash"></i> Hide')
+            $('button.toggle-password').html(' <i class="fa fa-eye-slash"></i> Hide')
           } else {
             input.attr("type", "password");
-            $('button#toggle-password').html(' <i class="fa fa-eye"></i> Show')
+            $('button.toggle-password').html(' <i class="fa fa-eye"></i> Show')
           }
         })
 
@@ -332,6 +374,68 @@
             }
           });
         })
+        
+
+        $(document).on('click','#change-password-btn', function(){ 
+          
+          // show modal
+          $('#change-password-modal').modal('show')
+
+          var user_id = $(this).data('user-id')
+
+          $.ajax({
+            url: "<?php echo base_url() ?>user/get_user/" + user_id,
+            method: "POST",
+            dataType: "json",
+            success: function (data) { 
+              $('#change-password-modal input[name="id"]').val(data.id)  
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
+
+        
+        
+        $('#change-password-form').on('submit', function(e){
+          e.preventDefault();
+
+          var user_id = $('input[name="user-id"]').val(); 
+ 
+
+          $.ajax({
+            url: "<?php echo base_url() ?>user/update_password/" + user_id,
+            method: "POST",
+            data: $("#change-password-form").serialize(),
+            dataType: "json",
+            success: function (data) {  
+              if(!data.response){ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "error",
+                      showCancelButton: true, 
+                  })
+              }else{ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "success",
+                      showCancelButton: true, 
+                  }).then(function(result) {
+                      $("#change-password-form")[0].reset()
+                      table.ajax.reload(); 
+            
+                      $('#change-password-modal').modal('toggle');
+                  });
+              }  
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
+
+
 
 
         
