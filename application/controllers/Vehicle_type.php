@@ -22,17 +22,100 @@ class Vehicle_type extends CI_Controller {
 	{ 
 		$vehicle_type = $this->vehicle_type_model->get_all_vehicle_type(); 
 		foreach( $vehicle_type  as $row ){
-			// $row['name'] = ucwords($row['name']);
-			// $row['barangay'] = ucwords($row['barangay']);
-			// $row['purok'] = ($row['purok'] != null) ? ucwords($row['purok']) : '';
-			// $row['precinct'] = ($row['precinct'] != null) ? ucwords($row['precinct']) : ''; 
 			$data['data'][] = $row; 
 
 		} 
-		echo json_encode($data);
+		echo json_encode($data); 
+	}
 
 	
+    
+    public function insert()
+    {
+        $data = array(
+			'office' => trim($this->input->post('office')),
+			'vehicle_type' => trim($this->input->post('vehicle_type')),
+			'plate_number' => trim($this->input->post('plate_number')), 
+		);  
+        
+		$insert = $this->vehicle_type_model->insert($data);
+		if($insert){
+
+			$data = array(
+				'response' => true,
+				'message'  => 'Data inserted successfully!',
+			);
+  
+		}else{ 
+			$data = array(
+				'response' => false,
+				'message'  => 'Something went wrong.',
+			);
+		} 
+ 
+		
+        echo json_encode($data);
+    }
+ 
+	public function get_vehicle_type($id)
+	{ 
+
+		$data = array(
+			"id" => $id,
+		); 
+		$data = $this->vehicle_type_model->get_vehicle_type($data); 
+
+		echo json_encode($data);
 	}
+	
+	public function update($id)
+	{ 
+ 
+		
+		$data = array(
+			'id' => $id,
+			'office' => trim($this->input->post('office')),
+			'vehicle_type' => trim($this->input->post('vehicle_type')),
+			'plate_number' => trim($this->input->post('plate_number')),  
+		);  
+        
+		$update = $this->vehicle_type_model->update($data);
+		if($update){
+
+			$data = array(
+				'response' => true,
+				'message'  => 'Data updated successfully!',
+			);
+  
+		}else{ 
+			$data = array(
+				'response' => false,
+				'message'  => 'Something went wrong.',
+			);
+		}
+
+		echo json_encode($data);
+	} 
+
+
+	public function delete($id)
+	{  
+		$delete = $this->vehicle_type_model->delete($id);
+
+		if($delete){  
+			$data = array(
+				'response' => true,
+				'message'  => 'Data deleted successfully!',
+			);
+		}else{
+			$data = array(
+				'response' => false,
+			);
+		}
+
+		echo json_encode($data);
+	}
+      
  
         
 }
