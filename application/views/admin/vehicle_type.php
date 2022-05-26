@@ -319,7 +319,7 @@
         })
         
 
-        // Delete User
+        // Delete vehicle Type
         $(document).on('click','#delete-vehicle-type-btn', function(e){
           e.preventDefault();
           var vehicle_type_id = $(this).data('vehicle-type-id')
