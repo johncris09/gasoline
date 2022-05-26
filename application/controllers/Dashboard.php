@@ -15,8 +15,9 @@ class Dashboard extends CI_Controller {
     public function index()
 	{ 
         $data['page_title'] = "Dashboard"; 
-        $this->load->view('admin/dashboard', $data); 
-		// }
+		$data['pending'] = $this->request_model->num_of_pending();
+		$data['approved'] = $this->request_model->num_of_approved();
+        $this->load->view('admin/dashboard', $data);   
 	}
 
 	
