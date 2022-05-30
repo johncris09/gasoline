@@ -12,6 +12,7 @@ class Request_model extends CI_Model
     public function get_all_request()
     {   
         return $this->db
+            ->select('request.*, driver.*, vehicle_type.*, request.id as request_id')
             ->where('request.driver = driver.id')
             ->where('request.plate_number = vehicle_type.id')
             ->order_by('request.request_date', 'desc')
@@ -54,6 +55,15 @@ class Request_model extends CI_Model
         $this->db->where($data);
         return $this->db->get($this->table)->result_array()[0];
     } 
+
+    
+    public function update($data)
+    { 
+        return $this->db
+            ->where('id', $data['id'])
+            ->update($this->table, $data);
+    }
+
  
 
 
