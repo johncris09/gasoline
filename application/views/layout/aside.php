@@ -33,6 +33,9 @@
                 <li class="menu-item">
                   <a href="<?php echo base_url() ?>request" class="menu-link"><span class="menu-icon fa fa-check-circle"></span> <span class="menu-text">Approved</span></a>
                 </li> 
+                <li class="menu-item">
+                  <a href="<?php echo base_url() ?>trip_ticket" class="menu-link"><span class="menu-icon fa fa-gas-pump"></span> <span class="menu-text">Trip Ticket</span></a>
+                </li> 
                 <li class="menu-header">Data</li>
                 <li class="menu-item">
                   <a href="<?php echo base_url() ?>driver" class="menu-link"><span class="menu-icon fa fa-motorcycle"></span> <span class="menu-text">Driver</span></a>
