@@ -48,6 +48,14 @@ class Request_model extends CI_Model
 			->num_rows();
     }
 
+    
+    public function get_request($data)
+    {  
+        $this->db->where($data);
+        return $this->db->get($this->table)->result_array()[0];
+    } 
+ 
+
 
 
 
