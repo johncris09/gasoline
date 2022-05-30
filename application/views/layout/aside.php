@@ -31,7 +31,7 @@
                   <a href="<?php echo base_url() ?>pending" class="menu-link"><span class="menu-icon fa fa-exclamation-circle"></span> <span class="menu-text">Pending</span></a>
                 </li> 
                 <li class="menu-item">
-                  <a href="<?php echo base_url() ?>request" class="menu-link"><span class="menu-icon fa fa-check-circle"></span> <span class="menu-text">Apporved</span></a>
+                  <a href="<?php echo base_url() ?>request" class="menu-link"><span class="menu-icon fa fa-check-circle"></span> <span class="menu-text">Approved</span></a>
                 </li> 
                 <li class="menu-header">Data</li>
                 <li class="menu-item">
