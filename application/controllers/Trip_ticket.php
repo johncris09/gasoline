@@ -14,8 +14,8 @@ class Trip_ticket extends CI_Controller {
 
     public function index()
 	{ 
-        $data['page_title'] = "Driver"; 
-        $this->load->view('admin/driver', $data); 
+        $data['page_title'] = "Trip Ticket"; 
+        $this->load->view('admin/trip_ticket', $data); 
 	}
 
 	
