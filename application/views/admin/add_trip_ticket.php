@@ -320,6 +320,123 @@
       })
 
       
+      $('#create-new-trip-ticket-form').on('submit', function(e){
+        e.preventDefault();
+
+        $.ajax({
+          url: "<?php echo base_url() ?>trip_ticket/insert",
+          method: "POST",
+          data: $("#create-new-trip-ticket-form").serialize(),
+          dataType: "json",
+          success: function (data) {
+
+            if(!data.response){ 
+                Swal.fire({
+                    title: data.message,
+                    icon: "error",
+                    showCancelButton: true, 
+                })
+            }else{ 
+                Swal.fire({
+                    title: data.message,
+                    icon: "success",
+                    showCancelButton: true, 
+                }).then(function(result) {
+                  location.reload();
+                });
+            }  
+          },
+          error: function (xhr, status, error) {
+              console.info(xhr.responseText);
+          }
+        });
+      })
+
+      
+      $('#update-trip-ticket-form').on('submit', function(e){
+        e.preventDefault();
+        var trip_ticket_id = $('input[name="trip_ticket_id"]').val();
+
+        $.ajax({
+          url: "<?php echo base_url() ?>trip_ticket/update/" + trip_ticket_id,
+          method: "POST",
+          data: $("#update-trip-ticket-form").serialize(),
+          dataType: "json",
+          success: function (data) {
+
+            if(!data.response){ 
+                Swal.fire({
+                    title: data.message,
+                    icon: "error",
+                    showCancelButton: true, 
+                })
+            }else{ 
+                Swal.fire({
+                    title: data.message,
+                    icon: "success",
+                    showCancelButton: true, 
+                }).then(function(result) {
+                  location.reload();
+                });
+            }  
+          },
+          error: function (xhr, status, error) {
+              console.info(xhr.responseText);
+          }
+        });
+      })
+
+      //  Disapproved Request
+      $(document).on('click','#delete-btn', function(e){
+        e.preventDefault(); 
+
+        var approved_id = $(this).data('approved-id') 
+        var request_id = $(this).data('request-id') 
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won\"t be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!"
+        }).then(function(result) {
+            if (result.value) { 
+              $.ajax({
+                url: "<?php echo base_url() ?>trip_ticket/delete/" + approved_id,
+                method: "post",
+                data: {
+                  'request_id' : request_id
+                },
+                dataType: "json",
+                success: function (data) {   
+                  if(!data.response){ 
+                    Swal.fire({
+                      title: data.message,
+                      icon: "error",
+                      showCancelButton: true, 
+                    })
+                  }else{ 
+                    Swal.fire({
+                      title: 'Deleted!',
+                      text: "Your file has been deleted.",
+                      icon: "success",
+                      showCancelButton: true, 
+                      confirmButtonText: "Ok"
+                    })
+                    location.reload();
+                  }  
+                },
+                error: function (xhr, status, error) { 
+                    console.info(xhr.responseText);
+                }
+            });
+
+                
+            }
+        }); 
+      })
+
+      
 
 
     }); 
