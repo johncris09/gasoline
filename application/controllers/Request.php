@@ -21,7 +21,7 @@ class Request extends CI_Controller {
     
 	public function get_all_request()
 	{   
-		$request = $this->request_model->get_all_request(); 
+		$request = $this->request_model->get_all_request();  
 		foreach( $request  as $row ){
             $date = date('m/d/Y', strtotime($row['request_date']));
             $name = ucwords($row['lastname'] . "," . $row['firstname'] . " " . $row['middlename']  . " " . $row['suffix'] );
@@ -62,6 +62,32 @@ class Request extends CI_Controller {
         echo json_encode($data);
     }
  
+
+	
+	public function get_request($id)
+	{ 
+
+		$data = array(
+			"id" => $id,
+		);
+
+		$data = $this->request_model->get_request($data);
+
+		$driver = $this->driver_model->get_driver(['id' => $data['driver']]);
+		$driver_name = $driver['lastname'] . ', ' . $driver['firstname'] . ' ' . $driver['middlename'] . ' ' . $driver['suffix'];
+		
+		$vehicle_type = $this->vehicle_type_model->get_vehicle_type(['id' => $data['driver']]);
+		$plate_number = $vehicle_type['vehicle_type'] . ' (' . $vehicle_type['plate_number']  . ')';
+
+		$data['driver_name'] = $driver_name;
+		$data['vehicle'] = $plate_number;
+ 
+
+		echo json_encode($data);
+	}
+	
+
+
  
         
 }
