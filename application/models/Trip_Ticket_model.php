@@ -23,6 +23,22 @@ class Trip_Ticket_model extends CI_Model
     }
 
     
+	
+    public function get_all_trip_ticket()
+    { 
+        return $this->db
+            ->select('trip_ticket.*, request.*, driver.*, vehicle_type.*, trip_ticket.id as trip_ticket_id')
+            ->where('request.driver = driver.id')
+            ->where('request.plate_number = vehicle_type.id')
+            ->where('trip_ticket.request_id = request.id')
+            ->order_by('trip_ticket.approved_date', 'desc')
+			->get('request`, driver, vehicle_type, trip_ticket')
+			->result_array(); 
+    }
+
+
+
+    
     public function get_trip_ticket($data)
     {  
         $this->db->where($data);

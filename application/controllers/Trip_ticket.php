@@ -18,6 +18,25 @@ class Trip_ticket extends CI_Controller {
         $this->load->view('admin/trip_ticket', $data); 
 	}
 
+    function get_all_trip_ticket()
+    {
+        $user = $this->trip_ticket_model->get_all_trip_ticket(); 
+		foreach( $user  as $row ){ 
+            $row['driver_name'] = strtoupper($row['lastname'] . ', ' . $row['firstname']  . ' ' . $row['middlename'] . ' ' . $row['suffix'] ) ;
+            // if($row['role_type'] == 1){
+            //     $row['role_type'] = "Admin";
+            // }else if($row['role_type'] == 2){
+            //     $row['role_type'] = "User";
+            // }
+            // $row['password'] = null;
+			$data['data'][] = $row; 
+
+		} 
+        
+		echo json_encode($data); 
+
+    }
+
 	
     public function for_approval($request_id)
 	{ 
@@ -35,6 +54,25 @@ class Trip_ticket extends CI_Controller {
  
         $this->load->view('admin/add_trip_ticket', $data); 
 	}
+
+    public function view($request_id)
+	{ 
+        $data['page_title'] = "Driver's Trip Ticket"; 
+        $data['request'] = $this->request_model->get_request(['id' => $request_id]);
+        $driver_id = $data['request']['driver'];
+        $vehile_type_id = $data['request']['plate_number'];
+        $driver = $this->driver_model->get_driver(['id' => $driver_id]);
+        $data['driver_name'] = strtoupper( $driver['lastname'] . ", " . $driver['firstname']  . " " . $driver['middlename'] . " " . $driver['suffix'] );
+        
+        $data['vehicle_type'] = $this->vehicle_type_model->get_vehicle_type(['id' => $vehile_type_id]);
+        $data['calculation'] = $this->calculation_model->get_all_calculation();
+
+        $data['trip_ticket'] = $this->trip_ticket_model->get_trip_ticket(['request_id' => $request_id]);
+ 
+        $this->load->view('admin/add_trip_ticket', $data); 
+	}
+
+
     
 
     public function insert()
