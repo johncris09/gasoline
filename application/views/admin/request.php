@@ -131,7 +131,7 @@
                                   <div class="input-group input-group-alt">
                                     <div class="input-group">
                                       <input type="hidden" name="plate_number">
-                                      <input type="text" class="form-control readonly" id="plate-number" placeholder="Plate Number" autocomplete="off" required>
+                                      <input type="text" class="form-control readonly" name="plate-number" placeholder="Plate Number" autocomplete="off" required>
                                       <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#vehicle-type-modal" > <i class="oi oi-magnifying-glass"></i> Search Plate Number</button>
                                     </div> 
                                   </div> 
@@ -141,7 +141,7 @@
                                   <div class="input-group input-group-alt">
                                     <div class="input-group"> 
                                       <input type="hidden" name="driver">  
-                                      <input type="text" class="form-control readonly" id="driver" placeholder="Driver's Name" autocomplete="off" required>
+                                      <input type="text" class="form-control readonly" name="driver-name" placeholder="Driver's Name" autocomplete="off" required>
                                       <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#driver-modal"  > <i class="oi oi-magnifying-glass"></i> Search Driver's Name</button>
                                     </div> 
                                   </div> 
@@ -173,6 +173,76 @@
                         </div> 
                       </div>
                     </div>
+
+                    
+                    <!-- Edit Request Modal -->
+                    <div class="modal fade" id="edit-request-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-lg  ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit Request</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form  id="edit-new-request-form">
+                            <div class="modal-body">  
+                              <small class=" text-danger">Note: * is requered</small>
+                              <fieldset> 
+                                <div class="form-group">
+                                  <input type="hidden" name="request_id">
+                                  <label for="request-date">Request Date <span class="text-danger">*</span></label> 
+                                  <input type="date" class="form-control" id="request-date" name="request_date"  required  placeholder="Request Date">
+                                </div>
+                                <div class="form-group">
+                                  <label for="plate-number">Plate Number <span class="text-danger">*</span> </label> 
+                                  <div class="input-group input-group-alt">
+                                    <div class="input-group">
+                                      <input type="hidden" name="plate_number">
+                                      <input type="text" class="form-control readonly" name="plate-number" placeholder="Plate Number" autocomplete="off" required>
+                                      <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#vehicle-type-modal" > <i class="oi oi-magnifying-glass"></i> Search Plate Number</button>
+                                    </div> 
+                                  </div> 
+                                </div>
+                                <div class="form-group">
+                                  <label for="driver">Driver's Name <span class="text-danger">*</span></label> 
+                                  <div class="input-group input-group-alt">
+                                    <div class="input-group"> 
+                                      <input type="hidden" name="driver">  
+                                      <input type="text" class="form-control readonly" name="driver-name" placeholder="Driver's Name" autocomplete="off" required>
+                                      <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#driver-modal"  > <i class="oi oi-magnifying-glass"></i> Search Driver's Name</button>
+                                    </div> 
+                                  </div> 
+                                </div>
+                                <div class="form-group"> 
+                                  <label for="">Gasoline Type <span class="text-danger">*</span></label> 
+                                  <select class="custom-select d-block w-100" name="gasoline_type" required="">
+                                    <option value=""> Choose... </option> 
+                                    <?php 
+                                      foreach($this->config->item('gasoline_type') as $row){
+                                        echo '
+                                          <option value="'.$row.'">'.$row.'</option>
+                                        '; 
+                                      }
+                                    ?>
+                                  </select>
+                                </div>
+                                <div class="form-group">
+                                  <label for="liter" name="liter">Liter <span class="text-danger">*</span></label> 
+                                  <input type="number" class="form-control" id="liter" name="liter"  placeholder="Liter">
+                                </div>
+                              </fieldset> 
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                          </form>
+                        </div> 
+                      </div>
+                    </div>
+
+
 
                     <!-- Vehicle Type Modal -->
                     <div class="modal fade" id="vehicle-type-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -253,7 +323,7 @@
   
   <script>
     
-  
+                                      
       var alert_class = "";
       var icon = "";
       $(document).ready(function() {
@@ -272,7 +342,7 @@
             type: 'POST',
           },
           columns: [{
-            data: 'id',
+            data: 'request_id',
               render: function(data, type, row, meta) {
                 return meta.row + meta.settings._iDisplayStart + 1;
               }
@@ -284,28 +354,39 @@
             { data: 'liter' }, 
             { data: 'status'}, 
             {
-              data: 'id',
-              render: function(data, type, row, meta) {
-                return '\
+              data: 'request_id',
+              render: function(data, type, row, meta) { 
+                var button = '\
                  <div class="dropdown d-inline-block">\
                     <button class="btn btn-icon btn-secondary" data-toggle="dropdown"><i class="fa fa-fw fa-ellipsis-h"></i></button>\
                     <div class="dropdown-menu dropdown-menu-right">\
                       <div class="dropdown-arrow"></div>\
-                      <button type="button" class="dropdown-item" ><i class="fa fa-pencil-alt"></i> Edit</button>\
-                      <button type="button" class="dropdown-item"><i class="fa fa-trash-alt"></i> Delete</button>\
-                      <div class="dropdown-divider"></div>\
-                      <button type="button" class="dropdown-item"><i class="fa fa-check-circle"></i> Approved</button>\
+                      <button type="button" class="dropdown-item" data-request-id="'+row.request_id+'" id="edit-request-btn"  ><i class="fa fa-pencil-alt"></i> Edit</button>\
+                      <button type="button" class="dropdown-item"><i class="fa fa-trash-alt"></i> Delete</button>';
+
+                if( row.status.toLowerCase() == "pending" ){
+                  button += '<div class="dropdown-divider"></div>\
+                      <a href="<?php echo base_url() ?>trip_ticket/for_approval/'+data+'" class="dropdown-item"><i class="fa fa-check-circle"></i> Approved</a>\
                     </div>\
-                  </div>\
-                '
+                  </div>'
+
+                }
+                // else{
+                //   button += '<div class="dropdown-divider"></div>\
+                //       <a href="<?php echo base_url() ?>trip_ticket/for_approval/'+row.id+'" class="dropdown-item"><i class="fa fa-check-circle"></i> Approved</a>\
+                //     </div>\
+                //   </div>\'
+                // }
+                
+                return button;
               }
             }, 
 
           ],
           columnDefs: [{
             targets: 6,
-            render: function ( data, type, row ) {
-              
+            render: function ( data, type, row ) { 
+
               var status = "";
               if(data.toLowerCase() == "pending" ){
                 icon = "exclamation-circle"
@@ -441,7 +522,7 @@
             var row = vehicle_type_table.row(pos).data();
             
             $('input[name="plate_number"]').val(row.id)
-            $('#plate-number').val( row.vehicle_type + " (" + row.plate_number + ")" )
+            $('input[name="plate-number"]').val( row.vehicle_type + " (" + row.plate_number + ")" )
             
             $('#vehicle-type-modal').modal('toggle');
 
@@ -478,7 +559,7 @@
             console.info(row)
             
             $('input[name="driver"]').val(row.id)
-            $('#driver').val( (row.lastname + ", " + row.firstname + " " + row.middlename + " " +  row.suffix).toUpperCase() )
+            $('input[name="driver-name"]').val( (row.lastname + ", " + row.firstname + " " + row.middlename + " " +  row.suffix).toUpperCase() )
             
             $('#driver-modal').modal('toggle');
 
@@ -515,6 +596,37 @@
                         
                     });
                 }  
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
+
+        
+        $(document).on('click','#edit-request-btn', function(){ 
+          console.info(1)
+          
+          // show modal
+          $('#edit-request-modal').modal('show') 
+
+          var request_id = $(this).data('request-id')
+
+
+          $.ajax({
+            url: "<?php echo base_url() ?>request/get_request/" + request_id,
+            method: "POST",
+            dataType: "json",
+            success: function (data) {  
+
+              $('input[name="request_id"]').val(data.id)
+              $('input[name="request_date"]').val(data.request_date) 
+              $('input[name="plate_number"]').val(data.plate_number)
+              $('input[name="plate-number"]').val(data.vehicle)
+              $('input[name="driver"]').val(data.driver)
+              $('input[name="driver-name"]').val(data.driver_name)
+              $('select[name="gasoline_type"]').val(data.gasoline_type)
+              $('input[name="liter"]').val(data.liter) 
             },
             error: function (xhr, status, error) {
                 console.info(xhr.responseText);
