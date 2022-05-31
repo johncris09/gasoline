@@ -34,7 +34,7 @@
                    
                   <div class="card-header">
                     <div class="d-flex align-items-center">
-                      <h3 class="mr-auto p-3"><?php echo $page_title; ?> <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#create-new-driver-modal"> <i class="fa fa-plus-circle"></i> Add New</button></h3>
+                      <h3 class="mr-auto p-3"><?php echo $page_title; ?> </h3>
                       <div class="btn-group" role="group">
                         <div id="buttons"></div>   
                       </div>
