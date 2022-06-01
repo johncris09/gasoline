@@ -60,22 +60,42 @@
                   <div class="card-body">  
                     <form   class="mb-4">
                       <div class="form-group row justify-content-center">
-                          <div class="col-6 col-sm-6  col-md-6  col-lg-6 col-xl-6">
-                            <label><strong>Date Range</strong></label>
-                            <div class="input-daterange input-group" id="date-range">
-                              <input type="text" class="form-control datatable-input"
-                                name="date-range-start" autocomplete="off" placeholder="From" required=""  />
-                              <div class="input-group-append">
-                                <span class="input-group-text">
-                                  <i class="la la-ellipsis-h"></i>
-                                </span>
-                              </div>
-                              <input type="text" class="form-control datatable-input"
-                                name="date-range-end" autocomplete="off"  placeholder="To"  required=""  />
-                                
+                        <div class="col-6 col-sm-6  col-md-6  col-lg-6 col-xl-6">
+                          <label><strong>Date Range</strong></label>
+                          <div class="input-daterange input-group" id="date-range">
+                            <input type="text" class="form-control datatable-input"
+                              name="date-range-start" autocomplete="off" placeholder="From" required=""  />
+                            <div class="input-group-append">
+                              <span class="input-group-text">
+                                <i class="la la-ellipsis-h"></i>
+                              </span>
                             </div>
-                          </div> 
-                        </div>
+                            <input type="text" class="form-control datatable-input"
+                              name="date-range-end" autocomplete="off"  placeholder="To"  required=""  /> 
+                          </div>
+                        </div> 
+                      </div>
+                      
+                      <div class="form-group row">
+												<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+													<label>Driver </label>
+													<select required="" class="form-control datatable-input" data-col-index="3">
+														<option value="">Select</option>
+													</select>
+												</div>
+												<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+													<label>Plate # </label>
+													<select required="" class="form-control datatable-input" data-col-index="2">
+														<option value="">Select</option>
+													</select>
+												</div>
+												<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+													<label>Status </label>
+													<select required="" class="form-control datatable-input" data-col-index="6">
+														<option value="">Select</option>
+													</select>
+												</div>  
+											</div>
                       <div class="form-group row justify-content-center"> 
                           <button class="btn btn-primary btn-primary--icon" id="kt_search">
                             <span>
@@ -185,7 +205,7 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <form  id="edit-new-request-form">
+                          <form  id="update-request-form">
                             <div class="modal-body">  
                               <small class=" text-danger">Note: * is requered</small>
                               <fieldset> 
@@ -400,7 +420,31 @@
               
 
             }
-          }]
+          }],
+          initComplete: function() {
+            var counter = 0;
+            this.api().columns().every(function() {
+              var column = this; 
+              switch ( column.header().textContent ) {
+                case 'Driver':
+                  column.data().unique().sort().each(function(d, j) {
+                      $('.datatable-input[data-col-index="'+counter+'"]').append('<option value="' + d + '">' + d + '</option>');
+                  });
+                  break;
+                case 'Plate #':
+                  column.data().unique().sort().each(function(d, j) {
+                      $('.datatable-input[data-col-index="'+counter+'"]').append('<option value="' + d + '">' + d + '</option>');
+                  });
+                  break;
+                case 'Status':
+                  column.data().unique().sort().each(function(d, j) {
+                      $('.datatable-input[data-col-index="'+counter+'"]').append('<option value="' + d + '">' + d + '</option>');
+                  });
+                  break; 
+              }
+              counter++
+            });
+        },
         });
         var buttons = new $.fn.dataTable.Buttons(request_table, {
           buttons: [{
