@@ -20,12 +20,20 @@ class Driver extends CI_Controller {
 
 	public function get_all_driver()
 	{ 
-		$driver = $this->driver_model->get_all_driver(); 
-		foreach( $driver  as $row ){ 
-			$data['data'][] = $row; 
+		$driver = $this->driver_model->get_all_driver();  
+		if( $driver->num_rows() ){
+			foreach( $driver  as $row ){ 
+				$data['data'][] = $row; 
+	
+			} 
+			echo json_encode($data); 
+		}else{
+			$data['data'] = array();
+		}
 
-		} 
-		echo json_encode($data); 
+		echo json_encode($data);
+
+
 	
 	}
     
