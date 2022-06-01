@@ -22,14 +22,24 @@ class Request extends CI_Controller {
 	public function get_all_request()
 	{   
 		$request = $this->request_model->get_all_request();  
-		foreach( $request  as $row ){
-            $date = date('m/d/Y', strtotime($row['request_date']));
-            $name = ucwords($row['lastname'] . "," . $row['firstname'] . " " . $row['middlename']  . " " . $row['suffix'] );
-			$row['name'] = $name;
-            $row['request_date'] = $date;
-			$data['data'][] = $row;
-		} 
-		echo json_encode($data); 
+		 
+
+		if( $request->num_rows() ){
+			foreach( $request  as $row ){
+				$date = date('m/d/Y', strtotime($row['request_date']));
+				$name = ucwords($row['lastname'] . "," . $row['firstname'] . " " . $row['middlename']  . " " . $row['suffix'] );
+				$row['name'] = $name;
+				$row['request_date'] = $date;
+				$data['data'][] = $row;
+			} 
+			echo json_encode($data); 
+		}else{
+			$data['data'] = array();
+		}
+
+		echo json_encode($data);
+
+
 	
 	}
 
@@ -120,10 +130,27 @@ class Request extends CI_Controller {
 
 		echo json_encode($data);
 	}
+	
+	
 
+	public function delete($id)
+	{  
+		$this->trip_ticket_model->delete_using_request($id);
+		$delete = $this->request_model->delete($id);
 
+		if($delete){  
+			$data = array(
+				'response' => true,
+				'message'  => 'Data deleted successfully!',
+			);
+		}else{
+			$data = array(
+				'response' => false,
+			);
+		}
 
-
+		echo json_encode($data);
+	}
  
         
 }
