@@ -382,7 +382,7 @@
                     <div class="dropdown-menu dropdown-menu-right">\
                       <div class="dropdown-arrow"></div>\
                       <button type="button" class="dropdown-item" data-request-id="'+row.request_id+'" id="edit-request-btn"  ><i class="fa fa-pencil-alt"></i> Edit</button>\
-                      <button type="button" class="dropdown-item"><i class="fa fa-trash-alt"></i> Delete</button>';
+                      <button type="button" class="dropdown-item" data-request-id="'+row.request_id+'" id="delete-request-btn"><i class="fa fa-trash-alt"></i> Delete</button>';
 
                 if( row.status.toLowerCase() == "pending" ){
                   button += '<div class="dropdown-divider"></div>\
@@ -713,6 +713,53 @@
                 console.info(xhr.responseText);
             }
           });
+        })
+
+
+        
+        // Delete Request
+        $(document).on('click','#delete-request-btn', function(e){
+          e.preventDefault();
+          var request_id = $(this).data('request-id')
+ 
+          Swal.fire({
+              title: "Are you sure?",
+              text: "You won\"t be able to revert this!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Yes, delete it!"
+          }).then(function(result) {
+              if (result.value) { 
+                $.ajax({
+                  url: "<?php echo base_url() ?>request/delete/" + request_id,
+                  method: "post",
+                  dataType: "json",
+                  success: function (data) {  
+                    if(!data.response){ 
+                      Swal.fire({
+                        title: data.message,
+                        icon: "error",
+                        showCancelButton: true, 
+                      })
+                    }else{ 
+                      Swal.fire({
+                        title: 'Deleted!',
+                        text: "Your file has been deleted.",
+                        icon: "success",
+                        showCancelButton: true, 
+                        confirmButtonText: "Ok"
+                      })
+                      request_table.ajax.reload()
+                    }  
+                  },
+                  error: function (xhr, status, error) { 
+                      console.info(xhr.responseText);
+                  }
+              });
+
+                  
+              }
+          }); 
         })
 
 
