@@ -87,6 +87,42 @@ class Request extends CI_Controller {
 	}
 	
 
+	
+	public function update($id)
+	{ 
+ 
+		
+		$data = array(
+			'id' => $id,
+			'driver' => $this->input->post('driver'),
+			'gasoline_type' => $this->input->post('gasoline_type'),
+			'liter' => $this->input->post('liter'),
+			'plate_number' => $this->input->post('plate_number'),
+			'request_date' => $this->input->post('request_date'), 
+		);  
+        
+		$update = $this->request_model->update($data);
+		if($update){
+
+			$data = array(
+				'response' => true,
+				'message'  => 'Data updated successfully!',
+			);
+  
+		}else{ 
+			$data = array(
+				'response' => false,
+				'message'  => 'Something went wrong.',
+			);
+		} 
+
+
+
+		echo json_encode($data);
+	}
+
+
+
 
  
         
