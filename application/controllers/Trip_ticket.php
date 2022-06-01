@@ -20,23 +20,28 @@ class Trip_ticket extends CI_Controller {
 
     function get_all_trip_ticket()
     {
-        $user = $this->trip_ticket_model->get_all_trip_ticket(); 
-		foreach( $user  as $row ){ 
-            $row['driver_name'] = strtoupper($row['lastname'] . ', ' . $row['firstname']  . ' ' . $row['middlename'] . ' ' . $row['suffix'] ) ;
-            // if($row['role_type'] == 1){
-            //     $row['role_type'] = "Admin";
-            // }else if($row['role_type'] == 2){
-            //     $row['role_type'] = "User";
-            // }
-            // $row['password'] = null;
-			$data['data'][] = $row; 
+        $trip_ticket = $this->trip_ticket_model->get_all_trip_ticket();  
 
-		} 
-        
-		echo json_encode($data); 
+
+		if( $trip_ticket->num_rows() ){
+			foreach( $trip_ticket  as $row ){ 
+                $row['driver_name'] = strtoupper($row['lastname'] . ', ' . $row['firstname']  . ' ' . $row['middlename'] . ' ' . $row['suffix'] ) ;
+                $approved_date = date('m/d/Y', strtotime($row['approved_date']));
+                $row['approved_date'] = $approved_date;
+                $data['data'][] = $row; 
+    
+            } 
+            
+            echo json_encode($data); 
+		}else{
+			$data['data'] = array();
+		}
+
+		echo json_encode($data);
+
+
 
     }
-
 	
     public function for_approval($request_id)
 	{ 
