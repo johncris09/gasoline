@@ -12,8 +12,7 @@ class Driver_model extends CI_Model
     public function get_all_driver()
     { 
         return $this->db 
-			->get($this->table)
-			->result_array();
+			->get($this->table);
     }
 
     

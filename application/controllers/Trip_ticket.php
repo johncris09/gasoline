@@ -23,8 +23,8 @@ class Trip_ticket extends CI_Controller {
         $trip_ticket = $this->trip_ticket_model->get_all_trip_ticket();  
 
 
-		if( $trip_ticket->num_rows() ){
-			foreach( $trip_ticket  as $row ){ 
+		if( $trip_ticket->num_rows() ){ 
+            foreach( $trip_ticket->result_array()  as $row ){ 
                 $row['driver_name'] = strtoupper($row['lastname'] . ', ' . $row['firstname']  . ' ' . $row['middlename'] . ' ' . $row['suffix'] ) ;
                 $approved_date = date('m/d/Y', strtotime($row['approved_date']));
                 $row['approved_date'] = $approved_date;

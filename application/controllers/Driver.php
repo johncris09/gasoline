@@ -22,7 +22,7 @@ class Driver extends CI_Controller {
 	{ 
 		$driver = $this->driver_model->get_all_driver();  
 		if( $driver->num_rows() ){
-			foreach( $driver  as $row ){ 
+			foreach( $driver->result_array()  as $row ){ 
 				$data['data'][] = $row; 
 	
 			} 
@@ -30,10 +30,6 @@ class Driver extends CI_Controller {
 		}else{
 			$data['data'] = array();
 		}
-
-		echo json_encode($data);
-
-
 	
 	}
     

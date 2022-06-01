@@ -13,8 +13,7 @@ class Vehicle_type_model extends CI_Model
     { 
         return $this->db
 			// ->limit(10)
-			->get($this->table)
-			->result_array();
+			->get($this->table);
     }
 
     

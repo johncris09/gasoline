@@ -21,18 +21,23 @@ class User extends CI_Controller {
 	public function get_all_user()
 	{ 
 		$user = $this->user_model->get_all_user(); 
-		foreach( $user  as $row ){ 
-            if($row['role_type'] == 1){
-                $row['role_type'] = "Admin";
-            }else if($row['role_type'] == 2){
-                $row['role_type'] = "User";
-            }
-            $row['password'] = null;
-			$data['data'][] = $row; 
 
+		if( $user->num_rows() ){
+			foreach( $user->result_array()  as $row ){ 
+				if($row['role_type'] == 1){
+					$row['role_type'] = "Admin";
+				}else if($row['role_type'] == 2){
+					$row['role_type'] = "User";
+				}
+				$row['password'] = null;
+				$data['data'][] = $row; 
+
+			} 
+			echo json_encode($data);
+			
+		}else{
+			$data['data'] = array();
 		} 
-		echo json_encode($data); 
-	
 	}
 
     

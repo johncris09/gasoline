@@ -24,8 +24,8 @@ class Request extends CI_Controller {
 		$request = $this->request_model->get_all_request();  
 		 
 
-		if( $request->num_rows() ){
-			foreach( $request  as $row ){
+		if( $request->num_rows() ){ 
+			foreach( $request->result_array()  as $row ){ 
 				$date = date('m/d/Y', strtotime($row['request_date']));
 				$name = ucwords($row['lastname'] . "," . $row['firstname'] . " " . $row['middlename']  . " " . $row['suffix'] );
 				$row['name'] = $name;
@@ -38,8 +38,6 @@ class Request extends CI_Controller {
 		}
 
 		echo json_encode($data);
-
-
 	
 	}
 

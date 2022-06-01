@@ -32,8 +32,7 @@ class Trip_Ticket_model extends CI_Model
             ->where('request.plate_number = vehicle_type.id')
             ->where('trip_ticket.request_id = request.id')
             ->order_by('trip_ticket.approved_date', 'desc')
-			->get('request`, driver, vehicle_type, trip_ticket')
-			->result_array(); 
+			->get('request`, driver, vehicle_type, trip_ticket');
     }
 
 

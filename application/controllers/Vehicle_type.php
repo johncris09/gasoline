@@ -20,12 +20,19 @@ class Vehicle_type extends CI_Controller {
 
 	public function get_all_vehicle_type()
 	{ 
-		$vehicle_type = $this->vehicle_type_model->get_all_vehicle_type(); 
-		foreach( $vehicle_type  as $row ){
-			$data['data'][] = $row; 
+		$vehicle_type = $this->vehicle_type_model->get_all_vehicle_type();  
 
+		if( $vehicle_type->num_rows() ){
+			foreach( $vehicle_type->result_array()  as $row ){
+				$data['data'][] = $row; 
+	
+			} 
+			echo json_encode($data); 
+			
+		}else{
+			$data['data'] = array();
 		} 
-		echo json_encode($data); 
+
 	}
 
 	
