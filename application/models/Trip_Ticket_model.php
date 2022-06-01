@@ -63,6 +63,15 @@ class Trip_Ticket_model extends CI_Model
             ->delete($this->table);
     }
 
+
+    
+    
+    public function delete_using_request($id)
+    {
+        return $this->db
+            ->where('request_id', $id)
+            ->delete($this->table);
+    }
     
 
 
