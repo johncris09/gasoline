@@ -61,7 +61,7 @@
                     <form   class="mb-4">
                       <div class="form-group row justify-content-center">
                         <div class="col-6 col-sm-6  col-md-6  col-lg-6 col-xl-6">
-                          <label><strong>Date Range</strong></label>
+                          <label><strong>Request Date</strong></label>
                           <div class="input-daterange input-group" id="date-range">
                             <input type="text" class="form-control datatable-input"
                               name="date-range-start" autocomplete="off" placeholder="From" required=""  />
@@ -444,7 +444,7 @@
               }
               counter++
             });
-        },
+          },
         });
         var buttons = new $.fn.dataTable.Buttons(request_table, {
           buttons: [{
@@ -468,17 +468,17 @@
             
         
         $.fn.dataTable.ext.search.push(
-            function (settings, data, dataIndex) {
-                var min       = $('input[name="date-range-start"]').datepicker('getDate');
-                var max       = $('input[name="date-range-end"]').datepicker('getDate');
-                var startDate = new Date(data[1]);
-                // console.info(startDate);
-                if (min == null && max == null) return true;
-                if (min == null && startDate <= max) return true;
-                if (max == null && startDate >= min) return true;
-                if (startDate <= max && startDate >= min) return true;
-                return false;
-            }
+          function (settings, data, dataIndex) {
+            var min       = $('input[name="date-range-start"]').datepicker('getDate');
+            var max       = $('input[name="date-range-end"]').datepicker('getDate');
+            var startDate = new Date(data[1]);
+            // console.info(startDate);
+            if (min == null && max == null) return true;
+            if (min == null && startDate <= max) return true;
+            if (max == null && startDate >= min) return true;
+            if (startDate <= max && startDate >= min) return true;
+            return false;
+          }
         );
 
         $('input[name="date-range-start"]').datepicker({ onSelect: function () { request_table.draw(); }, changeMonth: true, changeYear: true });
@@ -677,6 +677,45 @@
             }
           });
         })
+
+        
+        $('#update-request-form').on('submit', function(e){
+          e.preventDefault();
+
+          
+          var request_id = $('input[name="request_id"]').val(); 
+
+          $.ajax({
+            url: "<?php echo base_url() ?>request/update/" + request_id,
+            method: "POST",
+            data: $("#update-request-form").serialize(),
+            dataType: "json",
+            success: function (data) {  
+              if(!data.response){ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "error",
+                      showCancelButton: true, 
+                  })
+              }else{ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "success",
+                      showCancelButton: true, 
+                  }).then(function(result) {
+                      request_table.ajax.reload(); 
+            
+                      $('#edit-request-modal').modal('toggle');
+                  });
+              }  
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
+
+
 
         
       }); 
