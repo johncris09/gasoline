@@ -16,8 +16,7 @@ class Request_model extends CI_Model
             ->where('request.driver = driver.id')
             ->where('request.plate_number = vehicle_type.id')
             ->order_by('request.request_date', 'desc')
-			->get('request`, driver, vehicle_type')
-			->result_array();
+			->get('request`, driver, vehicle_type');
     }
     
     
@@ -64,9 +63,12 @@ class Request_model extends CI_Model
             ->update($this->table, $data);
     }
 
- 
-
-
+    public function delete($id)
+    {
+        return $this->db
+            ->where('id', $id)
+            ->delete($this->table);
+    }
 
 
 }
