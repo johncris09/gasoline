@@ -8,6 +8,7 @@
     <!-- <link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
     <link  href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
   </head>
   <body>
 
@@ -125,12 +126,66 @@
                         </div> 
                       </div>
                     </div>  
+
+
+                    
+                    <form   class="mb-4">
+                      <div class="form-group row justify-content-center">
+                        <div class="col-6 col-sm-6  col-md-6  col-lg-6 col-xl-6">
+                          <label><strong>Approved Date</strong></label>
+                          <div class="input-daterange input-group" id="date-range">
+                            <input type="text" class="form-control datatable-input"
+                              name="date-range-start" autocomplete="off" placeholder="From" required=""  />
+                            <div class="input-group-append">
+                              <span class="input-group-text">
+                                <i class="la la-ellipsis-h"></i>
+                              </span>
+                            </div>
+                            <input type="text" class="form-control datatable-input"
+                              name="date-range-end" autocomplete="off"  placeholder="To"  required=""  /> 
+                          </div>
+                        </div> 
+                      </div>
+                      
+                      <div class="form-group row">
+												<div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+													<label>Driver </label>
+													<select required="" class="form-control datatable-input" data-col-index="2">
+														<option value="">Select</option>
+													</select>
+												</div>
+												<div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+													<label>Plate # </label>
+													<select required="" class="form-control datatable-input" data-col-index="3">
+														<option value="">Select</option>
+													</select>
+												</div>  
+											</div>
+                      <div class="form-group row justify-content-center"> 
+                          <button class="btn btn-primary btn-primary--icon" id="kt_search">
+                            <span>
+                              <i class="la la-search"></i>
+                              <span>Search</span>
+                            </span>
+                          </button>&#160;&#160; 
+                          <button class="btn btn-secondary btn-secondary--icon" id="kt_reset">
+                            <span>
+                              <i class="la la-close"></i>
+                              <span>Reset</span>
+                            </span>
+                          </button> 
+                      </div> 
+                    </form> 
+
+                    <hr>
+
+
                     <table id="trip-ticket-table" class="table table-striped " width="100%"> 
                       <thead> 
                         <tr>
                           <th>#</th>
                           <th>Approved Date</th> 
-                           <th>Driver's Name</th>
+                           <th>Driver</th>
                            <th>Plate #</th>
                            <th>Passenger</th>
                            <th>Places To be Visited</th>
@@ -158,6 +213,7 @@
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
   <script>
       $(document).ready(function() { 
         var table = $('#trip-ticket-table').DataTable({
@@ -195,8 +251,36 @@
               }
             },  
           ],
+          initComplete: function() {
+            var counter = 0;
+            this.api().columns().every(function() {
+              var column = this; 
+              console.info([counter, column.header().textContent] )
+              switch ( column.header().textContent ) {
+                
+                case 'Driver':
+                  column.data().unique().sort().each(function(d, j) {
+                      $('.datatable-input[data-col-index="'+counter+'"]').append('<option value="' + d + '">' + d + '</option>');
+                  });
+                  break;
+                case 'Plate #':
+                  column.data().unique().sort().each(function(d, j) {
+                      $('.datatable-input[data-col-index="'+counter+'"]').append('<option value="' + d + '">' + d + '</option>');
+                  });
+                  break;
+                case 'Status':
+                  column.data().unique().sort().each(function(d, j) {
+                      $('.datatable-input[data-col-index="'+counter+'"]').append('<option value="' + d + '">' + d + '</option>');
+                  });
+                  break; 
+              }
+              counter++
+            });
+          },
            
         });
+
+        
         var buttons = new $.fn.dataTable.Buttons(table, {
           buttons: [{
             extend: 'excel',
@@ -212,8 +296,75 @@
           }],
         }).container().appendTo($('#buttons'));
         $('.dt-button').removeClass("dt-button");
-        $('.dt-buttons>   button').addClass("btn btn-primary");
- 
+        $('.dt-buttons>   button').addClass("btn btn-primary"); 
+        
+
+        
+        
+        $.fn.dataTable.ext.search.push(
+          function (settings, data, dataIndex) {
+            var min       = $('input[name="date-range-start"]').datepicker('getDate');
+            var max       = $('input[name="date-range-end"]').datepicker('getDate');
+            var startDate = new Date(data[1]);
+            // console.info(startDate);
+            if (min == null && max == null) return true;
+            if (min == null && startDate <= max) return true;
+            if (max == null && startDate >= min) return true;
+            if (startDate <= max && startDate >= min) return true;
+            return false;
+          }
+        );
+
+        $('input[name="date-range-start"]').datepicker({ onSelect: function () { request_table.draw(); }, changeMonth: true, changeYear: true });
+        $('input[name="date-range-end"]').datepicker({ onSelect: function () { request_table.draw(); }, changeMonth: true, changeYear: true });
+
+
+        $('#date-range').datepicker({
+            todayHighlight: true,
+            templates: {
+                leftArrow: '<i class="la la-angle-left"></i>',
+                rightArrow: '<i class="la la-angle-right"></i>',
+            },
+            dateFormat: 'yyyy/mm/dd',
+        }); 
+        
+        $('#kt_search').on('click', function(e) {
+          e.preventDefault();
+          var params = {};
+          $('.datatable-input').each(function() {
+              var i = $(this).data('col-index');
+              
+              if (params[i]) {
+                  params[i] += '|' + $(this).val();
+              }
+              else {
+                  params[i] = $(this).val();
+              }
+              
+          }); 
+
+          $.each(params, function(i, val) { 
+            // apply search params to datatable
+            table.column(i).search(val ? val : '', true, true);
+          });
+          table.table().draw();
+        }); 
+
+        $('#kt_reset').on('click', function(e) {
+            e.preventDefault(); 
+
+            $('.datatable-input').each(function() {
+                $(this).val('');  
+                table.column($(this).data('col-index')).search('', false, false);
+            }); 
+  
+            table.table().draw(); 
+        });
+
+        // Search by Date Range
+        $('input[name="date-range-start"], input[name="date-range-end"]').change(function () {
+            table.draw();
+        }); 
 
          
       }); 
