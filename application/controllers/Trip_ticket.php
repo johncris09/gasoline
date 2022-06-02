@@ -35,9 +35,7 @@ class Trip_ticket extends CI_Controller {
             echo json_encode($data); 
 		}else{
 			$data['data'] = array();
-		}
-
-		echo json_encode($data);
+		} 
 
 
 
@@ -235,7 +233,7 @@ class Trip_ticket extends CI_Controller {
 
 
 
-	
-      
+
+	   
 }    
          
