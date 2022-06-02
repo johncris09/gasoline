@@ -70,8 +70,36 @@ class Trip_Ticket_model extends CI_Model
         return $this->db
             ->where('request_id', $id)
             ->delete($this->table);
+    } 
+    
+    public function view_report($data)
+    {   
+        return $this->db
+            ->select('request.*, driver.*, vehicle_type.*, trip_ticket.*, vehicle_type.id as vehicle_type_id')
+            ->where('request.plate_number = vehicle_type.id')
+            ->where('request.driver = driver.id')
+            ->where('trip_ticket.request_id = request.id')
+            ->where('approved_date >= ', $data['from'])
+            ->where('approved_date <= ', $data['to']) 
+            ->order_by('trip_ticket.approved_date', 'desc') 
+			->get('trip_ticket , request, vehicle_type, driver');
     }
     
+    public function report_by_driver_plate_number($data)
+    {
+        return $this->db
+            ->select('request.*, driver.*, vehicle_type.*, trip_ticket.*, vehicle_type.id as vehicle_type_id')
+            ->where('request.plate_number = vehicle_type.id')
+            ->where('request.driver = driver.id')
+            ->where('trip_ticket.request_id = request.id') 
+            ->where('request.driver', $data['driver'])
+            ->where('request.plate_number', $data['vehicle_type_id'])
+            ->order_by('trip_ticket.approved_date', 'desc') 
+			->get('trip_ticket , request, vehicle_type, driver')
+            ->result_array();
 
+
+
+    }
 
 }
