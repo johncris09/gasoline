@@ -36,8 +36,7 @@ class Request extends CI_Controller {
 		}else{
 			$data['data'] = array();
 		}
-
-		echo json_encode($data);
+ 
 	
 	}
 
