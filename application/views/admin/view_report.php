@@ -709,7 +709,7 @@ x\:* {behavior:url(#default#VML);}
 	mso-pattern:auto;
 	white-space:nowrap;}
 --></style>
-<title>trip</title>
+<title>Report</title>
 </head>
 
 <body>
@@ -795,7 +795,9 @@ x:publishsource="Excel">
 			$counter = 0;
 			$driver_plate_number = array(
 	            'driver' => $driver_id = $row['driver'],
-	            'vehicle_type_id' => $row['vehicle_type_id']
+	            'vehicle_type_id' => $row['vehicle_type_id'],
+				'from' => date('Y-m-d', strtotime($_GET['from'])),
+            	'to' => date('Y-m-d', strtotime($_GET['to'])),
 	        );
 
 	
