@@ -129,7 +129,7 @@
                     </table>
 
                     <!-- Create Request Modal -->
-                    <div class="modal fade" id="create-request-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal fade" id="create-request-modal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
                       <div class="modal-dialog modal-dialog-centered modal-lg  ">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -269,7 +269,7 @@
                       <div class="modal-dialog modal-dialog-centered modal-lg  ">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title">Vehicle Type</h5>
+                            <h5 class="modal-title">Vehicle Type <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#create-new-vehicle-type-modal"> <i class="fa fa-plus-circle"></i> Add New</button></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
@@ -282,6 +282,7 @@
                                   <th>Office</th>
                                   <th>Vehicle Type</th>
                                   <th>Plate Number</th>
+                                  <th>Action</th>
                                 </tr>
                               </thead>
                             </table> 
@@ -290,13 +291,93 @@
                       </div>
                     </div>
 
+                     
+                    
+                    <!-- Create New Vehicle Type Modal -->
+                    <div class="modal fade" id="create-new-vehicle-type-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-md  ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Create New Vehicle Type</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form id="create-new-vehicle-type-form">
+                            <div class="modal-body">  
+                              <small class=" text-danger">Note: * is requered</small>
+                              <fieldset> 
+                                <div class="form-group">
+                                  <label for="office">Office <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="office" name="office" placeholder="Office" required>
+                                </div> 
+                                <div class="form-group">
+                                  <label for="vehicle-type">Vehicle Type <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="vehicle-type" name="vehicle_type" placeholder="Vehicle Type" required>
+                                </div> 
+                                <div class="form-group">
+                                  <label for="plate-number">Plate Number <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="plate-number" name="plate_number" placeholder="Plate Number">
+                                </div> 
+                              </fieldset> 
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                          </form>
+                        </div> 
+                      </div>
+                    </div> 
+
+                    
+                    <!-- Edit Vehicle Type Modal -->
+                    <div class="modal fade" id="edit-vehicle-type-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-md  ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit Vehicle Type</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form id="update-vehicle-type-modal">
+                            <div class="modal-body">  
+                              <small class=" text-danger">Note: * is requered</small>
+                              <fieldset> 
+                                <div class="form-group">
+                                  <input type="hidden" name="id">
+                                  <label for="office">Office <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="office" name="office" placeholder="Office" required>
+                                </div> 
+                                <div class="form-group">
+                                  <label for="vehicle-type">Vehicle Type <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="vehicle-type" name="vehicle_type" placeholder="Vehicle Type" required>
+                                </div> 
+                                <div class="form-group">
+                                  <label for="plate-number">Plate Number <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="plate-number" name="plate_number" placeholder="Plate Number">
+                                </div> 
+                              </fieldset> 
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                          </form>
+                        </div> 
+                      </div>
+                    </div> 
+
+
+
                     
                     <!-- Driver Modal -->
-                    <div class="modal fade" id="driver-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal fade" id="driver-modal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
                       <div class="modal-dialog modal-dialog-centered modal-lg  ">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title">Driver</h5>
+                            <h5 class="modal-title">Driver  <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#create-new-driver-modal"> <i class="fa fa-plus-circle"></i> Add New</button></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
@@ -310,6 +391,7 @@
                                   <th>First Name</th>
                                   <th>Middle Name</th>
                                   <th>Suffix</th>
+                                  <th>Action</th>
                                 </tr>
                               </thead>
                             </table>
@@ -317,6 +399,92 @@
                         </div> 
                       </div>
                     </div>
+
+                    
+                    <!-- Create New User Modal -->
+                    <div class="modal fade" id="create-new-driver-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-md  ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Create New Driver</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form id="create-new-driver-form">
+                            <div class="modal-body">  
+                              <small class=" text-danger">Note: * is requered</small>
+                              <fieldset> 
+                                <div class="form-group">
+                                  <label for="lastname">Last Name <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="firstname">First Name <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="middlename">Middle Name </label> 
+                                  <input type="text" class="form-control" id="middlename" name="middlename" placeholder="Middle Name" >
+                                </div>
+                                <div class="form-group">
+                                  <label for="suffix">Suffix </label> 
+                                  <input type="text" class="form-control" id="suffix" name="suffix" placeholder="Suffix" >
+                                </div>
+                              </fieldset> 
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                          </form>
+                        </div> 
+                      </div>
+                    </div> 
+
+                    
+                    <!-- Edit Driver Modal -->
+                    <div class="modal fade" id="edit-driver-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-md  ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit Driver</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form id="update-driver-form">
+                            <div class="modal-body">  
+                              <small class=" text-danger">Note: * is requered</small>
+                              <fieldset> 
+                                <div class="form-group">
+                                  <input type="hidden" name="id">
+                                  <label for="lastname">Last Name <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="firstname">First Name <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="middlename">Middle Name </label> 
+                                  <input type="text" class="form-control" id="middlename" name="middlename" placeholder="Middle Name" >
+                                </div>
+                                <div class="form-group">
+                                  <label for="suffix">Suffix </label> 
+                                  <input type="text" class="form-control" id="suffix" name="suffix" placeholder="Suffix" >
+                                </div>
+                              </fieldset> 
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                          </form>
+                        </div> 
+                      </div>
+                    </div>  
+
                     
 
                   </div>
@@ -347,6 +515,8 @@
       var alert_class = "";
       var icon = "";
       $(document).ready(function() {
+
+        $('#vehicle-type-modal').modal('show')
             
         $(".readonly").on('keydown paste focus mousedown', function(e){
             if(e.keyCode != 9) // ignore tab
@@ -539,7 +709,7 @@
 
         
         var vehicle_type_table = $('#vehicle-type-table').DataTable({
-          "scrollY": 450,
+          "scrollY": 350,
           "scrollX": true,
           deferRender: true,
           ajax: {
@@ -555,12 +725,26 @@
             { data: 'office'  }, 
             { data: 'vehicle_type' }, 
             { data: 'plate_number' }, 
+            {
+              data: 'id',
+              render: function(data, type, row, meta) {
+                return '\
+                 <div class="dropdown d-inline-block">\
+                    <button class="btn btn-icon btn-secondary" data-toggle="dropdown"><i class="fa fa-fw fa-ellipsis-h"></i></button>\
+                    <div class="dropdown-menu dropdown-menu-right">\
+                      <div class="dropdown-arrow"></div>\
+                        <button type="button" class="dropdown-item" data-vehicle-type-id="'+row.id+'" id="edit-vehicle-type-btn"  ><i class="fa fa-pencil-alt"></i> Edit</button>\
+                        <button type="button" class="dropdown-item" data-vehicle-type-id="'+row.id+'" id="delete-vehicle-type-btn"><i class="fa fa-trash-alt"></i> Delete</button>\
+                      </div>\
+                  </div>\
+                '
+              }
+            },
           ],  
-          
           select: true,
         });
-
-        $('#vehicle-type-table tbody').on( 'click', 'tr', function () {
+ 
+        $('#vehicle-type-table tbody').on( 'click', 'tr td:not(:last-child)', function () {
             $(this).toggleClass('selected');
             var pos = vehicle_type_table.row(this).index();
             var row = vehicle_type_table.row(pos).data();
@@ -572,8 +756,162 @@
 
         } );
 
+
+        
+        $('#create-new-vehicle-type-form').on('submit', function(e){
+          e.preventDefault();
+
+          $.ajax({
+            url: "<?php echo base_url() ?>vehicle_type/insert",
+            method: "POST",
+            data: $("#create-new-vehicle-type-form").serialize(),
+            dataType: "json",
+            success: function (data) {
+
+              if(!data.response){ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "error",
+                      showCancelButton: true, 
+                  })
+              }else{ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "success",
+                      showCancelButton: true, 
+                  }).then(function(result) {
+                      $("#create-new-vehicle-type-form")[0].reset()
+                      $('input[name="office"]').focus()
+
+                      vehicle_type_table.ajax.reload();
+                      
+                  });
+              }  
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
+
+        
+        $(document).on('click','#edit-vehicle-type-btn', function(){ 
+          
+          // show modal
+          $('#edit-vehicle-type-modal').modal('show')
+
+          var vehicle_type_id = $(this).data('vehicle-type-id')
+
+          $.ajax({
+            url: "<?php echo base_url() ?>vehicle_type/get_vehicle_type/" + vehicle_type_id,
+            method: "POST",
+            dataType: "json",
+            success: function (data) { 
+              console.info(data)
+
+              $('#edit-vehicle-type-modal input[name="id"]').val(data.id) 
+              $('#edit-vehicle-type-modal input[name="office"]').val(data.office) 
+              $('#edit-vehicle-type-modal input[name="vehicle_type"]').val(data.vehicle_type) 
+              $('#edit-vehicle-type-modal input[name="plate_number"]').val(data.plate_number) 
+               
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
+
+        
+        
+        $('#update-vehicle-type-modal').on('submit', function(e){
+          e.preventDefault();
+
+          
+          var vehicle_type_id = $('input[name="id"]').val(); 
+
+          $.ajax({
+            url: "<?php echo base_url() ?>vehicle_type/update/" + vehicle_type_id,
+            method: "POST",
+            data: $("#update-vehicle-type-modal").serialize(),
+            dataType: "json",
+            success: function (data) {  
+              if(!data.response){ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "error",
+                      showCancelButton: true, 
+                  })
+              }else{ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "success",
+                      showCancelButton: true, 
+                  }).then(function(result) {
+                      vehicle_type_table.ajax.reload();  
+
+                      $('#edit-vehicle-type-modal').modal('toggle');
+                  });
+              }  
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
+        
+
+        // Delete vehicle Type
+        $(document).on('click','#delete-vehicle-type-btn', function(e){
+          e.preventDefault();
+          var vehicle_type_id = $(this).data('vehicle-type-id')
+ 
+          Swal.fire({
+              title: "Are you sure?",
+              text: "You won\"t be able to revert this!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Yes, delete it!"
+          }).then(function(result) {
+              if (result.value) { 
+                $.ajax({
+                  url: "<?php echo base_url() ?>vehicle_type/delete/" + vehicle_type_id,
+                  method: "post",
+                  dataType: "json",
+                  success: function (data) {  
+                    if(!data.response){ 
+                      Swal.fire({
+                        title: data.message,
+                        icon: "error",
+                        showCancelButton: true, 
+                      })
+                    }else{ 
+                      Swal.fire({
+                        title: 'Deleted!',
+                        text: "Your file has been deleted.",
+                        icon: "success",
+                        showCancelButton: true, 
+                        confirmButtonText: "Ok"
+                      })
+                      vehicle_type_table.ajax.reload()
+                    }  
+                  },
+                  error: function (xhr, status, error) { 
+                      console.info(xhr.responseText);
+                  }
+              });
+
+                  
+              }
+          }); 
+        })
+
+
+
+
+
+
         var driver_table = $('#driver-table').DataTable({
-          "scrollY": 450,
+          "scrollY": 350,
           "scrollX": true,
           deferRender: true,
           ajax: {
@@ -590,15 +928,30 @@
             { data: 'firstname' }, 
             { data: 'middlename' }, 
             { data: 'suffix' },  
+            {
+              data: 'id',
+              render: function(data, type, row, meta) {
+                return '\
+                 <div class="dropdown d-inline-block">\
+                    <button class="btn btn-icon btn-secondary" data-toggle="dropdown"><i class="fa fa-fw fa-ellipsis-h"></i></button>\
+                    <div class="dropdown-menu dropdown-menu-right">\
+                      <div class="dropdown-arrow"></div>\
+                        <button type="button" class="dropdown-item" data-driver-id="'+row.id+'" id="edit-driver-btn"  ><i class="fa fa-pencil-alt"></i> Edit</button>\
+                        <button type="button" class="dropdown-item" data-driver-id="'+row.id+'" id="delete-driver-btn"><i class="fa fa-trash-alt"></i> Delete</button>\
+                      </div>\
+                  </div>\
+                '
+              }
+            },  
           ],
           select: true,
         });
 
         
-        $('#driver-table tbody').on( 'click', 'tr', function () {
+        $('#driver-table tbody').on( 'click', 'tr td:not(:last-child)', function () {
             $(this).toggleClass('selected');
-            var pos = driver_table.row(this).index();
-            var row = driver_table.row(pos).data();
+            var driver = driver_table.row(this).index();
+            var row = driver_table.row(driver).data();
 
             console.info(row)
             
@@ -608,6 +961,153 @@
             $('#driver-modal').modal('toggle');
 
         } );
+
+        
+        $('#create-new-driver-form').on('submit', function(e){
+          e.preventDefault();
+
+          $.ajax({
+            url: "<?php echo base_url() ?>driver/insert",
+            method: "POST",
+            data: $("#create-new-driver-form").serialize(),
+            dataType: "json",
+            success: function (data) {
+
+              if(!data.response){ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "error",
+                      showCancelButton: true, 
+                  })
+              }else{ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "success",
+                      showCancelButton: true, 
+                  }).then(function(result) {
+                      $("#create-new-driver-form")[0].reset()
+                      $('input[name="lastname"]').focus()
+
+                      driver_table.ajax.reload();
+                      
+                  });
+              }  
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
+
+        $(document).on('click','#edit-driver-btn', function(){ 
+          
+          // show modal
+          $('#edit-driver-modal').modal('show')
+
+          var driver_id = $(this).data('driver-id')
+
+          $.ajax({
+            url: "<?php echo base_url() ?>driver/get_driver/" + driver_id,
+            method: "POST",
+            dataType: "json",
+            success: function (data) { 
+              console.info(data)
+
+              $('#edit-driver-modal input[name="id"]').val(data.id) 
+              $('#edit-driver-modal input[name="lastname"]').val(data.lastname) 
+              $('#edit-driver-modal input[name="firstname"]').val(data.firstname) 
+              $('#edit-driver-modal input[name="middlename"]').val(data.middlename) 
+              $('#edit-driver-modal input[name="suffix"]').val(data.suffix) 
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
+
+        $('#update-driver-form').on('submit', function(e){
+          e.preventDefault();
+
+          
+          var driver_id = $('input[name="id"]').val(); 
+
+          $.ajax({
+            url: "<?php echo base_url() ?>driver/update/" + driver_id,
+            method: "POST",
+            data: $("#update-driver-form").serialize(),
+            dataType: "json",
+            success: function (data) {  
+              if(!data.response){ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "error",
+                      showCancelButton: true, 
+                  })
+              }else{ 
+                  Swal.fire({
+                      title: data.message,
+                      icon: "success",
+                      showCancelButton: true, 
+                  }).then(function(result) {
+                      driver_table.ajax.reload(); 
+            
+                      $('#edit-driver-modal').modal('toggle');
+                  });
+              }  
+            },
+            error: function (xhr, status, error) {
+                console.info(xhr.responseText);
+            }
+          });
+        })
+        
+
+        // Delete Driver
+        $(document).on('click','#delete-driver-btn', function(e){
+          e.preventDefault();
+          var driver_id = $(this).data('driver-id')
+ 
+          Swal.fire({
+              title: "Are you sure?",
+              text: "You won\"t be able to revert this!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Yes, delete it!"
+          }).then(function(result) {
+              if (result.value) { 
+                $.ajax({
+                  url: "<?php echo base_url() ?>driver/delete/" + driver_id,
+                  method: "post",
+                  dataType: "json",
+                  success: function (data) {  
+                    if(!data.response){ 
+                      Swal.fire({
+                        title: data.message,
+                        icon: "error",
+                        showCancelButton: true, 
+                      })
+                    }else{ 
+                      Swal.fire({
+                        title: 'Deleted!',
+                        text: "Your file has been deleted.",
+                        icon: "success",
+                        showCancelButton: true, 
+                        confirmButtonText: "Ok"
+                      })
+                      driver_table.ajax.reload()
+                    }  
+                  },
+                  error: function (xhr, status, error) { 
+                      console.info(xhr.responseText);
+                  }
+              });
+
+                  
+              }
+          }); 
+        })
+
+
         
         
 
