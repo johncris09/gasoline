@@ -26,10 +26,10 @@ class Driver extends CI_Controller {
 				$data['data'][] = $row; 
 	
 			} 
-			echo json_encode($data); 
 		}else{
 			$data['data'] = array();
 		}
+		echo json_encode($data); 
 	
 	}
     
