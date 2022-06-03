@@ -32,11 +32,12 @@ class Request extends CI_Controller {
 				$row['request_date'] = $date;
 				$data['data'][] = $row;
 			} 
-			echo json_encode($data); 
 		}else{
 			$data['data'] = array();
 		}
  
+		
+		echo json_encode($data); 
 	
 	}
 
