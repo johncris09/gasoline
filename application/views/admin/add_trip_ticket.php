@@ -46,7 +46,51 @@
                     <div class="card"> 
                       <div class="card-body">
                         
-                        <h3 class="card-title"> <?php echo $page_title; ?> </h3>
+                        <!-- Create Request Modal -->
+                        <div class="modal fade" id="receipt-modal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                          <div class="modal-dialog modal-dialog-centered modal-md  ">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title">Receipt <i class="fas fa-receipt"></i> </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <form  id="receipt-form">
+                                <div class="modal-body">  
+                                  <small class=" text-danger">Note: * is requered</small>
+                                  <fieldset> 
+                                    <div class="form-group">
+                                    <input type="hidden" name="request_id" value="<?php echo $request['id']; ?>" name="request_id">
+                                      <label for="receipt-date">Date <span class="text-danger">*</span></label> 
+                                      <input type="date" class="form-control" id="receipt-date" name="receipt_date"  required  placeholder="Request Date">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="or-number">O.R. Number <span class="text-danger">*</span></label> 
+                                      <input type="text" class="form-control" id="or-number" name="or_number"  placeholder="O.R. Number" required>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="liter">Liter <span class="text-danger">*</span></label> 
+                                      <input type="number" step="0.01" class="form-control sub-total" id="liter" name="liter"  placeholder="Liter" required>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="liter">Price per Liter <span class="text-danger">*</span></label> 
+                                      <input type="number" step="0.01" class="form-control  sub-total" id="price_per_liter" name="price_per_liter"  placeholder="00.00" required>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="amount">Amount <span class="text-danger">*</span></label> 
+                                      <input type="text" class="form-control readonly" id="amount" name="amount"  placeholder="00.00">
+                                    </div>
+                                  </fieldset> 
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-primary btn-block">Save changes</button>
+                                </div>
+                              </form>
+                            </div> 
+                          </div>
+                        </div>
+                          <h3 class="card-title"> <?php echo $page_title; ?> <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#receipt-modal"> <i class="fa fa-plus-circle"></i> Receipt</button> </h3>
                           <form id="<?php echo (strtolower($request['status']) == "approved") ? "update" : "create-new" ; ?>-trip-ticket-form">
                             <small class=" text-danger">Note: * is requered</small>
                             <fieldset> 
@@ -292,6 +336,59 @@
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     $(document).ready(function() {  
+
+      $('#receipt-modal').modal('show')
+
+      function calculateTotal(){
+        var total=1;
+        $(".sub-total").each(function(i,v){
+          if($(v).val()!="")
+          total*=parseFloat($(v).val());
+        })
+        $('input[name="amount"]').val(total);
+      }
+      
+      $("body").on('keyup','.sub-total',function(){
+        calculateTotal();
+      });
+      
+      
+      
+      $('#receipt-form').on('submit', function(e){
+        e.preventDefault();
+
+        $.ajax({
+          url: "<?php echo base_url() ?>receipt/insert",
+          method: "POST",
+          data: $("#receipt-form").serialize(),
+          dataType: "json",
+          success: function (data) {
+
+            if(!data.response){ 
+                Swal.fire({
+                    title: data.message,
+                    icon: "error",
+                    showCancelButton: true, 
+                })
+            }else{ 
+                Swal.fire({
+                    title: data.message,
+                    icon: "success",
+                    showCancelButton: true, 
+                }).then(function(result) {
+                  location.reload();
+                });
+            }  
+          },
+          error: function (xhr, status, error) {
+              console.info(xhr.responseText);
+          }
+        });
+      })
+
+
+
+
       $(".readonly").on('keydown paste focus mousedown', function(e){
         if(e.keyCode != 9) // ignore tab
           e.preventDefault();
