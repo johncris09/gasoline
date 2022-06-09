@@ -79,7 +79,7 @@
                                     </div>
                                     <div class="form-group">
                                       <label for="amount">Amount <span class="text-danger">*</span></label> 
-                                      <input type="text" class="form-control readonly" id="amount" name="amount"  placeholder="00.00">
+                                      <input type="text" class="form-control readonly font-weight-bolder " style="color:red" id="amount" name="amount"  placeholder="00.00">
                                     </div>
                                   </fieldset> 
                                 </div>
@@ -90,7 +90,7 @@
                             </div> 
                           </div>
                         </div>
-                          <h3 class="card-title"> <?php echo $page_title; ?> <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#receipt-modal"> <i class="fa fa-plus-circle"></i> Receipt</button> </h3>
+                          <h3 class="card-title"> <?php echo $page_title; ?> <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#receipt-modal"> <i class="fa fa-receipt"></i> Receipt</button> </h3>
                           <form id="<?php echo (strtolower($request['status']) == "approved") ? "update" : "create-new" ; ?>-trip-ticket-form">
                             <small class=" text-danger">Note: * is requered</small>
                             <fieldset> 
