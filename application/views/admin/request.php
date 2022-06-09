@@ -180,8 +180,8 @@
                                   </select>
                                 </div>
                                 <div class="form-group">
-                                  <label for="liter" name="liter">Liter <span class="text-danger">*</span></label> 
-                                  <input type="number" class="form-control" id="liter" name="liter"  placeholder="Liter">
+                                  <label for="liter">Liter <span class="text-danger">*</span></label> 
+                                  <input type="text" class="form-control" id="liter" name="liter"  placeholder="Liter">
                                 </div>
                               </fieldset> 
                             </div>
@@ -515,8 +515,6 @@
       var alert_class = "";
       var icon = "";
       $(document).ready(function() {
-
-        $('#vehicle-type-modal').modal('show')
             
         $(".readonly").on('keydown paste focus mousedown', function(e){
             if(e.keyCode != 9) // ignore tab
@@ -556,7 +554,7 @@
 
                 if( row.status.toLowerCase() == "pending" ){
                   button += '<div class="dropdown-divider"></div>\
-                      <a href="<?php echo base_url() ?>trip_ticket/for_approval/'+data+'" class="dropdown-item"><i class="fa fa-check-circle"></i> Approved</a>\
+                      <a href="<?php echo base_url() ?>trip_ticket/for_approval/'+data+'" class="dropdown-item"><i class="fa fa-arrow-circle-right"></i> To Trip Ticket</a>\
                     </div>\
                   </div>'
 
