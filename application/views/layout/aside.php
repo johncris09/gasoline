@@ -27,18 +27,21 @@
                 <li class="menu-item">
                   <a href="<?php echo base_url() ?>request" class="menu-link"><span class="menu-icon fa fa-question-circle"></span> <span class="menu-text">Request</span></a>
                 </li> 
-                <li class="menu-item">
+                <!-- <li class="menu-item">
                   <a href="<?php echo base_url() ?>pending" class="menu-link"><span class="menu-icon fa fa-exclamation-circle"></span> <span class="menu-text">Pending</span></a>
                 </li> 
                 <li class="menu-item">
                   <a href="<?php echo base_url() ?>request" class="menu-link"><span class="menu-icon fa fa-check-circle"></span> <span class="menu-text">Approved</span></a>
-                </li> 
+                </li>  -->
                 <li class="menu-item">
                   <a href="<?php echo base_url() ?>trip_ticket" class="menu-link"><span class="menu-icon fa fa-gas-pump"></span> <span class="menu-text">Trip Ticket</span></a>
                 </li> 
                 <li class="menu-item">
                   <a href="<?php echo base_url() ?>report" class="menu-link"><span class="menu-icon fa fa-chart-pie"></span> <span class="menu-text">Report</span></a>
                 </li> 
+                <li class="menu-item">
+                  <a href="<?php echo base_url() ?>summary" class="menu-link"><span class="menu-icon fa fa-list-alt"></span> <span class="menu-text">Summary</span></a>
+                </li>
                 <li class="menu-header">Data</li>
                 <li class="menu-item">
                   <a href="<?php echo base_url() ?>driver" class="menu-link"><span class="menu-icon fa fa-motorcycle"></span> <span class="menu-text">Driver</span></a>
