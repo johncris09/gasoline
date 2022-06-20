@@ -76,7 +76,7 @@ class Trip_ticket_model extends CI_Model
     {   
         return $this->db
             ->distinct()
-            ->select('request.driver, request.plate_number, driver.*, vehicle_type.id as vehicle_type_id')
+            ->select('request.driver, request.plate_number, driver.*, vehicle_type.id as vehicle_type_id, vehicle_type.plate_number as plate_number')
             // ->select('request.*, driver.*, vehicle_type.*, trip_ticket.*, vehicle_type.id as vehicle_type_id')
             ->where('request.plate_number = vehicle_type.id')
             ->where('request.driver = driver.id')
