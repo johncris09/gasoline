@@ -28,6 +28,10 @@ class Receipt_model extends CI_Model
         $receipt =  $this->db->get($this->table);
         if($receipt->num_rows() > 0)
             return $receipt->result_array()[0];
+
+        return [
+            'has_receipt' => 0,
+        ];
         
     } 
 
