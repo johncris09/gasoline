@@ -33,11 +33,17 @@
           <div class="page">
             <div class="page-inner">
               <header class="page-title-bar">
-                <h1 class="page-title"> <?php echo $page_title; ?> </h1>
+                <!-- <h1 class="page-title"> <?php echo $page_title; ?> </h1> 
                 <div class="page-section">
                 <div class="d-xl-none">
                   <button class="btn btn-danger btn-floated" type="button" data-toggle="sidebar"><i class="fa fa-th-list"></i></button>
-                </div><!-- .card --> 
+                </div> -->
+                <div class="d-flex flex-column flex-md-row">
+                  <p class="lead">
+                    <span class="font-weight-bold"><?php echo $page_title; ?></span> 
+                    <span class="d-block text-muted">O.R #: <?php echo $receipt['has_receipt'] ? $receipt['or_number'] : "create" ; ?></span>
+                  </p> 
+                </div>
                 <div class="col-lg-12">
                   <div class="ribbon">
                     <div class="wrap"> 
@@ -56,30 +62,33 @@
                                   <span aria-hidden="true">&times;</span>
                                 </button>
                               </div>
-                              <form  id="receipt-form">
-                                <div class="modal-body">  
+                              <form  id="<?php echo $receipt['has_receipt'] ? "update" : "create" ; ?>-receipt-form">
+                                <div class="modal-body"> 
                                   <small class=" text-danger">Note: * is requered</small>
                                   <fieldset> 
                                     <div class="form-group">
-                                    <input type="hidden" name="request_id" value="<?php echo $request['id']; ?>" name="request_id">
+                                      <input type="hidden" value="<?php echo $receipt['has_receipt'] ? $receipt['id'] : "" ?>" name="receipt_id">
+                                      <input type="hidden" value="<?php echo $request['id']; ?>" name="request_id">
+                                      <input type="hidden"  value="<?php echo $request['plate_number']; ?>" name="plate_number">
+                                      <input type="hidden"  value="<?php echo $request['gasoline_type']; ?>" name="gasoline_type">
                                       <label for="receipt-date">Date <span class="text-danger">*</span></label> 
-                                      <input type="date" class="form-control" id="receipt-date" name="receipt_date"  required  placeholder="Request Date">
+                                      <input type="date" class="form-control" value="<?php echo $receipt['has_receipt'] ? $receipt['date'] : "" ?>"  id="receipt-date" name="receipt_date"  required  placeholder="Request Date">
                                     </div>
                                     <div class="form-group">
                                       <label for="or-number">O.R. Number <span class="text-danger">*</span></label> 
-                                      <input type="text" class="form-control" id="or-number" name="or_number"  placeholder="O.R. Number" required>
+                                      <input type="text" value="<?php echo $receipt['has_receipt'] ? $receipt['or_number'] : "" ?>" class="form-control" id="or-number" name="or_number"  placeholder="O.R. Number" required>
                                     </div>
                                     <div class="form-group">
                                       <label for="liter">Liter <span class="text-danger">*</span></label> 
-                                      <input type="number" step="0.01" class="form-control sub-total" id="liter" name="liter"  placeholder="Liter" required>
+                                      <input type="number" step="0.01" value="<?php echo $receipt['has_receipt'] ? $receipt['liter'] : "" ?>" class="form-control sub-total" id="liter" name="liter"  placeholder="Liter" required>
                                     </div>
                                     <div class="form-group">
-                                      <label for="liter">Price per Liter <span class="text-danger">*</span></label> 
-                                      <input type="number" step="0.01" class="form-control  sub-total" id="price_per_liter" name="price_per_liter"  placeholder="00.00" required>
+                                      <label for="price-per-liter">Price per Liter <span class="text-danger">*</span></label> 
+                                      <input type="number" step="0.01" value="<?php echo $receipt['has_receipt'] ? $receipt['price_per_liter'] : "" ?>" class="form-control  sub-total" id="price-per-liter" name="price_per_liter"  placeholder="00.00" required>
                                     </div>
                                     <div class="form-group">
                                       <label for="amount">Amount <span class="text-danger">*</span></label> 
-                                      <input type="text" class="form-control readonly font-weight-bolder " style="color:red" id="amount" name="amount"  placeholder="00.00">
+                                      <input type="text" value="<?php echo $receipt['has_receipt'] ? $receipt['amount'] : "" ?>" class="form-control readonly font-weight-bolder " style="color:red" id="amount" name="amount"  placeholder="00.00">
                                     </div>
                                   </fieldset> 
                                 </div>
@@ -354,13 +363,13 @@
       
       
       
-      $('#receipt-form').on('submit', function(e){
+      $('#create-receipt-form').on('submit', function(e){
         e.preventDefault();
 
         $.ajax({
           url: "<?php echo base_url() ?>receipt/insert",
           method: "POST",
-          data: $("#receipt-form").serialize(),
+          data: $("#create-receipt-form").serialize(),
           dataType: "json",
           success: function (data) {
 
@@ -385,6 +394,43 @@
           }
         });
       })
+
+      
+      $('#update-receipt-form').on('submit', function(e){
+        e.preventDefault();
+        var receipt_id = $('input[name="receipt_id"]').val();
+
+        $.ajax({
+          url: "<?php echo base_url() ?>receipt/update/" + receipt_id,
+          method: "POST",
+          data: $("#update-receipt-form").serialize(),
+          dataType: "json",
+          success: function (data) {
+ 
+
+            if(!data.response){ 
+                Swal.fire({
+                    title: data.message,
+                    icon: "error",
+                    showCancelButton: true, 
+                })
+            }else{ 
+                Swal.fire({
+                    title: data.message,
+                    icon: "success",
+                    showCancelButton: true, 
+                }).then(function(result) {
+                  location.reload();
+                });
+            }  
+          },
+          error: function (xhr, status, error) {
+              console.info(xhr.responseText);
+          }
+        });
+      })
+
+
 
 
 
