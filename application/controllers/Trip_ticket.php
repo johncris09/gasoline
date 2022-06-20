@@ -54,7 +54,9 @@ class Trip_ticket extends CI_Controller {
         $data['calculation'] = $this->calculation_model->get_all_calculation();
 
         $data['trip_ticket'] = $this->trip_ticket_model->get_trip_ticket(['request_id' => $request_id]);
- 
+        $data['receipt'] = $this->receipt_model->get_receipt(['request_id' => $request_id]);
+
+        // var_dump($data['receipt_model']); 
         $this->load->view('admin/add_trip_ticket', $data); 
 	}
 
@@ -71,8 +73,9 @@ class Trip_ticket extends CI_Controller {
         $data['calculation'] = $this->calculation_model->get_all_calculation();
 
         $data['trip_ticket'] = $this->trip_ticket_model->get_trip_ticket(['request_id' => $request_id]);
+        $data['receipt'] = $this->receipt_model->get_receipt(['request_id' => $request_id]);
  
-        $this->load->view('admin/add_trip_ticket', $data); 
+        $this->load->view('admin/add_trip_ticket', $data);
 	}
 
 
