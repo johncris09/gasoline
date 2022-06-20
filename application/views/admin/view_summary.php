@@ -44,7 +44,7 @@
 						<div class="  p-2">
 							<h3><?php echo $page_title; ?> </h3>
 						</div>
-						<div class="pt-4">from - to</div>
+						<div class="pt-4 h4 text-primary"><?php echo date('F d, Y', strtotime($_GET['from']))  . ' - ' . date('F d, Y', strtotime($_GET['to'])) ?></div>
 						<div class="p-2"><button id="print-summary" class="btn btn-primary "> <i class="fa fa-print"></i> </button></div>
 					</div>
                   </div>
@@ -69,38 +69,31 @@
 							  </tr>
 						  </thead>
 						  <tbody>
-							<?Php 
+							<?php 
 								$total = 0;
-								for($i = 0; $i<10; $i++){
-									$amount = rand (10*10, 10000*10) / 10;
-									$or_number = rand(1000, 9999);
-									$plate_number = rand(1000, 9999);
-
-									$a=array("Special Gasoline","Diesel", "Regular Gasoline");
-									$random_keys=array_rand($a,2);
-
-
+								$i = 0;
+								foreach($summary as $row){
 							?>
-								<tr>
-									<td class="text-center">5/ 17 /2022</td>
-									<td class="text-center"><?php echo $or_number; ?></td>
-									<td><?php echo $a[$random_keys[rand(0,1)]]; ?></td>
-									<td class="text-center"><?php echo $plate_number; ?></td>
-									<td class="text-center"> <strong><?php echo ($i== 0) ? "&#8369;" :"" ?></strong> </td>
-									<td class="text-right"><?php echo number_format($amount, 2, '.', ',') ?></td>
-								</tr>
+									<tr>
+										<td class="text-center"><?php echo date('m/ d/ Y', strtotime($row['date'])) ?></td>
+										<td class="text-center"><?php echo $row['or_number']; ?></td>
+										<td class="text-center"><?php echo  $row['gasoline_type']; ?></td> 
+										<td class="text-center"><?php echo  $row['plate_number']; ?></td>  
+										<td class="text-center"> <strong><?php echo ($i== 0) ? "&#8369;" :"" ?></strong> </td>
+										<td class="text-right"><?php echo number_format($row['amount'], 2, '.', ',') ?></td>
+									</tr>
 							<?php
-									
-									$total += $amount;
+									$total += $row['amount'];
+									$i++;
 								}
-							?> 
+							?>
 								<tr>
 									<th></th>
 									<th></th>
 									<th class="text-center" colspan="2">SUB TOTAL</th>
 									<th class="text-center"> <strong>&#8369;</strong> </th>
 									<th class="text-right"> <strong><?php echo number_format($total, 2, '.', ',') ?></strong> </th>
-								</tr> 
+								</tr>
 							  
 						  </tbody>
 					  </table> 
