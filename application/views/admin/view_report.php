@@ -725,8 +725,8 @@ tags will be replaced.-->
 <div id="Monthly Report of Official Travel_8502" align=center
 x:publishsource="Excel"> 
 <?php
-	if($report->num_rows() > 0){
-		foreach($report->result_array() as $row){
+	if($report->num_rows() > 0){ 
+		foreach($report->result_array() as $row){ 
 			$driver_name = $row['lastname'] . ', ' . $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['suffix'];
 
 ?>
@@ -890,7 +890,7 @@ x:publishsource="Excel">
 		<tr height=21 style='height:15.75pt'>
 			<td colspan=3 height=21 class=xl998502 style='height:15.75pt'>GAY C. MONDOY</td>
 			<td class=xl658502></td>
-			<td colspan=2 class=xl968502>_________________________________________</td>
+			<td colspan=2 class=xl968502><u><?php echo $driver_name; ?></u></td>
 		</tr>
 		<tr height=20 style='height:15.0pt'>
 			<td colspan=3 height=20 class=xl978502 style='height:15.0pt'>Supervising Manpower Development Officer</td>
