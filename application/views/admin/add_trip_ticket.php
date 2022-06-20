@@ -41,7 +41,7 @@
                 <div class="d-flex flex-column flex-md-row">
                   <p class="lead">
                     <span class="font-weight-bold"><?php echo $page_title; ?></span> 
-                    <span class="d-block text-muted">O.R #: <?php echo $receipt['has_receipt'] ? $receipt['or_number'] : "create" ; ?></span>
+                    <span class="d-block text-muted">O.R #: <u> <?php echo $receipt['has_receipt'] ? $receipt['or_number'] : "" ; ?></u></span>
                   </p> 
                 </div>
                 <div class="col-lg-12">
@@ -160,25 +160,25 @@
                               <div class="form-group row">
                                 <label for="departure-time-from-office" class="col-sm-4 col-form-label">Time of Departure from Office/Garage <span class="badge badge-danger">AM/PM</span> </label>
                                 <div class="col-sm-8">
-                                  <input type="time" class="form-control" id="departure-time-from-office" value="<?php echo ( strtolower($request['status']) == "approved") ?   $trip_ticket['departure_time_from_office']  : "" ?>"  name="departure_time_from_office"  placeholder="Time of Departure from Office/Garage">
+                                  <input type="time" class="form-control" id="departure-time-from-office" value="<?php echo ( strtolower($request['status']) == "approved") ?  (($trip_ticket['departure_time_from_office'] == "00:00:00") ? "" : $trip_ticket['departure_time_from_office'] ) : "" ?>"  name="departure_time_from_office"  placeholder="Time of Departure from Office/Garage">
                                 </div>
                               </div> 
                               <div class="form-group row">
                                 <label for="arrival-time-at-per" class="col-sm-4 col-form-label">Time of Arrival at (Per No. 5 above)  <span class="badge badge-danger">AM/PM</span></label>
                                 <div class="col-sm-8">
-                                  <input type="time" class="form-control" id="arrival-time-at-per" name="arrival_time_at_per" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['arrival_time_at_per'] : "" ?>"   placeholder="Time of Arrival at (Per No. 5 above) ">
+                                  <input type="time" class="form-control" id="arrival-time-at-per" name="arrival_time_at_per" value="<?php echo ( strtolower($request['status']) == "approved") ?   (($trip_ticket['arrival_time_at_per'] == "00:00:00") ? "" : $trip_ticket['arrival_time_at_per'] ) : "" ?>"   placeholder="Time of Arrival at (Per No. 5 above) ">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="departure-time-from-per-four" class="col-sm-4 col-form-label"> Time of Departure from (Per No. 4) <span class="badge badge-danger">AM/PM</span></label>
                                 <div class="col-sm-8">
-                                  <input type="time" class="form-control" id="departure-time-from-per-four" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['departure_time_from_per_four'] : "" ?>"  name="departure_time_from_per_four"  placeholder="Time of Departure from (Per No. 4)">
+                                  <input type="time" class="form-control" id="departure-time-from-per-four" value="<?php echo ( strtolower($request['status']) == "approved") ? (($trip_ticket['departure_time_from_per_four'] == "00:00:00") ? "" : $trip_ticket['departure_time_from_per_four'] ) : "" ?>"  name="departure_time_from_per_four"  placeholder="Time of Departure from (Per No. 4)">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="arrival-time-back-to-office" class="col-sm-4 col-form-label"> Time of Arrival back to Office/Garage <span class="badge badge-danger">AM/PM</span></label>
                                 <div class="col-sm-8">
-                                  <input type="time" class="form-control" id="arrival-time-back-to-office"  value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['arrival_time_back_to_office'] : "" ?>"  name="arrival_time_back_to_office"  placeholder="Time of Arrival back to Office/Garage">
+                                  <input type="time" class="form-control" id="arrival-time-back-to-office"  value="<?php echo ( strtolower($request['status']) == "approved") ? (($trip_ticket['arrival_time_back_to_office'] == "00:00:00") ? "" : $trip_ticket['arrival_time_back_to_office'] ) : "" ?>"  name="arrival_time_back_to_office"  placeholder="Time of Arrival back to Office/Garage">
                                 </div>
                               </div>
                               <div class="form-group row">
@@ -208,7 +208,7 @@
                                   <label for="add-purchase-during-the-trip" class="col-sm-4 col-form-label pl-5"> Add: Purchase during the trip  <span class="badge badge-danger">Liters</span></label>
                                   <div class="col-sm-8">
                                     <div class="input-group input-group-alt">
-                                    <input type="number" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['add_purchase_during_the_trip'] : "" ?>" class="form-control" id="add-purchase-during-the-trip" name="add_purchase_during_the_trip"  placeholder="Add: Purchase during the trip">
+                                    <input type="number"  step="0.01" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['add_purchase_during_the_trip'] : "" ?>" class="form-control" id="add-purchase-during-the-trip" name="add_purchase_during_the_trip"  placeholder="Add: Purchase during the trip">
                                       <div class="input-group-prepend"> 
                                         <select class="custom-select" id="select-calculation" name="select_calculation" required>
                                           <option value=""> Select Calculation </option> 
