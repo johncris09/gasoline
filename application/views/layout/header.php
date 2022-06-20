@@ -22,7 +22,7 @@
                   <div class="dropdown-arrow d-lg-none" x-arrow=""></div>
                   <div class="dropdown-arrow ml-3 d-none d-lg-block"></div>
                   <h6 class="dropdown-header d-none d-md-block d-lg-none"> Beni Arisandi </h6>
-                  <a class="dropdown-item" href="<?php echo base_url() ?>user/profile"><span class="dropdown-icon oi oi-person"></span> Profile</a> 
+                  <a class="dropdown-item" href="<?php echo base_url() ?>profile"><span class="dropdown-icon oi oi-person"></span> Profile</a> 
                   <a class="dropdown-item" href="<?php echo base_url(); ?>dashboard/signout"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
                 </div><!-- /.dropdown-menu -->
               </div><!-- /.btn-account -->
