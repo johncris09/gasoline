@@ -49,7 +49,7 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <form id="create-new-user-form">
+                          <form id="create-new-user-form" target="_blank">
                             <div class="modal-body">  
                               <small class=" text-danger">Note: * is requered</small>
                               <fieldset> 
@@ -222,8 +222,6 @@
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
       $(document).ready(function() {
-
-        $('#change-password-modal').modal('show')
         
 
         var alert_class = "";
