@@ -38,7 +38,7 @@
     <!-- .auth -->
     <main class="auth">
       <header id="auth-header" class="auth-header" style="background-image: url(<?php echo base_url(); ?>assets/images/illustration/img-1.png);">
-        <h1>Gaso<span style="color: #F7C46C">line</span>  </h1>
+        <h1><span style="color: #F7C46C">Gasoline</span> Automated Reporting System  </h1>
       </header><!-- form --> 
       <form class="auth-form" method="post" >  
         <!-- .form-group -->
