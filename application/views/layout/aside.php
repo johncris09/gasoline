@@ -38,6 +38,9 @@
                   <a href="<?php echo base_url() ?>trip_ticket" class="menu-link"><span class="menu-icon fa fa-gas-pump"></span> <span class="menu-text">Trip Ticket</span></a>
                 </li> 
                 <li class="menu-item">
+                  <a href="<?php echo base_url() ?>log_sheet" class="menu-link"><span class="menu-icon fa fa-gas-pump"></span> <span class="menu-text">Equipment Log Sheet</span></a>
+                </li> 
+                <li class="menu-item">
                   <a href="<?php echo base_url() ?>report" class="menu-link"><span class="menu-icon fa fa-chart-pie"></span> <span class="menu-text">Report</span></a>
                 </li> 
                 <li class="menu-item">
