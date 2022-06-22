@@ -181,7 +181,7 @@
                                 </div>
                                 <div class="form-group">
                                   <label for="liter">Liter <span class="text-danger">*</span></label> 
-                                  <input type="text" class="form-control" id="liter" name="liter"  placeholder="Liter">
+                                  <input type="number" step="0.01" class="form-control" id="liter" name="liter"  placeholder="Liter">
                                 </div>
                               </fieldset> 
                             </div>
@@ -520,6 +520,13 @@
             if(e.keyCode != 9) // ignore tab
                 e.preventDefault();
         });
+            
+        // tigger button
+        $('input[name="plate-number"], input[name="driver-name"]').on('click', function(e){
+          $(this).next('button').click()
+        });
+
+        
 
         var request_table = $('#request-table').DataTable({
           "scrollY": 450,
@@ -550,7 +557,7 @@
                     <div class="dropdown-menu dropdown-menu-right">\
                       <div class="dropdown-arrow"></div>\
                       <button type="button" class="dropdown-item" data-request-id="'+row.request_id+'" id="edit-request-btn"  ><i class="fa fa-pencil-alt"></i> Edit</button>\
-                      <button type="button" class="dropdown-item" data-request-id="'+row.request_id+'" id="delete-request-btn"><i class="fa fa-trash-alt"></i> Delete</button>';
+                      <button type="button" class="dropdown-item" data-status="'+row.status+'" data-request-id="'+row.request_id+'" id="delete-request-btn"><i class="fa fa-trash-alt"></i> Delete</button>';
 
                 if( row.status.toLowerCase() == "pending" ){
                   button += '<div class="dropdown-divider"></div>\
@@ -559,12 +566,12 @@
                   </div>'
 
                 }
-                // else{
-                //   button += '<div class="dropdown-divider"></div>\
-                //       <a href="<?php echo base_url() ?>trip_ticket/for_approval/'+row.id+'" class="dropdown-item"><i class="fa fa-check-circle"></i> Approved</a>\
-                //     </div>\
-                //   </div>\'
-                // }
+                else{
+                  button += '<div class="dropdown-divider"></div>\
+                      <a href="<?php echo base_url() ?>trip_ticket/view/'+data+'" class="dropdown-item"><i class="fa fa-arrow-circle-right"></i> To Trip Ticket</a>\
+                    </div>\
+                  </div>'
+                }
                 
                 return button;
               }
@@ -732,7 +739,7 @@
                     <div class="dropdown-menu dropdown-menu-right">\
                       <div class="dropdown-arrow"></div>\
                         <button type="button" class="dropdown-item" data-vehicle-type-id="'+row.id+'" id="edit-vehicle-type-btn"  ><i class="fa fa-pencil-alt"></i> Edit</button>\
-                        <button type="button" class="dropdown-item" data-vehicle-type-id="'+row.id+'" id="delete-vehicle-type-btn"><i class="fa fa-trash-alt"></i> Delete</button>\
+                        <button type="button" class="dropdown-item"  data-vehicle-type-id="'+row.id+'" id="delete-vehicle-type-btn"><i class="fa fa-trash-alt"></i> Delete</button>\
                       </div>\
                   </div>\
                 '
