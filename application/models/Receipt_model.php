@@ -54,6 +54,14 @@ class Receipt_model extends CI_Model
 			->get('receipt, vehicle_type');
     }
 
+    
+    public function delete($id)
+    {
+        return $this->db
+            ->where('request_id', $id)
+            ->delete($this->table);
+    }
+
 
 
 }
