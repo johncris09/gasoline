@@ -48,7 +48,8 @@ class Request extends CI_Controller {
 			'gasoline_type' => $this->input->post('gasoline_type'),
 			'liter' => $this->input->post('liter'),
 			'plate_number' => $this->input->post('plate_number'),
-			'request_date' => $this->input->post('request_date'), 
+			'request_date' => $this->input->post('request_date'),
+			'file_type' => $this->input->post('file_type'),
 			'status' => "Pending", 
 		);  
 
@@ -135,6 +136,11 @@ class Request extends CI_Controller {
 	{  
 		$this->trip_ticket_model->delete_using_request($id);
 		$delete = $this->request_model->delete($id);
+
+		$this->trip_ticket_model->delete_using_request($id);
+        $this->receipt_model->delete($id);
+
+
 
 		if($delete){  
 			$data = array(
