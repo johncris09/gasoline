@@ -302,7 +302,7 @@
                               <div class="form-group row">
                                 <label for="remark" class="col-sm-4 col-form-label">Remarks</label>
                                 <div class="col-sm-8">
-                                  <textarea class="form-control" name="remark" id="remark" cols="30" rows="2" placeholder="Remarks"></textarea>
+                                  <textarea class="form-control" name="remark" id="remark" cols="30" rows="2" placeholder="Remarks"><?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['remark'] : "" ?></textarea>
                                 </div>
                               </div>
                             </fieldset> 
@@ -538,12 +538,12 @@
 
         Swal.fire({
             title: "Are you sure?",
-            text: "You won\"t be able to revert this!",
+            text: "The receipt will be removed as well. You will not be able to undo this!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Yes, delete it!"
         }).then(function(result) {
-            if (result.value) { 
+            if (result.value) {
               $.ajax({
                 url: "<?php echo base_url() ?>trip_ticket/delete/" + approved_id,
                 method: "post",
