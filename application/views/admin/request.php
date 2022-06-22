@@ -19,6 +19,8 @@
       #driver-table tbody{
           cursor: pointer; 
       }
+
+      
     </style>
   </head>
   <body>
@@ -182,6 +184,17 @@
                                 <div class="form-group">
                                   <label for="liter">Liter <span class="text-danger">*</span></label> 
                                   <input type="number" step="0.01" class="form-control" id="liter" name="liter"  placeholder="Liter">
+                                </div>
+                                <h4 class="card-title"> File Type </h4>
+                                <div class="form-group">
+                                  <div class="custom-control custom-radio">
+                                    <input id="trip-ticket" name="file_type" type="radio"  value="trip_ticket" class="custom-control-input"   required=""> 
+                                    <label class="custom-control-label" for="trip-ticket">Driver's Trip Ticket</label>
+                                  </div>
+                                  <div class="custom-control custom-radio">
+                                    <input id="log-sheet" name="file_type" type="radio" value="log_sheet"  class="custom-control-input" required=""> 
+                                    <label class="custom-control-label" for="log-sheet">Equipment Log Sheet</label>
+                                  </div> 
                                 </div>
                               </fieldset> 
                             </div>
@@ -515,6 +528,7 @@
       var alert_class = "";
       var icon = "";
       $(document).ready(function() {
+ 
             
         $(".readonly").on('keydown paste focus mousedown', function(e){
             if(e.keyCode != 9) // ignore tab
@@ -559,18 +573,38 @@
                       <button type="button" class="dropdown-item" data-request-id="'+row.request_id+'" id="edit-request-btn"  ><i class="fa fa-pencil-alt"></i> Edit</button>\
                       <button type="button" class="dropdown-item" data-status="'+row.status+'" data-request-id="'+row.request_id+'" id="delete-request-btn"><i class="fa fa-trash-alt"></i> Delete</button>';
 
-                if( row.status.toLowerCase() == "pending" ){
-                  button += '<div class="dropdown-divider"></div>\
-                      <a href="<?php echo base_url() ?>trip_ticket/for_approval/'+data+'" class="dropdown-item"><i class="fa fa-arrow-circle-right"></i> To Trip Ticket</a>\
-                    </div>\
-                  </div>'
+                if( row.status.toLowerCase() == "pending" ){ 
+                  
+                  if( row.file_type.toLowerCase() == "log_sheet" ){
+                    button += '<div class="dropdown-divider"></div>\
+                        <a href="<?php echo base_url() ?>log_sheet/for_approval/'+data+'" class="dropdown-item"><i class="fa fa-arrow-circle-right"></i> To Equipment Log Sheet</a>\
+                      </div>\
+                    </div>'
+                  }else{
+                    button += '<div class="dropdown-divider"></div>\
+                        <a href="<?php echo base_url() ?>trip_ticket/for_approval/'+data+'" class="dropdown-item"><i class="fa fa-arrow-circle-right"></i> To Trip Ticket</a>\
+                      </div>\
+                    </div>'
+                  }
+
 
                 }
                 else{
-                  button += '<div class="dropdown-divider"></div>\
-                      <a href="<?php echo base_url() ?>trip_ticket/view/'+data+'" class="dropdown-item"><i class="fa fa-arrow-circle-right"></i> To Trip Ticket</a>\
-                    </div>\
-                  </div>'
+
+                  
+                  if( row.file_type.toLowerCase() == "log_sheet" ){
+                    button += '<div class="dropdown-divider"></div>\
+                        <a href="<?php echo base_url() ?>log_sheet/view/'+data+'" class="dropdown-item"><i class="fa fa-arrow-circle-right"></i> To Equipment Log Sheet</a>\
+                      </div>\
+                    </div>'
+                  }else{
+                    button += '<div class="dropdown-divider"></div>\
+                        <a href="<?php echo base_url() ?>trip_ticket/view/'+data+'" class="dropdown-item"><i class="fa fa-arrow-circle-right"></i> To Trip Ticket</a>\
+                      </div>\
+                    </div>'
+                  }
+
+                  
                 }
                 
                 return button;
