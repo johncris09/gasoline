@@ -55,8 +55,9 @@ class Trip_ticket extends CI_Controller {
 
         $data['trip_ticket'] = $this->trip_ticket_model->get_trip_ticket(['request_id' => $request_id]);
         $data['receipt'] = $this->receipt_model->get_receipt(['request_id' => $request_id]);
-
-        // var_dump($data['receipt_model']); 
+ 
+        
+        // var_dump($data['receipt']);
         $this->load->view('admin/add_trip_ticket', $data); 
 	}
 
@@ -74,6 +75,7 @@ class Trip_ticket extends CI_Controller {
 
         $data['trip_ticket'] = $this->trip_ticket_model->get_trip_ticket(['request_id' => $request_id]);
         $data['receipt'] = $this->receipt_model->get_receipt(['request_id' => $request_id]);
+
  
         $this->load->view('admin/add_trip_ticket', $data);
 	}
@@ -204,11 +206,12 @@ class Trip_ticket extends CI_Controller {
 
     }
 
-    
+    // where id = request id
 	public function delete($id)
 	{  
         $this->update_request_status($_POST['request_id']);
-		$delete = $this->trip_ticket_model->delete($id);
+		$delete = $this->trip_ticket_model->delete_using_request($id);
+        $this->receipt_model->delete($id);
 
 		if($delete){  
 			$data = array(
