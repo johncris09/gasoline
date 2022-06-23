@@ -177,7 +177,7 @@
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     $(document).ready(function() {
-      // $('#receipt-modal').modal('show')
+      $('#receipt-modal').modal('show')
       function calculateTotal() {
         var total = 1;
         $(".sub-total").each(function(i, v) {
