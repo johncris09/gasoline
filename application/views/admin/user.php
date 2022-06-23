@@ -87,6 +87,19 @@
                                     ?>
                                   </select>
                                 </div> 
+                                <div class="form-group">
+                                  <label for="office">Office <span class="text-danger">*</span></label> 
+                                  <select class="custom-select d-block w-100" id="office"  name="office">
+                                    <option value=""> Choose... </option> 
+                                    <?php 
+                                      foreach($office as $row){
+                                        echo '
+                                          <option value="'.$row['office'].'">'.$row['office'].'</option>
+                                        '; 
+                                      }
+                                    ?>
+                                  </select>
+                                </div> 
                               </fieldset> 
                             </div>
                             <div class="modal-footer">
@@ -134,6 +147,19 @@
                                       foreach($this->config->item('role_type') as $key => $val){
                                         echo '
                                           <option value="'.$key.'">'.$val.'</option>
+                                        '; 
+                                      }
+                                    ?>
+                                  </select>
+                                </div> 
+                                <div class="form-group">
+                                  <label for="office">Office <span class="text-danger">*</span></label> 
+                                  <select class="custom-select d-block w-100" id="office"  name="office">
+                                    <option value=""> Choose... </option> 
+                                    <?php 
+                                      foreach($office as $row){
+                                        echo '
+                                          <option value="'.$row['office'].'">'.$row['office'].'</option>
                                         '; 
                                       }
                                     ?>
@@ -196,6 +222,7 @@
                           <th>Name</th> 
                            <th>Username</th>
                            <th>Email</th>
+                           <th>Office</th>
                            <th>Role Type</th>
                            <th>Action</th>
                         </tr>
@@ -242,6 +269,7 @@
             { data: 'name'  }, 
             { data: 'username' }, 
             { data: 'email' }, 
+            { data: 'office' }, 
             { data: 'role_type' }, 
             
             {
@@ -308,7 +336,18 @@
             $('button.toggle-password').html(' <i class="fa fa-eye"></i> Show')
           }
         })
+        
+        
+        $('select[name="role_type"]').on('change', function(e){
+          e.preventDefault(); 
+          if($(this).val() == 2){
+            $('select[name="office"]').attr("required", true);
+          }else{
+            $('select[name="office"]').attr("required", false);
+          }
 
+          
+        })
 
         
 
@@ -366,6 +405,7 @@
               $('#edit-user-modal input[name="email"]').val(data.email) 
               $('#edit-user-modal input[name="username"]').val(data.username) 
               $('#edit-user-modal select[name="role_type"]').val(data.role_type)  
+              $('#edit-user-modal select[name="office"]').val(data.office) 
             },
             error: function (xhr, status, error) {
                 console.info(xhr.responseText);

@@ -15,6 +15,7 @@ class User extends CI_Controller {
     public function index()
 	{ 
         $data['page_title'] = "User"; 
+        $data['office'] = $this->vehicle_type_model->get_all_office();
         $this->load->view('admin/user', $data); 
 	}
 
@@ -49,6 +50,7 @@ class User extends CI_Controller {
 			'username' => trim($this->input->post('username')),
 			'password' => md5(trim($this->input->post('password'))), 
 			'role_type' => $this->input->post('role_type'), 
+			'office' => $this->input->post('office'), 
 		);  
         
 		$insert = $this->user_model->insert($data);
@@ -93,6 +95,7 @@ class User extends CI_Controller {
 			'email' => trim($this->input->post('email')),
 			'username' => trim($this->input->post('username')),
 			'role_type' => $this->input->post('role_type'), 
+			'office' => $this->input->post('office'), 
 		);  
         
 		$update = $this->user_model->update($data);
@@ -165,6 +168,6 @@ class User extends CI_Controller {
 
 		echo json_encode($data);
 	}
-        
+		
 }
          
