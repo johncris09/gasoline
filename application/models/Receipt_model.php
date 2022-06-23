@@ -62,6 +62,34 @@ class Receipt_model extends CI_Model
             ->delete($this->table);
     }
 
+    public function office_usage_by_office($office)
+    {
+        
+        return $this->db
+            ->select('vehicle_type.office as office, sum(receipt.amount) as amount')
+            ->where('receipt.plate_number = vehicle_type.id')
+            ->where('vehicle_type.office', $office)
+			->get('receipt, vehicle_type')
+            ->result_array();
+
+    }
+
+    
+    public function office_usage_by_office_and_date($data)
+    {
+        
+        return $this->db
+            ->select('vehicle_type.office as office, sum(receipt.amount) as amount')
+            ->where('receipt.plate_number = vehicle_type.id')
+            ->where('vehicle_type.office', $data['office'])
+            ->where('receipt.date >= ', $data['from'])
+            ->where('receipt.date <= ', $data['to']) 
+			->get('receipt, vehicle_type')
+            ->result_array();
+
+    }
+
+
 
 
 }
