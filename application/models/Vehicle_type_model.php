@@ -48,4 +48,15 @@ class Vehicle_type_model extends CI_Model
             ->where('id', $id)
             ->delete($this->table);
     }
+
+    public function get_all_office()
+    {
+        return $this->db
+            ->distinct()
+            ->select('office')
+            ->order_by('office', 'asc')
+			->get($this->table)
+            ->result_array();
+        
+    }
 }
