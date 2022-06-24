@@ -81,19 +81,19 @@
                       <div class="form-group row">
 												<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
 													<label>Driver </label>
-													<select required="" class="form-control datatable-input" data-col-index="3">
+													<select required="" class="form-control datatable-input" data-col-index="4">
 														<option value="">Select</option>
 													</select>
 												</div>
 												<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
 													<label>Plate # </label>
-													<select required="" class="form-control datatable-input" data-col-index="2">
+													<select required="" class="form-control datatable-input" data-col-index="3">
 														<option value="">Select</option>
 													</select>
 												</div>
 												<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
 													<label>Status </label>
-													<select required="" class="form-control datatable-input" data-col-index="6">
+													<select required="" class="form-control datatable-input" data-col-index="7">
 														<option value="">Select</option>
 													</select>
 												</div>  
@@ -120,6 +120,7 @@
                         <tr>
                           <th>#</th>
                           <th>Request Date</th> 
+                          <th>Office</th> 
                           <th>Plate #</th> 
                           <th>Driver</th> 
                            <th>Gasoline Type</th>
@@ -557,6 +558,7 @@
               }
             },  
             { data: 'request_date' }, 
+            { data: 'office' }, 
             { data: 'plate_number'  },
             { data: 'name' }, 
             { data: 'gasoline_type' },  
@@ -613,7 +615,7 @@
 
           ],
           columnDefs: [{
-            targets: 6,
+            targets: -2,
             render: function ( data, type, row ) { 
 
               var status = "";
@@ -791,7 +793,8 @@
             $('input[name="plate_number"]').val(row.id)
             $('input[name="plate-number"]').val( row.vehicle_type + " (" + row.plate_number + ")" )
             
-            $('#vehicle-type-modal').modal('toggle');
+            $('#vehicle-type-modal').modal('toggle'); 
+            $('#create-request-modal').css('overflow-y', 'auto');
 
         } );
 
@@ -889,6 +892,7 @@
                       vehicle_type_table.ajax.reload();  
 
                       $('#edit-vehicle-type-modal').modal('toggle');
+                      $('#create-request-modal').css('overflow-y', 'auto');
                   });
               }  
             },
@@ -998,6 +1002,7 @@
             $('input[name="driver-name"]').val( (row.lastname + ", " + row.firstname + " " + row.middlename + " " +  row.suffix).toUpperCase() )
             
             $('#driver-modal').modal('toggle');
+            $('#create-request-modal').css('overflow-y', 'auto');
 
         } );
 
@@ -1091,6 +1096,7 @@
                       driver_table.ajax.reload(); 
             
                       $('#edit-driver-modal').modal('toggle');
+                      $('#create-request-modal').css('overflow-y', 'auto');
                   });
               }  
             },
@@ -1245,6 +1251,7 @@
                       request_table.ajax.reload(); 
             
                       $('#edit-request-modal').modal('toggle');
+                      $('#create-request-modal').css('overflow-y', 'auto');
                   });
               }  
             },
