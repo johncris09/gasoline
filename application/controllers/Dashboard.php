@@ -15,24 +15,33 @@ class Dashboard extends CI_Controller {
     public function index()
 	{ 
         $data['page_title'] = "Dashboard"; 
-		$data['pending'] = $this->request_model->num_of_pending();
-		$data['approved'] = $this->request_model->num_of_approved();
 
-
-		$office = $this->vehicle_type_model->get_all_office();  
-
-		foreach($office as $row){
+		if($_SESSION['role_type'] == 1){
 			
-			$office_usage_by_office = $this->receipt_model->office_usage_by_office($row['office']);
-			foreach($office_usage_by_office  as $j){
-				$data['office_usage'][] = array(
-					'office' => $row['office'],
-					'amount' => ($j['amount'] == NULL) ? 0 : $j['amount'],
-				);
-			} 
-		}
+			$data['pending'] = $this->request_model->num_of_pending();
+			$data['approved'] = $this->request_model->num_of_approved();
 
-        $this->load->view('admin/dashboard', $data);   
+
+			$office = $this->vehicle_type_model->get_all_office();  
+
+			foreach($office as $row){
+				
+				$office_usage_by_office = $this->receipt_model->office_usage_by_office($row['office']);
+				foreach($office_usage_by_office  as $j){
+					$data['office_usage'][] = array(
+						'office' => $row['office'],
+						'amount' => ($j['amount'] == NULL) ? 0 : $j['amount'],
+					);
+				} 
+			} 
+			$this->load->view('admin/dashboard', $data);   
+
+			
+		}else{
+			$this->load->view('user/dashboard', $data); 
+
+		}
+		
 	}
 
 	
