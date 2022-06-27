@@ -4,7 +4,7 @@
   <head>
     <?php $this->view('layout/meta') ?>
 	  <?php $this->view('layout/css') ?> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/bootstrap-datepicker.min.css">
     <style>
       .table-figures {
         border-collapse: collapse;
@@ -28,6 +28,10 @@
         caption-side:top !important;
         padding-top:.1rem !important;
         padding-bottom:.1rem !important
+      }
+
+      #office-usage-table > thead > tr :hover{
+        cursor: pointer;
       }
 
 
@@ -73,7 +77,7 @@
                   <div class="col-xl-3 col-lg-6">
                       <div class="card l-bg-blue-dark">
                           <div class="card-statistic-3 p-4">
-                              <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                              <div class="card-icon card-icon-large"><i class="fa fa-check"></i></div>
                               <div class="mb-4">
                                   <h5 class="card-title mb-0">Approved</h5>
                               </div>
@@ -136,7 +140,7 @@
                           <hr>
                         </div>
                         <table class="table table-bordered caption-top"" id="office-usage-table">
-                          <caption class="text-center">asdfasd asdfasdf</caption>
+                          <caption class="text-center"></caption>
                           <thead>
                             <tr> 
                               <th class="text-center">Office <i class="fa fa-sort no-print"></i></th>
@@ -181,9 +185,9 @@
     <!-- BEGIN BASE JS -->
     
 	<?php $this->view('layout/js') ?>  
-  <script src="https://uselooper.com/assets/vendor/chart.js/Chart.min.js"></script>
+  <script src="<?php echo base_url() ?>assets/javascript/sweetalert.js"></script>
   <script src="<?php echo base_url() ?>assets/vendor/jquery.print/jQuery.print.min.js"></script> 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <script src="<?php echo base_url() ?>assets/javascript/bootstrap-datepicker.min.js"></script>
   <script>
     $(document).ready(function() {
       $('#print-office-usage').on('click', function() {

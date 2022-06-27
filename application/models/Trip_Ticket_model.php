@@ -36,6 +36,21 @@ class Trip_ticket_model extends CI_Model
 			->get('request`, driver, vehicle_type, trip_ticket');
     }
 
+    
+    public function get_all_trip_ticket_in_office($data)
+    { 
+        return $this->db
+            ->select('trip_ticket.*, request.*, driver.*, vehicle_type.*, trip_ticket.id as trip_ticket_id')
+            ->where('request.driver = driver.id')
+            ->where('request.plate_number = vehicle_type.id')
+            ->where('trip_ticket.request_id = request.id')
+            ->where('trip_ticket.file_type', 'trip_ticket')
+            ->where('vehicle_type.office', $data['office'])
+            ->order_by('trip_ticket.approved_date', 'desc')
+			->get('request`, driver, vehicle_type, trip_ticket');
+    }
+
+
 
 
     
@@ -45,6 +60,7 @@ class Trip_ticket_model extends CI_Model
         $trip_ticket =  $this->db->get($this->table);
         if($trip_ticket->num_rows() > 0)
             return $trip_ticket->result_array()[0];
+        return [];
         
     } 
     
@@ -107,4 +123,14 @@ class Trip_ticket_model extends CI_Model
 
     }
 
+
+    public function is_inserted($data)
+    {
+        $this->db->where($data);
+        $trip_ticket =  $this->db->get($this->table);
+        if($trip_ticket->num_rows() > 0)
+            return true;
+        return false;
+        
+    }
 }

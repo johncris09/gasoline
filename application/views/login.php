@@ -70,7 +70,7 @@
     <script src="<?php echo base_url(); ?>assets/vendor/popper.js/umd/popper.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.min.js"></script> <!-- END BASE JS -->
     <!-- BEGIN PLUGINS JS -->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="<?php echo base_url() ?>assets/javascript/sweetalert.js"></script>
     <script src="<?php echo base_url(); ?>assets/javascript/login.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/particles.js/particles.js"></script>
     <script>

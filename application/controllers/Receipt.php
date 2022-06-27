@@ -35,7 +35,7 @@ class Receipt extends CI_Controller {
 
 			$data = array(
 				'response' => true,
-				'message'  => 'Data inserted successfully!',
+				'message'  => 'Data Inserted Successfully!',
 			);
   
 		}else{ 
@@ -71,7 +71,7 @@ class Receipt extends CI_Controller {
 
 			$data = array(
 				'response' => true,
-				'message'  => 'Data updated successfully!',
+				'message'  => 'Data Updated Successfully!',
 			);
   
 		}else{ 

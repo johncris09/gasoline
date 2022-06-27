@@ -70,9 +70,9 @@
 	<?php $this->view('layout/js') ?>  
   <script src="https://uselooper.com/assets/vendor/chart.js/Chart.min.js"></script>
   <script src="<?php echo base_url() ?>assets/vendor/jquery.print/jQuery.print.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script> 
+  <script src="<?php echo base_url() ?>assets/javascript/bootstrap-datepicker.min.js"></script> 
 
-  <script> 
+    <script> 
       $(document).ready(function() {
              
         $('#date-range').datepicker({

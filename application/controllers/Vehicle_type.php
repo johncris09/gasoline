@@ -20,7 +20,18 @@ class Vehicle_type extends CI_Controller {
 
 	public function get_all_vehicle_type()
 	{ 
-		$vehicle_type = $this->vehicle_type_model->get_all_vehicle_type();  
+		
+
+		if($_SESSION['role_type'] == 1){
+			$vehicle_type = $this->vehicle_type_model->get_all_vehicle_type();  
+		}else{
+			$office = array(
+				'office' => $_SESSION['office'],
+			);
+			$vehicle_type = $this->vehicle_type_model->get_all_vehicle_type_in_office($office);
+		} 
+
+
 
 		if( $vehicle_type->num_rows() ){
 			foreach( $vehicle_type->result_array()  as $row ){

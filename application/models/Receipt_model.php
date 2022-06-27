@@ -35,6 +35,14 @@ class Receipt_model extends CI_Model
         
     } 
 
+    public function has_receipt($data)
+    {
+        return $this->db
+            ->where($data)
+            ->get($this->table)
+            ->num_rows();
+    }
+
     
     public function update($data)
     { 

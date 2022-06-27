@@ -11,10 +11,19 @@ class Vehicle_type_model extends CI_Model
 
     public function get_all_vehicle_type()
     { 
-        return $this->db
-			// ->limit(10)
+        return $this->db 
 			->get($this->table);
     }
+
+    
+    public function get_all_vehicle_type_in_office($data)
+    {   
+        return $this->db 
+            ->where('office', $data['office'])
+            ->get($this->table);
+    }
+
+
 
     
     public function insert($data)

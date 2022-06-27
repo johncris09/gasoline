@@ -100,16 +100,16 @@
                           </div>
                         </div>
                           <h3 class="card-title"> <?php echo $page_title; ?> <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#receipt-modal"> <i class="fa fa-receipt"></i> Receipt</button> </h3>
-                          <form id="<?php echo (strtolower($request['status']) == "approved") ? "update" : "create-new" ; ?>-trip-ticket-form">
+                          <form id="<?php echo (strtolower($request['status']) == "approved") ? "update" : (($is_inserted) ? "update" : "create-new") ; ?>-trip-ticket-form">
                             <small class=" text-danger">Note: * is requered</small>
                             <fieldset> 
                               <legend>TO BE FILLED BY THE ADMINISTRATIVE OFFICIAL AUTHORIZING OFFICIAL TRAVEL</legend>
                               <div class="form-group row">
-                                <input type="hidden"  value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['id'] : "" ?>" name="trip_ticket_id">
+                                <input type="hidden"  value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['id'] : (($is_inserted) ? $trip_ticket['id'] : "")  ?>" name="trip_ticket_id">
                                 <input type="hidden" name="request_id" value="<?php echo $request['id']; ?>" name="request_id">
                                 <label for="date" class="col-sm-4 col-form-label">Date <abbr title="Required">*</abbr></label>
                                 <div class="col-sm-8">
-                                  <input type="date" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['approved_date'] : "" ?>" class="form-control" id="date" name="date" placeholder="Date" required>
+                                  <input type="date" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['approved_date'] : (($is_inserted) ? $trip_ticket['approved_date'] : "")  ?>" class="form-control" id="date" name="date" placeholder="Date" required>
                                   <small id="tf1Help" class="form-text text-muted"> <i class="fa fa-info-circle"></i> Request Date (<?php echo date("M d, Y", strtotime($request['request_date'])) ?>) .</small>
                                 </div>
                               </div>
@@ -128,63 +128,53 @@
                               <div class="form-group row">
                                 <label for="authorized_passenger" class="col-sm-4 col-form-label">Name(s) of authorized Passenger(s) </label>
                                 <div class="col-sm-8">
-                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['authorized_passenger'] : "" ?>" class="form-control" id="authorized_passenger" name="authorized_passenger"  placeholder="Name(s) of authorized Passenger(s)">
+                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['authorized_passenger'] : (($is_inserted) ? $trip_ticket['authorized_passenger'] : "") ?>" class="form-control" id="authorized_passenger" name="authorized_passenger"  placeholder="Name(s) of authorized Passenger(s)">
                                 </div>
                               </div>  
                               <div class="form-group row">
                                 <label for="place_to_be_visited" class="col-sm-4 col-form-label">Place or Places to be Visited/Inspected</label>
                                 <div class="col-sm-8">
-                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['place_to_be_visited'] : "" ?>" class="form-control" id="place_to_be_visited" name="place_to_be_visited"  placeholder="Place or Places to be Visited/Inspected">
+                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['place_to_be_visited'] : (($is_inserted) ? $trip_ticket['place_to_be_visited'] : "") ?>" class="form-control" id="place_to_be_visited" name="place_to_be_visited"  placeholder="Place or Places to be Visited/Inspected">
                                 </div>
                               </div>   
                               <div class="form-group row">
                                 <label for="purpose" class="col-sm-4 col-form-label">Purposes</label>
                                 <div class="col-sm-8">
-                                  <textarea class="form-control"   name="purpose" id="purpose" cols="30" rows="2" placeholder="Purposes"><?php echo ( strtolower($request['status']) == "approved") ? trim($trip_ticket['purpose']) : "" ?></textarea>
+                                  <textarea class="form-control" name="purpose" id="purpose" cols="30" rows="2" placeholder="Purposes"><?php echo ( strtolower($request['status']) == "approved") ? trim($trip_ticket['purpose']) : (($is_inserted) ? $trip_ticket['purpose'] : "") ?></textarea>
                                 </div>
-                              </div>   
-                              <div class="form-group row">
-                                <label for="authorize-person" class="col-sm-4 col-form-label">Authorize Person <abbr title="Required">*</abbr></label>
-                                <div class="col-sm-8">
-                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['authorize_person'] : "" ?>" class="form-control" id="authorize-person" name="authorize_person"  placeholder="Authorize Person" required>
-                                </div>
-                              </div>
-
-                            </fieldset> 
-                            
-                            <hr>
-
-                            
+                              </div>  
+                            </fieldset>  
+                            <hr> 
                             <fieldset>
                               <legend>TO BE FILLED BY THE DRIVER</legend>
                               <div class="form-group row">
                                 <label for="departure-time-from-office" class="col-sm-4 col-form-label">Time of Departure from Office/Garage <span class="badge badge-danger">AM/PM</span> </label>
                                 <div class="col-sm-8">
-                                  <input type="time" class="form-control" id="departure-time-from-office" value="<?php echo ( strtolower($request['status']) == "approved") ?  (($trip_ticket['departure_time_from_office'] == "00:00:00") ? "" : $trip_ticket['departure_time_from_office'] ) : "" ?>"  name="departure_time_from_office"  placeholder="Time of Departure from Office/Garage">
+                                  <input type="time" class="form-control" id="departure-time-from-office" value="<?php echo ( strtolower($request['status']) == "approved") ?  (($trip_ticket['departure_time_from_office'] == "00:00:00") ? "" : $trip_ticket['departure_time_from_office'] ) : (($is_inserted) ? (($trip_ticket['departure_time_from_office'] == "00:00:00") ? "" : $trip_ticket['departure_time_from_office'] )  : "") ?>"  name="departure_time_from_office"  placeholder="Time of Departure from Office/Garage">
                                 </div>
                               </div> 
                               <div class="form-group row">
                                 <label for="arrival-time-at-per" class="col-sm-4 col-form-label">Time of Arrival at (Per No. 5 above)  <span class="badge badge-danger">AM/PM</span></label>
                                 <div class="col-sm-8">
-                                  <input type="time" class="form-control" id="arrival-time-at-per" name="arrival_time_at_per" value="<?php echo ( strtolower($request['status']) == "approved") ?   (($trip_ticket['arrival_time_at_per'] == "00:00:00") ? "" : $trip_ticket['arrival_time_at_per'] ) : "" ?>"   placeholder="Time of Arrival at (Per No. 5 above) ">
+                                  <input type="time" class="form-control" id="arrival-time-at-per" name="arrival_time_at_per" value="<?php echo ( strtolower($request['status']) == "approved") ?  (($trip_ticket['arrival_time_at_per'] == "00:00:00") ? "" : $trip_ticket['arrival_time_at_per'] ) : (($is_inserted) ? (($trip_ticket['arrival_time_at_per'] == "00:00:00") ? "" : $trip_ticket['arrival_time_at_per'] )  : "") ?>"  placeholder="Time of Arrival at (Per No. 5 above) ">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="departure-time-from-per-four" class="col-sm-4 col-form-label"> Time of Departure from (Per No. 4) <span class="badge badge-danger">AM/PM</span></label>
                                 <div class="col-sm-8">
-                                  <input type="time" class="form-control" id="departure-time-from-per-four" value="<?php echo ( strtolower($request['status']) == "approved") ? (($trip_ticket['departure_time_from_per_four'] == "00:00:00") ? "" : $trip_ticket['departure_time_from_per_four'] ) : "" ?>"  name="departure_time_from_per_four"  placeholder="Time of Departure from (Per No. 4)">
+                                  <input type="time" class="form-control" id="departure-time-from-per-four" value="<?php echo ( strtolower($request['status']) == "approved") ?  (($trip_ticket['departure_time_from_per_four'] == "00:00:00") ? "" : $trip_ticket['departure_time_from_per_four'] ) : (($is_inserted) ? (($trip_ticket['departure_time_from_per_four'] == "00:00:00") ? "" : $trip_ticket['departure_time_from_per_four'] )  : "") ?>"  name="departure_time_from_per_four"  placeholder="Time of Departure from (Per No. 4)">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="arrival-time-back-to-office" class="col-sm-4 col-form-label"> Time of Arrival back to Office/Garage <span class="badge badge-danger">AM/PM</span></label>
                                 <div class="col-sm-8">
-                                  <input type="time" class="form-control" id="arrival-time-back-to-office"  value="<?php echo ( strtolower($request['status']) == "approved") ? (($trip_ticket['arrival_time_back_to_office'] == "00:00:00") ? "" : $trip_ticket['arrival_time_back_to_office'] ) : "" ?>"  name="arrival_time_back_to_office"  placeholder="Time of Arrival back to Office/Garage">
+                                  <input type="time" class="form-control" id="arrival-time-back-to-office" value="<?php echo ( strtolower($request['status']) == "approved") ?  (($trip_ticket['arrival_time_back_to_office'] == "00:00:00") ? "" : $trip_ticket['arrival_time_back_to_office'] ) : (($is_inserted) ? (($trip_ticket['arrival_time_back_to_office'] == "00:00:00") ? "" : $trip_ticket['arrival_time_back_to_office'] )  : "") ?>"  name="arrival_time_back_to_office"  placeholder="Time of Arrival back to Office/Garage">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="approximate-distance-tavel" class="col-sm-4 col-form-label">Approximate Distance Traveled (to and from) <span class="badge badge-danger">Kms</span></label>
                                 <div class="col-sm-8">
-                                  <input type="text" class="form-control readonly" id="approximate-distance-tavel" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['approximate_distance_tavel'] : "" ?>"  name="approximate_distance_tavel"  placeholder="Approximate Distance Traveled (to and from)">
+                                  <input type="text" class="form-control readonly" id="approximate-distance-tavel" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['approximate_distance_tavel'] : (($is_inserted) ? $trip_ticket['approximate_distance_tavel'] : "") ?>"  name="approximate_distance_tavel"  placeholder="Approximate Distance Traveled (to and from)">
                                   <small id="tf1Help" class="form-text text-muted"> <i class="fa fa-info-circle"></i> Automated Calculation.</small>
                                 </div>
                               </div>
@@ -194,21 +184,21 @@
                                 <div class="form-group row">
                                   <label for="tank-balance" class="col-sm-4 col-form-label pl-5"> Balance in Tank  <span class="badge badge-danger">Liters</span></label>
                                   <div class="col-sm-8">
-                                    <input type="text" class="form-control readonly" id="tank-balance" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['tank_balance'] : "" ?>"  name="tank_balance"  placeholder="Balance in Tank">
+                                    <input type="text" class="form-control readonly" id="tank-balance" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['tank_balance'] : (($is_inserted) ? $trip_ticket['tank_balance'] : "") ?>"  name="tank_balance"  placeholder="Balance in Tank">
                                   <small id="tf1Help" class="form-text text-muted"> <i class="fa fa-info-circle"></i> Automated Calculation.</small>
                                   </div>
                                 </div>
                                 <div class="form-group row">
                                   <label for="issued-office-from-stock" class="col-sm-4 col-form-label pl-5"> Issued by Office from Stock  <span class="badge badge-danger">Liters</span></label>
                                   <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="issued-office-from-stock" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['issued_office_from_stock'] : "" ?>"  name="issued_office_from_stock"  placeholder="Issued by Office from Stock">
+                                    <input type="number" class="form-control" id="issued-office-from-stock" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['issued_office_from_stock'] :  (($is_inserted) ? $trip_ticket['issued_office_from_stock'] : "") ?>"  name="issued_office_from_stock"  placeholder="Issued by Office from Stock">
                                   </div>
                                 </div>
                                 <div class="form-group row">
                                   <label for="add-purchase-during-the-trip" class="col-sm-4 col-form-label pl-5"> Add: Purchase during the trip  <span class="badge badge-danger">Liters</span></label>
                                   <div class="col-sm-8">
                                     <div class="input-group input-group-alt">
-                                    <input type="number"  step="0.01" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['add_purchase_during_the_trip'] : "" ?>" class="form-control" id="add-purchase-during-the-trip" name="add_purchase_during_the_trip"  placeholder="Add: Purchase during the trip">
+                                    <input type="number"  step="0.01" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['add_purchase_during_the_trip'] : (($is_inserted) ? $trip_ticket['add_purchase_during_the_trip'] : "") ?>" class="form-control" id="add-purchase-during-the-trip" name="add_purchase_during_the_trip"  placeholder="Add: Purchase during the trip">
                                       <div class="input-group-prepend"> 
                                         <select class="custom-select" id="select-calculation" name="select_calculation" required>
                                           <option value=""> Select Calculation </option> 
@@ -234,21 +224,21 @@
                                 <div class="form-group row">
                                   <label for="total" class="col-sm-4 col-form-label pl-5"> <strong>TOTAL</strong>  <span class="badge badge-danger">Liters</span></label>
                                   <div class="col-sm-8">
-                                    <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['total'] : "" ?>" class="form-control readonly" id="total" name="total"  placeholder="TOTAL">
+                                    <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['total'] :  (($is_inserted) ? $trip_ticket['total'] : "") ?>" class="form-control readonly" id="total" name="total"  placeholder="TOTAL">
                                     <small id="tf1Help"  class="form-text text-muted"> <i class="fa fa-info-circle"></i> Automated Calculation.</small>
                                   </div>
                                 </div>
                                 <div class="form-group row">
                                   <label for="deduct-used-during-the-trip" class="col-sm-4 col-form-label pl-5">Deduct used during the trip(to and from)    <span class="badge badge-danger">Liters</span></label>
                                   <div class="col-sm-8">
-                                    <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['deduct_used_during_the_trip'] : "" ?>"  class="form-control readonly" id="deduct-used-during-the-trip" name="deduct_used_during_the_trip"  placeholder="Deduct used during the trip(to and from)">
+                                    <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['deduct_used_during_the_trip'] : (($is_inserted) ? $trip_ticket['deduct_used_during_the_trip'] : "") ?>"  class="form-control readonly" id="deduct-used-during-the-trip" name="deduct_used_during_the_trip"  placeholder="Deduct used during the trip(to and from)">
                                     <small id="tf1Help" class="form-text text-muted"> <i class="fa fa-info-circle"></i> Automated Calculation.</small>
                                   </div>
                                 </div>
                                 <div class="form-group row">
                                   <label for="tank-balance-at-the-end-of-trip" class="col-sm-4 col-form-label pl-5">Balance in Tank at the end of trip  <span class="badge badge-danger">Liters</span> </label>
                                   <div class="col-sm-8">
-                                    <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['tank_balance_at_the_end_of_trip'] : "" ?>" class="form-control readonly" id="tank-balance-at-the-end-of-trip" name="tank_balance_at_the_end_of_trip"  placeholder="Balance in Tank at the end of trip ">
+                                    <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['tank_balance_at_the_end_of_trip'] : (($is_inserted) ? $trip_ticket['tank_balance_at_the_end_of_trip'] : "") ?>" class="form-control readonly" id="tank-balance-at-the-end-of-trip" name="tank_balance_at_the_end_of_trip"  placeholder="Balance in Tank at the end of trip ">
                                     <small id="tf1Help" class="form-text text-muted"> <i class="fa fa-info-circle"></i> Automated Calculation.</small>
                                   </div>
                                 </div>  
@@ -256,25 +246,25 @@
                               <div class="form-group row">
                                 <label for="gear-oil-issued-or-purchased" class="col-sm-4 col-form-label">Gear Oil Issued/Purchased  <span class="badge badge-danger">Liters/Qts.</span> </label>
                                 <div class="col-sm-8">
-                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['gear_oil_issued_or_purchased'] : "" ?>" class="form-control" id="gear-oil-issued-or-purchased" name="gear_oil_issued_or_purchased"  placeholder="Gear Oil Issued/Purchased">
+                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['gear_oil_issued_or_purchased'] : (($is_inserted) ? $trip_ticket['gear_oil_issued_or_purchased'] : "") ?>" class="form-control" id="gear-oil-issued-or-purchased" name="gear_oil_issued_or_purchased"  placeholder="Gear Oil Issued/Purchased">
                                 </div>
                               </div> 
                               <div class="form-group row">
                                 <label for="lubricating-oil-issued-purchased" class="col-sm-4 col-form-label">Lubricating Oil/Issued/Purchased    <span class="badge badge-danger">Liters/Qts.</span></label>
                                 <div class="col-sm-8">
-                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['lubricating_oil_issued_purchased'] : "" ?>" class="form-control" id="lubricating-oil-issued-purchased" name="lubricating_oil_issued_purchased"  placeholder="Lubricating Oil/Issued/Purchased">
+                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['lubricating_oil_issued_purchased'] : (($is_inserted) ? $trip_ticket['lubricating_oil_issued_purchased'] : "") ?>" class="form-control" id="lubricating-oil-issued-purchased" name="lubricating_oil_issued_purchased"  placeholder="Lubricating Oil/Issued/Purchased">
                                 </div>
                               </div> 
                               <div class="form-group row">
                                 <label for="grease-issued-purchased" class="col-sm-4 col-form-label">Grease Issued/Purchased <span class="badge badge-danger">Liters/Qts.</span></label>
                                 <div class="col-sm-8">
-                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['grease_issued_purchased'] : "" ?>" class="form-control" id="grease-issued-purchased" name="grease_issued_purchased"  placeholder="Grease Issued/Purchased">
+                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['grease_issued_purchased'] : (($is_inserted) ? $trip_ticket['grease_issued_purchased'] : "") ?>" class="form-control" id="grease-issued-purchased" name="grease_issued_purchased"  placeholder="Grease Issued/Purchased">
                                 </div>
                               </div> 
                               <div class="form-group row">
                                 <label for="brake-fluid-issued-purchased" class="col-sm-4 col-form-label">Brake fluid Issued/Purchased <span class="badge badge-danger">Liters/Qts.</span>  </label>
                                 <div class="col-sm-8">
-                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['brake_fluid_issued_purchased'] : "" ?>" class="form-control" id="brake-fluid-issued-purchased" name="brake_fluid_issued_purchased"  placeholder="Brake fluid Issued/Purchased">
+                                  <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['brake_fluid_issued_purchased'] :  (($is_inserted) ? $trip_ticket['brake_fluid_issued_purchased'] : "") ?>" class="form-control" id="brake-fluid-issued-purchased" name="brake_fluid_issued_purchased"  placeholder="Brake fluid Issued/Purchased">
                                 </div>
                               </div>  
                               <fieldset>
@@ -283,42 +273,55 @@
                                 <div class="form-group row">
                                   <label for="at-the-beginning-of-trip" class="col-sm-4 col-form-label pl-5">at the beginning of trip  <span class="badge badge-danger">Miles/Kms.</span> </label>
                                   <div class="col-sm-8">
-                                    <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['at_the_beginning_of_trip'] : "" ?>" class="form-control" id="at-the-beginning-of-trip" name="at_the_beginning_of_trip" placeholder="at the beginning of trip">
+                                    <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['at_the_beginning_of_trip'] : (($is_inserted) ? $trip_ticket['at_the_beginning_of_trip'] : "") ?>" class="form-control" id="at-the-beginning-of-trip" name="at_the_beginning_of_trip" placeholder="at the beginning of trip">
                                   </div>
                                 </div>   
                                 <div class="form-group row">
                                   <label for="at-the-end-of-trip" class="col-sm-4 col-form-label pl-5">at the end of trip   <span class="badge badge-danger">Miles/Kms.</span>  </label>
                                   <div class="col-sm-8">
-                                    <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['at_the_end_of_trip'] : "" ?>" class="form-control" id="at-the-end-of-trip" name="at_the_end_of_trip"  placeholder="at the end of trip">
+                                    <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['at_the_end_of_trip'] : (($is_inserted) ? $trip_ticket['at_the_end_of_trip'] : "") ?>" class="form-control" id="at-the-end-of-trip" name="at_the_end_of_trip"  placeholder="at the end of trip">
                                   </div>
                                 </div>     
                                 <div class="form-group row">
                                   <label for="distance-traveled" class="col-sm-4 col-form-label pl-5">Distance Traveled (Per No. 5 above) <span class="badge badge-danger">Miles/Kms.</span> </label>
                                   <div class="col-sm-8">
-                                    <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['distance_traveled'] : "" ?>" class="form-control" id="distance-traveled" name="distance_traveled"  placeholder="Distance Traveled (Per No. 5 above)">
+                                    <input type="text" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['distance_traveled'] : (($is_inserted) ? $trip_ticket['distance_traveled'] : "") ?>" class="form-control" id="distance-traveled" name="distance_traveled"  placeholder="Distance Traveled (Per No. 5 above)">
                                   </div>
                                 </div>   
                               </fieldset>  
                               <div class="form-group row">
                                 <label for="remark" class="col-sm-4 col-form-label">Remarks</label>
                                 <div class="col-sm-8">
-                                  <textarea class="form-control" name="remark" id="remark" cols="30" rows="2" placeholder="Remarks"><?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['remark'] : "" ?></textarea>
+                                  <textarea class="form-control" name="remark" id="remark" cols="30" rows="2" placeholder="Remarks"><?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['remark'] :  (($is_inserted) ? $trip_ticket['remark'] : "") ?></textarea>
                                 </div>
                               </div>
                             </fieldset> 
                             <hr>
                             <div class="form-group row">
-                              <div class="col-sm-10">
-                                <?php 
+                              <div class="col-sm-12 text-right">
+
+                                <?php  
                                   if( strtolower( $request['status'] ) == "approved"){
                                 ?> 
                                     <button type="button" id="delete-btn" data-approved-id="<?php echo $trip_ticket['id'] ?>" data-request-id="<?php echo $request['id'] ?>"  class="btn btn-danger"> <i class="fa fa-trash"></i> Delete</button>
-                                    <button type="submit" class="btn btn-primary"> <i class="fa fa-pen"></i> Update</button>
+                                    <button type="submit" class="btn btn-warning"> <i class="fa fa-pen"></i> Update</button>
+                                    <button type="button" id="disapproved-btn" class="btn btn-danger"> <i class="fa fa-times"></i> Disapproved</button>
                                 <?php
                                   }else{
                                 ?>
                                     <a href="<?php echo base_url() ?>request" class="btn btn-danger"> <i class="fa fa-times"></i> Cancel</a>
-                                    <button type="submit" class="btn btn-primary"> <i class="fa fa-check"></i> Approved</button>
+                                <?php 
+                                    if($is_inserted){
+                                ?> 
+                                      <button type="submit"  class="btn btn-warning"> <i class="fa fa-pen"></i> Update</button>
+                                <?php 
+                                    }else{
+                                ?>
+                                      <button type="submit" class="btn btn-warning"> <i class="fa fa-folder-plus"></i> Save</button>
+                                <?php
+                                    }
+                                ?>
+                                    <button type="button" id="approved-btn" class="btn btn-primary"> <i class="fa fa-check"></i> Approved</button>
                                 <?php
                                   }
                                 ?>
@@ -342,11 +345,11 @@
 	<?php $this->view('layout/js') ?>  
   <script src="https://uselooper.com/assets/vendor/chart.js/Chart.min.js"></script>
   <script src="<?php echo base_url() ?>assets/vendor/jquery.print/jQuery.print.min.js"></script> 
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="<?php echo base_url() ?>assets/javascript/sweetalert.js"></script>
   <script>
     $(document).ready(function() {  
 
-      $('#receipt-modal').modal('show')
+      // $('#receipt-modal').modal('show')
 
       function calculateTotal(){
         var total=1;
@@ -428,10 +431,7 @@
               console.info(xhr.responseText);
           }
         });
-      })
-
-
-
+      }) 
 
 
 
@@ -528,6 +528,86 @@
           }
         });
       })
+      
+      $('#approved-btn').on('click', function(e){
+        e.preventDefault();
+        var request_id = $('input[name="request_id"]').val(); 
+
+        $.ajax({
+          url: "<?php echo base_url() ?>trip_ticket/approved_request/" + request_id,
+          method: "POST", 
+          dataType: "json",
+          success: function (data) { 
+            if(!data.response){ 
+                Swal.fire({
+                    title: data.message,
+                    icon: "error",
+                    showCancelButton: true, 
+                })
+            }else{ 
+                Swal.fire({
+                    title: data.message,
+                    icon: "success",
+                    showCancelButton: true, 
+                }).then(function(result) {
+                  location.reload();
+                });
+            }  
+          },
+          error: function (xhr, status, error) {
+              console.info(xhr.responseText);
+          }
+        });
+      })
+
+      
+      $('#disapproved-btn').on('click', function(e){
+        e.preventDefault();
+        var request_id = $('input[name="request_id"]').val(); 
+
+        Swal.fire({
+            title: "Do you really want to disapprove the request?", 
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, disapprove it!"
+        }).then(function(result) {
+            if (result.value) {
+              $.ajax({
+                url: "<?php echo base_url() ?>trip_ticket/disapproved_request/" + request_id,
+                method: "POST", 
+                dataType: "json",
+                success: function (data) { 
+                  if(!data.response){ 
+                      Swal.fire({
+                          title: data.message,
+                          icon: "error",
+                          showCancelButton: true, 
+                      })
+                  }else{ 
+                      Swal.fire({
+                          title: data.message,
+                          icon: "success",
+                          showCancelButton: true, 
+                      }).then(function(result) {
+                        location.reload();
+                      });
+                  }  
+                },
+                error: function (xhr, status, error) {
+                    console.info(xhr.responseText);
+                }
+              });
+
+                
+            }
+        }); 
+
+
+
+        
+      })
+
+
 
       //  Disapproved Request
       $(document).on('click','#delete-btn', function(e){
@@ -535,6 +615,7 @@
 
         var approved_id = $(this).data('approved-id') 
         var request_id = $(this).data('request-id') 
+ 
 
         Swal.fire({
             title: "Are you sure?",
@@ -545,13 +626,13 @@
         }).then(function(result) {
             if (result.value) {
               $.ajax({
-                url: "<?php echo base_url() ?>trip_ticket/delete/" + approved_id,
+                url: "<?php echo base_url() ?>trip_ticket/delete/" + request_id,
                 method: "post",
                 data: {
                   'request_id' : request_id
                 },
                 dataType: "json",
-                success: function (data) {   
+                success: function (data) {    
                   if(!data.response){ 
                     Swal.fire({
                       title: data.message,

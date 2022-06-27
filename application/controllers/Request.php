@@ -15,13 +15,29 @@ class Request extends CI_Controller {
     public function index()
 	{ 
         $data['page_title'] = "Request"; 
-        $this->load->view('admin/request', $data); 
+
+		if($_SESSION['role_type'] == 1){ 
+			$this->load->view('admin/request', $data); 
+			
+		}else{
+			$this->load->view('user/request', $data); 
+
+		}
+
+		
 	}
 
     
 	public function get_all_request()
 	{   
-		$request = $this->request_model->get_all_request();  
+		if($_SESSION['role_type'] == 1){
+			$request = $this->request_model->get_all_request(); 
+		}else{
+			$office = array(
+				'office' => $_SESSION['office'],
+			);
+			$request = $this->request_model->get_all_request_in_office($office);
+		} 
 		 
 
 		if( $request->num_rows() ){ 
@@ -58,7 +74,7 @@ class Request extends CI_Controller {
 
 			$data = array(
 				'response' => true,
-				'message'  => 'Data inserted successfully!',
+				'message'  => 'Data Inserted Successfully!',
 			);
   
 		}else{ 
@@ -115,7 +131,7 @@ class Request extends CI_Controller {
 
 			$data = array(
 				'response' => true,
-				'message'  => 'Data updated successfully!',
+				'message'  => 'Data Updated Successfully!',
 			);
   
 		}else{ 
@@ -145,7 +161,7 @@ class Request extends CI_Controller {
 		if($delete){  
 			$data = array(
 				'response' => true,
-				'message'  => 'Data deleted successfully!',
+				'message'  => 'Data Deleted Successfully!',
 			);
 		}else{
 			$data = array(

@@ -15,9 +15,21 @@ class Request_model extends CI_Model
             ->select('request.*, driver.*, vehicle_type.*, request.id as request_id')
             ->where('request.driver = driver.id')
             ->where('request.plate_number = vehicle_type.id')
+            ->order_by('request.request_date desc, request.id desc')
+			->get('request`, driver, vehicle_type');
+    }
+
+    public function get_all_request_in_office($data)
+    {   
+        return $this->db
+            ->select('request.*, driver.*, vehicle_type.*, request.id as request_id')
+            ->where('request.driver = driver.id')
+            ->where('request.plate_number = vehicle_type.id')
+            ->where('vehicle_type.office', $data['office'])
             ->order_by('request.request_date', 'desc')
 			->get('request`, driver, vehicle_type');
     }
+
     
     
     public function insert($data)
@@ -51,9 +63,17 @@ class Request_model extends CI_Model
     
     public function get_request($data)
     {  
-        $this->db->where($data);
-        return $this->db->get($this->table)->result_array()[0];
+        $this->db->where($data); 
+        
+        $request =  $this->db->get($this->table);
+        if($request->num_rows() > 0)
+            return $request->result_array()[0];
+        return [];
     } 
+
+    
+     
+
 
     
     public function update($data)

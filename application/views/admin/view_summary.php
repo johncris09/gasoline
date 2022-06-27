@@ -107,9 +107,9 @@
     </div>
     
 	<?php $this->view('layout/js') ?>  
-  <script src="<?php echo base_url() ?>assets/vendor/jquery.print/jQuery.print.min.js"></script> 
+  	<script src="<?php echo base_url() ?>assets/vendor/jquery.print/jQuery.print.min.js"></script> 
    
-  <script> 
+  	<script> 
       $(document).ready(function() {
 
 		$('#print-summary').on('click', function(){

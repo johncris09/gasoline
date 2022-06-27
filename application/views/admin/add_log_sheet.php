@@ -95,15 +95,15 @@
                           </div>
                         </div>
                           <h3 class="card-title"> <?php echo $page_title; ?> <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#receipt-modal"> <i class="fa fa-receipt"></i> Receipt</button> </h3>
-                          <form id="<?php echo (strtolower($request['status']) == "approved") ? "update" : "create-new" ; ?>-log-sheet-form">
+                          <form id="<?php echo (strtolower($request['status']) == "approved") ? "update" : (($is_inserted) ? "update" : "create-new") ; ?>-log-sheet-form">
                             <small class=" text-danger">Note: * is requered</small>
                             <fieldset>  
                               <div class="form-group row">
-                                <input type="hidden"  value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['id'] : "" ?>" name="trip_ticket_id">
+                                <input type="hidden"  value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['id'] :  (($is_inserted) ? $trip_ticket['id'] : "") ?>" name="trip_ticket_id">
                                 <input type="hidden" name="request_id" value="<?php echo $request['id']; ?>" name="request_id">
                                 <label for="date" class="col-sm-4 col-form-label">Date <abbr title="Required">*</abbr></label>
                                 <div class="col-sm-8">
-                                  <input type="date" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['approved_date'] : "" ?>" class="form-control" id="date" name="date" placeholder="Date" required>
+                                  <input type="date" value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['approved_date'] :  (($is_inserted) ? $trip_ticket['approved_date'] : "") ?>" class="form-control" id="date" name="date" placeholder="Date" required>
                                   <small id="tf1Help" class="form-text text-muted"> <i class="fa fa-info-circle"></i> Request Date (<?php echo date("M d, Y", strtotime($request['request_date'])) ?>) .</small>
                                 </div>
                               </div>
@@ -128,14 +128,14 @@
                               <div class="form-group row">
                                 <label for="quantity-fuel" class="col-sm-4 col-form-label">Quantity Fuel</label>
                                 <div class="col-sm-8">
-                                  <input type="number"  step="0.01"  class="form-control"  value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['add_purchase_during_the_trip'] : "" ?>"  id="add-purchase-during-the-trip" name="add_purchase_during_the_trip"  placeholder="0">
+                                  <input type="number"  step="0.01"  class="form-control"  value="<?php echo ( strtolower($request['status']) == "approved") ? $trip_ticket['add_purchase_during_the_trip'] :  (($is_inserted) ? $trip_ticket['add_purchase_during_the_trip'] : "") ?>"  id="add-purchase-during-the-trip" name="add_purchase_during_the_trip"  placeholder="0">
                                 </div>
                               </div> 
                               
                               <div class="form-group row">
                                 <label for="remark" class="col-sm-4 col-form-label">Location</label>
                                 <div class="col-sm-8">
-                                  <textarea class="form-control" name="remark" required id="remark" cols="30" rows="2" placeholder="Location"><?php echo ( strtolower($request['status']) == "approved") ? trim($trip_ticket['remark']) : "" ?></textarea>
+                                  <textarea class="form-control" name="remark" required id="remark" cols="30" rows="2" placeholder="Location"><?php echo ( strtolower($request['status']) == "approved") ? trim($trip_ticket['remark']) :  (($is_inserted) ? $trip_ticket['remark'] : "") ?></textarea>
                                 </div>
                               </div> 
                               <input type="hidden" value="<?php echo $request['file_type'] ?>"  class="form-control" name="file_type">
@@ -143,6 +143,40 @@
                             </fieldset>
                             <hr> 
                             <hr> 
+
+                            
+                            <div class="form-group row">
+                              <div class="col-sm-12 text-right">
+
+                                <?php  
+                                  if( strtolower( $request['status'] ) == "approved"){
+                                ?> 
+                                    <button type="button" id="delete-btn" data-approved-id="<?php echo $trip_ticket['id'] ?>" data-request-id="<?php echo $request['id'] ?>"  class="btn btn-danger"> <i class="fa fa-trash"></i> Delete</button>
+                                    <button type="submit" class="btn btn-warning"> <i class="fa fa-pen"></i> Update</button>
+                                    <button type="button" id="disapproved-btn" class="btn btn-danger"> <i class="fa fa-times"></i> Disapproved</button>
+                                <?php
+                                  }else{
+                                ?>
+                                    <a href="<?php echo base_url() ?>request" class="btn btn-danger"> <i class="fa fa-times"></i> Cancel</a>
+                                <?php 
+                                    if($is_inserted){
+                                ?> 
+                                      <button type="submit"  class="btn btn-warning"> <i class="fa fa-pen"></i> Update</button>
+                                <?php 
+                                    }else{
+                                ?>
+                                      <button type="submit" class="btn btn-warning"> <i class="fa fa-folder-plus"></i> Save</button>
+                                <?php
+                                    }
+                                ?>
+                                    <button type="button" id="approved-btn" class="btn btn-primary"> <i class="fa fa-check"></i> Approved</button>
+                                <?php
+                                  }
+                                ?>
+                              </div>
+                            </div>
+
+<!--                             
                             <div class="form-group row">
                               <div class="col-sm-10">
                                 <?php 
@@ -154,12 +188,13 @@
                                   }else{
                                 ?>
                                     <a href="<?php echo base_url() ?>request" class="btn btn-danger"> <i class="fa fa-times"></i> Cancel</a>
+                                    <button type="submit" class="btn btn-primary"> <i class="fa fa-pen"></i> Update</button>
                                     <button type="submit" class="btn btn-primary"> <i class="fa fa-check"></i> Approved</button>
                                 <?php
                                   }
                                 ?>
                               </div>
-                            </div>
+                            </div> -->
                           </form>
                       </div>
                     </div>
@@ -174,10 +209,10 @@
 	<?php $this->view('layout/js') ?>  
   <script src="https://uselooper.com/assets/vendor/chart.js/Chart.min.js"></script>
   <script src="<?php echo base_url() ?>assets/vendor/jquery.print/jQuery.print.min.js"></script> 
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="<?php echo base_url() ?>assets/javascript/sweetalert.js"></script>
   <script>
     $(document).ready(function() {
-      $('#receipt-modal').modal('show')
+      // $('#receipt-modal').modal('show')
       function calculateTotal() {
         var total = 1;
         $(".sub-total").each(function(i, v) {
@@ -319,6 +354,7 @@
         e.preventDefault();
         var approved_id = $(this).data('approved-id')
         var request_id = $(this).data('request-id')
+ 
         Swal.fire({
           title: "Are you sure?",
           text: "The receipt will be removed as well. You will not be able to undo this!",
@@ -328,13 +364,14 @@
         }).then(function(result) {
           if(result.value) {
             $.ajax({
-              url: "<?php echo base_url() ?>trip_ticket/delete/" + approved_id,
+              url: "<?php echo base_url() ?>log_sheet/delete/" + request_id,
               method: "post",
               data: {
                 'request_id': request_id
               },
               dataType: "json",
-              success: function(data) {
+              success: function(data) {  
+
                 if(!data.response) {
                   Swal.fire({
                     title: data.message,
@@ -359,6 +396,90 @@
           }
         });
       })
+
+
+      
+      $('#approved-btn').on('click', function(e){
+        e.preventDefault();
+        var request_id = $('input[name="request_id"]').val(); 
+
+        $.ajax({
+          url: "<?php echo base_url() ?>log_sheet/approved_request/" + request_id,
+          method: "POST", 
+          dataType: "json",
+          success: function (data) {  
+            if(!data.response){ 
+                Swal.fire({
+                    title: data.message,
+                    icon: "error",
+                    showCancelButton: true, 
+                })
+            }else{ 
+                Swal.fire({
+                    title: data.message,
+                    icon: "success",
+                    showCancelButton: true, 
+                }).then(function(result) {
+                  location.reload();
+                });
+            }  
+          },
+          error: function (xhr, status, error) {
+              console.info(xhr.responseText);
+          }
+        });
+      })
+
+      
+      $('#disapproved-btn').on('click', function(e){
+        e.preventDefault();
+        var request_id = $('input[name="request_id"]').val(); 
+
+        Swal.fire({
+            title: "Do you really want to disapprove the request?", 
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, disapprove it!"
+        }).then(function(result) {
+            if (result.value) {
+              $.ajax({
+                url: "<?php echo base_url() ?>log_sheet/disapproved_request/" + request_id,
+                method: "POST", 
+                dataType: "json",
+                success: function (data) { 
+                  if(!data.response){ 
+                      Swal.fire({
+                          title: data.message,
+                          icon: "error",
+                          showCancelButton: true, 
+                      })
+                  }else{ 
+                      Swal.fire({
+                          title: data.message,
+                          icon: "success",
+                          showCancelButton: true, 
+                      }).then(function(result) {
+                        location.reload();
+                      });
+                  }  
+                },
+                error: function (xhr, status, error) {
+                    console.info(xhr.responseText);
+                }
+              });
+
+                
+            }
+        }); 
+
+
+
+        
+      })
+
+
+
+
     });
   </script>
   </body>
