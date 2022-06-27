@@ -58,7 +58,7 @@ class User extends CI_Controller {
 
 			$data = array(
 				'response' => true,
-				'message'  => 'Data inserted successfully!',
+				'message'  => 'Data Inserted Successfully!',
 			);
   
 		}else{ 
@@ -103,7 +103,7 @@ class User extends CI_Controller {
 
 			$data = array(
 				'response' => true,
-				'message'  => 'Data updated successfully!',
+				'message'  => 'Data Updated Successfully!',
 			);
   
 		}else{ 
@@ -158,7 +158,7 @@ class User extends CI_Controller {
 		if($delete){  
 			$data = array(
 				'response' => true,
-				'message'  => 'Data deleted successfully!',
+				'message'  => 'Data Deleted Successfully!',
 			);
 		}else{
 			$data = array(

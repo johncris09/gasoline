@@ -72,49 +72,8 @@
 	<?php $this->view('layout/js') ?>  
   <script src="https://uselooper.com/assets/vendor/chart.js/Chart.min.js"></script>
   <script src="<?php echo base_url() ?>assets/vendor/jquery.print/jQuery.print.min.js"></script> 
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
-    $(document).ready(function() {   
-      
-      $('#update-profile-form').on('submit', function(e){
-        e.preventDefault();
-        var user_id = $('input[name="id"]').val();
-
-        console.info(user_id);
-
-        $.ajax({
-          url: "<?php echo base_url() ?>profile/update/" + user_id,
-          method: "POST",
-          data: $("#update-profile-form").serialize(),
-          dataType: "json",
-          success: function (data) {
-            if(!data.response){ 
-                Swal.fire({
-                    title: data.message,
-                    icon: "error",
-                    showCancelButton: true, 
-                })
-            }else{ 
-                Swal.fire({
-                    title: data.message,
-                    icon: "success",
-                    showCancelButton: true, 
-                }).then(function(result) {
-                  location.reload();
-                });
-            }  
-          },
-          error: function (xhr, status, error) {
-              console.info(xhr.responseText);
-          }
-        });
-      }) 
-      
-
-
-    }); 
-
-
-  </script>
+  <script src="<?php echo base_url() ?>assets/javascript/sweetalert.js"></script>
+  <script src="<?php echo base_url() ?>assets/javascript/profile.js"></script>
+  
   </body>
 </html>

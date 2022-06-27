@@ -49,7 +49,7 @@ class Driver extends CI_Controller {
 
 			$data = array(
 				'response' => true,
-				'message'  => 'Data inserted successfully!',
+				'message'  => 'Inserted Successfully!',
 			);
   
 		}else{ 
@@ -92,7 +92,7 @@ class Driver extends CI_Controller {
 
 			$data = array(
 				'response' => true,
-				'message'  => 'Data updated successfully!',
+				'message'  => 'Data Updated Successfully!',
 			);
   
 		}else{ 
@@ -116,7 +116,7 @@ class Driver extends CI_Controller {
 		if($delete){  
 			$data = array(
 				'response' => true,
-				'message'  => 'Data deleted successfully!',
+				'message'  => 'Data Deleted Successfully!',
 			);
 		}else{
 			$data = array(

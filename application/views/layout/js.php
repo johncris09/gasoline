@@ -1,4 +1,7 @@
 
+    <script>
+        var BASE_URL = "<?php echo base_url(); ?>";
+    </script>
     <script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/popper.js/umd/popper.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.min.js"></script> <!-- END BASE JS -->

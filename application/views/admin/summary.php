@@ -71,6 +71,7 @@
   <script src="https://uselooper.com/assets/vendor/chart.js/Chart.min.js"></script>
   <script src="<?php echo base_url() ?>assets/vendor/jquery.print/jQuery.print.min.js"></script>
   <script src="<?php echo base_url() ?>assets/javascript/bootstrap-datepicker.min.js"></script> 
+  <script src="<?php echo base_url() ?>assets/javascript/report.js"></script>
 
   <script> 
       $(document).ready(function() {

@@ -156,7 +156,7 @@ class Trip_ticket extends CI_Controller {
                     // $this->approved_request($data['request_id']); 
                     $data = array(
                         'response' => true,
-                        'message'  => 'Data inserted successfully!',
+                        'message'  => 'Data Inserted Successfully!',
                     );
 
 

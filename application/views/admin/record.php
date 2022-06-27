@@ -103,10 +103,10 @@
   <script src="<?php  echo base_url(); ?>assets/vendor/datatable/js/jquery.dataTables.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/vendor/datatable/js/dataTables.bootstrap5.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/vendor/datatable/js/dataTables.buttons.min.js"> </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/vendor/datatable/js/jszip.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/vendor/datatable/js/jszip.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/vendor/datatable/js/buttons.print.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/vendor/datatable/js/buttons.colVis.min.js"></script>
   <script>
     $(document).ready(function() {
       // $('#record-table').DataTable();

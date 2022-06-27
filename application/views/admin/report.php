@@ -71,20 +71,8 @@
   <script src="https://uselooper.com/assets/vendor/chart.js/Chart.min.js"></script>
   <script src="<?php echo base_url() ?>assets/vendor/jquery.print/jQuery.print.min.js"></script>
   <script src="<?php echo base_url() ?>assets/javascript/bootstrap-datepicker.min.js"></script> 
+  <script src="<?php echo base_url() ?>assets/javascript/report.js"></script>
 
-    <script> 
-      $(document).ready(function() {
-             
-        $('#date-range').datepicker({
-            todayHighlight: true,
-            templates: {
-                leftArrow: '<i class="la la-angle-left"></i>',
-                rightArrow: '<i class="la la-angle-right"></i>',
-            },
-            dateFormat: 'yyyy/mm/dd',
-        });  
-        
-      }); 
-    </script>
+    
   </body>
 </html>

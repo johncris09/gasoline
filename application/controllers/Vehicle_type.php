@@ -14,7 +14,7 @@ class Vehicle_type extends CI_Controller {
 
     public function index()
 	{ 
-        $data['page_title'] = "Vehicle type"; 
+        $data['page_title'] = "Vehicle Type"; 
         $this->load->view('admin/vehicle_type', $data); 
 	}
 
