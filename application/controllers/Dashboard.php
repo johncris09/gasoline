@@ -24,16 +24,29 @@ class Dashboard extends CI_Controller {
 
 			$office = $this->vehicle_type_model->get_all_office();  
 
-			foreach($office as $row){
-				
-				$office_usage_by_office = $this->receipt_model->office_usage_by_office($row['office']);
-				foreach($office_usage_by_office  as $j){
-					$data['office_usage'][] = array(
-						'office' => $row['office'],
-						'amount' => ($j['amount'] == NULL) ? 0 : $j['amount'],
-					);
+			
+
+			if($office->num_rows() > 0){
+			
+				foreach($office as $row){ 
+					$office_usage_by_office = $this->receipt_model->office_usage_by_office($row['office']);
+					foreach($office_usage_by_office  as $j){
+						$data['office_usage'][] = array(
+							'office' => $row['office'],
+							'amount' => ($j['amount'] == NULL) ? 0 : $j['amount'],
+						);
+					} 
 				} 
-			} 
+				
+			}else{
+				$data['office_usage'][] = array(
+					'office' => '',
+					'amount' => 0.00
+				);
+			}
+
+ 
+
 			$this->load->view('admin/dashboard', $data);   
 
 			
@@ -95,30 +108,41 @@ class Dashboard extends CI_Controller {
 	{ 
 		 
 		$office = $this->vehicle_type_model->get_all_office();  
-		$total = 0;
-		foreach($office as $row){
+		if($office->num_rows()> 0){
 			
+			$total = 0;
+			
+			$data['office_usage'] = [];
+			foreach($office as $row){
+				
 
-			$filter = array(
-				'office' => $row['office'],
-				'from' => date('Y-m-d', strtotime($_POST['from'])) ,
-				'to' => date('Y-m-d', strtotime($_POST['to'])) ,
-			);
-
-
-			$office_usage_by_office_and_date = $this->receipt_model->office_usage_by_office_and_date($filter);
-			foreach($office_usage_by_office_and_date  as $j){ 
-				$data['office_usage'][] = array(
+				$filter = array(
 					'office' => $row['office'],
-					'amount' => ($j['amount'] == NULL) ? 0 : $j['amount'],
+					'from' => date('Y-m-d', strtotime($_POST['from'])) ,
+					'to' => date('Y-m-d', strtotime($_POST['to'])) ,
 				);
-				$total+=$j['amount'];
-			} 
-		} 
 
-		$data['total'] = $total;
-		$data['from'] = date('M d, Y', strtotime($_POST['from']));
-		$data['to'] = date('M d, Y', strtotime($_POST['to']));
+				$office_usage_by_office_and_date = $this->receipt_model->office_usage_by_office_and_date($filter);
+				foreach($office_usage_by_office_and_date  as $j){ 
+					$data['office_usage'][] = array(
+						'office' => $row['office'],
+						'amount' => ($j['amount'] == NULL) ? 0 : $j['amount'],
+					);
+					$total+=$j['amount'];
+				} 
+			} 
+
+			$data['total'] = $total;
+			$data['from'] = date('M d, Y', strtotime($_POST['from']));
+			$data['to'] = date('M d, Y', strtotime($_POST['to']));
+			
+		}else{
+			$data['office_usage'][] = array(
+				'office' => '',
+				'amount' => 0.00
+			);
+		}
+
 		
 		echo json_encode($data);
 	}
